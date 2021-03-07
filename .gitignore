@@ -12,3 +12,4 @@ gcc/libexec
 gcc/man
 gcc/mips64/bin
 gcc/mips64/include/libultra
+entry.ld
