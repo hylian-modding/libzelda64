@@ -32,6 +32,13 @@ entry:
 symbols:
 	@$(OBJDUMP) -t $(PROGRAM).elf > symbols.txt
 
+# You can add this to defualt to automatically run `make` on /puppet_sync/Makefile
+# However, keep in mind that the .NET Framework is probably necessary for `makets`
+# to execute properly. Everything should still work fine if you run the subdirectories
+# makefile like normal at your leisure.
+gen_sync:
+	@$(MAKE) -s -C puppet_sync
+
 clean:
 	@rm -f $(PROGRAM).elf $(OVLOUT) $(PARTS) entry.ld
 
