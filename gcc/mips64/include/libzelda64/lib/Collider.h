@@ -26,4 +26,10 @@ asm("Collider_DestroyCylinder = 0x8004ABCC");
 extern int32_t Collider_InitCylinder(struct GlobalContext* globalCtx, struct ColliderCylinder* collider);
 asm("Collider_InitCylinder = 0x8004AB7C");
 
+extern void Collider_UpdateCylinder(struct Actor* actor, struct ColliderCylinder* collider);
+asm("Collider_UpdateCylinder = 0x80050B00");
+
+extern int32_t CollisionCheck_SetOC(struct GlobalContext* globalCtx, struct CollisionCheckContext* colChkCtx, struct Collider* collider);
+asm("CollisionCheck_SetOC = 0x8004C130");
+
 #endif

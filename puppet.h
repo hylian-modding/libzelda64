@@ -10,6 +10,7 @@
 #include <libzelda64/lib/ObjectContext.h>
 #include <libzelda64/lib/SkelAnime.h>
 #include <libzelda64/lib/BGCheck.h>
+#include <libzelda64/lib/AnimationContext.h>
 #include <libzelda64/lib/types/GlobalContext.h>
 #include <libzelda64/lib/types/Player.h>
 #include <libzelda64/lib/types/ColliderInitType1.h>
@@ -49,43 +50,52 @@ enum {
     OOT_MASK_COUNT
 } Oot_Mask;
 
+
+///* 0x04 */ struct LinkAnimationHeader* syncAnimation; // player->skelAnime.animation (player + 0x1A4 + 0x8)
+///* 0x08 */ float syncFrame; // player->skelAnime.curFrame (player + 0x1A4 + 0x18)
+///* 0x0C */ float syncSpeed; // player->skelAnime.playSpeed (player + 0x1A4 + 0x1C)
+///* 0x10 */ float latencyFrames; // latency in seconds(?), can calculate on node side//
+///* 0x35 */ uint8_t syncMode;
+
 typedef struct {
     /* 0x00 */ uint32_t age;
-    /* 0x04 */ struct LinkAnimationHeader* syncAnimation; // player->skelAnime.animation (player + 0x1A4 + 0x8)
-    /* 0x08 */ float syncFrame; // player->skelAnime.curFrame (player + 0x1A4 + 0x18)
-    /* 0x0C */ float syncSpeed; // player->skelAnime.playSpeed (player + 0x1A4 + 0x1C)
-    /* 0x10 */ float latencyFrames; // latency in seconds(?), can calculate on node side
-    /* 0x14 */ Color_RGBA8_u32 colorGauntlet;
-    /* 0x18 */ Color_RGBA8_u32 colorBottle;
-    /* 0x1C */ Color_RGBA8_u32 colorTunic;
-    /* 0x20 */ uint16_t soundId;
-    /* 0x22 */ uint16_t eyeIndex;
-    /* 0x24 */ uint32_t eyeTexture;
-    /* 0x28 */ uint32_t unused;
-    /* 0x2C */ uint32_t action;
-    /* 0x30 */ uint8_t strength;
-    /* 0x31 */ uint8_t boots;
-    /* 0x32 */ uint8_t shield;
-    /* 0x33 */ uint8_t shield_on_back;
-    /* 0x34 */ uint8_t mask;
-    /* 0x35 */ uint8_t syncMode;
-    /* 0x36 */ uint8_t pad[2];
-} puppet_info_t; /* sizeof = 0x38 */
+    /* 0x04 */ Color_RGBA8_u32 colorGauntlet;
+    /* 0x08 */ Color_RGBA8_u32 colorBottle;
+    /* 0x0C */ Color_RGBA8_u32 colorTunic;
+    /* 0x10 */ uint32_t action;
+    /* 0x14 */ float syncLinearVelocity;
+    /* 0x18 */ float syncUnk_830;
+    /* 0x1C */ uint32_t eyeTexture;
+    /* 0x20 */ uint16_t eyeIndex;
+    /* 0x22 */ uint16_t soundId;
+    /* 0x24 */ uint8_t strength;
+    /* 0x25 */ uint8_t boots;
+    /* 0x26 */ uint8_t shield;
+    /* 0x27 */ uint8_t shield_on_back;
+    /* 0x28 */ uint8_t mask;
+    /* 0x29 */ uint8_t pad[3];
+} puppet_info_t; /* sizeof = 0x2C */
+
+typedef struct {
+    /* 0x000 */ SkelAnime skelAnime;
+    /* 0x044 */ Vec3s jointTable[PLAYER_LIMB_BUF_COUNT];
+    /* 0x0D4 */ Vec3s morphTable[PLAYER_LIMB_BUF_COUNT];
+    /* 0x164 */ struct LinkAnimationHeader* syncAnimation;
+    /* 0x168 */ float syncFrame;
+    /* 0x16C */ float syncSpeed;
+    /* 0x170 */ float latencyFrames;
+    /* 0x174 */ uint8_t syncMode;
+    /* 0x175 */ uint8_t pad[3];
+} SkelAnimeSyncPair; /* sizeof = 0x178 */
 
 typedef struct {
     /* 0x000 */ Actor actor;
-    /* 0x13C */ SkelAnime skelAnime;
-    /* 0x180 */ Vec3s jointTable[PLAYER_LIMB_BUF_COUNT];
-    /* 0x210 */ Vec3s morphTable[PLAYER_LIMB_BUF_COUNT];
-    /* 0x2A0 */ ColliderCylinder collider;
-    /* 0x2EC */ puppet_info_t puppet;
-    /* 0x308 */ uint32_t end;
-    /* 0x30C */ uint32_t end0;
-    /* 0x30C */ uint32_t end1;
-    /* 0x30C */ uint32_t end2;
-    /* 0x30C */ uint32_t end3;
-    /* 0x30C */ uint32_t end4;
-} entity_t; /* sizeof = 0x310 */
+    /* 0x13C */ SkelAnimeSyncPair skelAnime0;
+    /* 0x2B4 */ SkelAnimeSyncPair skelAnime1;
+    /* 0x42C */ ColliderCylinder collider;
+    /* 0x478 */ puppet_info_t puppet;
+    /* 0x4A4 */ uint32_t end;
+} entity_t; /* sizeof = 0x4A8 */
 
 // copy of Link's default ColliderCylinderInit
 const ColliderCylinderInit colliderInit = {
@@ -169,8 +179,12 @@ const Vec3f footOffsets[] = {
 };
 
 const float shadowScales[] = { 90.0f, 60.0f };
+const float ageProperties_00[] = { 56.0f, 40.0f };
+const float ageProperties_38[] = {70.0f, 45.29412079f };
 
 const Color_RGBA8_u32 white = {.rgba = 0xFFFFFFFF};
+
+const uint8_t copyFlags[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 
 // TODO: Remove
 #undef AGE_IS_ADULT

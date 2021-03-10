@@ -131,7 +131,7 @@ int32_t AnimateCallback(struct GlobalContext* globalCtx, int32_t limbIndex, stru
         case PLAYER_LIMB_LOWER:
             break;
         case PLAYER_LIMB_R_THIGH:
-            FootIK(globalCtx, this, &this->skelAnime, pos, rot, PLAYER_LIMB_R_THIGH, PLAYER_LIMB_R_SHIN, PLAYER_LIMB_R_FOOT);
+            FootIK(globalCtx, this, &this->skelAnime0.skelAnime, pos, rot, PLAYER_LIMB_R_THIGH, PLAYER_LIMB_R_SHIN, PLAYER_LIMB_R_FOOT);
             break;
         case PLAYER_LIMB_R_SHIN:
             break;
@@ -144,7 +144,7 @@ int32_t AnimateCallback(struct GlobalContext* globalCtx, int32_t limbIndex, stru
             }
             break;
         case PLAYER_LIMB_L_THIGH:
-            FootIK(globalCtx, this, &this->skelAnime, pos, rot, PLAYER_LIMB_L_THIGH, PLAYER_LIMB_L_SHIN, PLAYER_LIMB_L_FOOT);
+            FootIK(globalCtx, this, &this->skelAnime0.skelAnime, pos, rot, PLAYER_LIMB_L_THIGH, PLAYER_LIMB_L_SHIN, PLAYER_LIMB_L_FOOT);
             break;
         case PLAYER_LIMB_L_SHIN:
             break;
@@ -250,20 +250,29 @@ void init(entity_t* this, GlobalContext* globalCtx) {
     Player* player = ((Player*)globalCtx->actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head);
     this->actor.room = 0xFF;
     this->puppet.age = globalCtx->linkAgeOnLoad; // Don't we need to set this?
-    this->puppet.syncAnimation = player->skelAnime.animation;
+    this->skelAnime0.syncAnimation = player->skelAnime.animation;
 
-    this->puppet.syncFrame = 0;
-    this->puppet.syncSpeed = player->skelAnime.playSpeed;
-    this->puppet.latencyFrames = 0;
+    this->skelAnime0.syncFrame = 0;
+    this->skelAnime0.syncSpeed = player->skelAnime.playSpeed;
+    this->skelAnime0.latencyFrames = 0;
 
-    this->end4 = 0xDEEFBEAD;
-    this->end = 0xDEADBEEF;
+    this->skelAnime1.syncFrame = 0;
+    this->skelAnime1.syncSpeed = player->skelAnime2.playSpeed;
+    this->skelAnime1.latencyFrames = 0;
 
-    SkelAnime_InitLink(globalCtx, &this->skelAnime,
-        baseToPointerSkel(this, 0x500C), /* TODO: base + 0x0000500C? pointer to FlexSkeletonHeader; current method will not work for mm */
+
+    SkelAnime_InitLink(globalCtx, &this->skelAnime0.skelAnime,
+        baseToPointerSkel(this, 0x500C), /* TODO: current method will not work for mm */
         player->skelAnime.animation,
         9, /* initflags */
-        this->jointTable, this->morphTable, PLAYER_LIMB_MAX
+        this->skelAnime0.jointTable, this->skelAnime0.morphTable, PLAYER_LIMB_MAX
+    );
+
+    SkelAnime_InitLink(globalCtx, &this->skelAnime1.skelAnime,
+        baseToPointerSkel(this, 0x500C), /* TODO: current method will not work for mm */
+        player->skelAnime2.animation,
+        9, /* initflags */
+        this->skelAnime1.jointTable, this->skelAnime1.morphTable, PLAYER_LIMB_MAX
     );
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, shadowScales[this->puppet.age]);
@@ -303,19 +312,14 @@ void destroy(entity_t* this, GlobalContext* globalCtx) {
     }
 }
 
-void update(entity_t* this, GlobalContext* globalCtx) {
-    Vec3f focusPos;
-    Player* player = ((Player*)globalCtx->actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head);
+void SkelAnimeSyncPair_Update(GlobalContext* globalCtx, SkelAnimeSyncPair* this) {
+    if (this->skelAnime.curFrame < this->syncFrame) this->skelAnime.curFrame = this->syncFrame;
 
-    const uint32_t eyes[3] = { baseToPointer(this, 0), baseToPointer(this, 0x800), baseToPointer(this, 0x1000) };
-    Helper_EyeBlink(&this->puppet.eyeIndex);
-    this->puppet.eyeTexture = eyes[this->puppet.eyeIndex];
-
-    if (this->skelAnime.curFrame < this->puppet.syncFrame) this->skelAnime.curFrame = this->puppet.syncFrame;
     LinkAnimation_Update(globalCtx, &this->skelAnime);
+    this->skelAnime.mode = this->syncMode; // We use ANIMMODE_LOOP_INTERP first to prevent random folding
 
     // Change animation if remote player's animation changed
-    if (this->skelAnime.animation != this->puppet.syncAnimation) {
+    if (this->skelAnime.animation != this->syncAnimation && this->syncAnimation != 0) {
         // FIXME: Playas animations will not have the same animation pointer, we must find a way to safely sync these!
         // We could probably make a table that gives each custom animation a unique id, and use the index of the uuid for the index of the pointer
         // for example, let's say we have the uuid table [0xDEADBEEF, 0xABABBEEF, 0xBEEFDEAD, 0xBABADEAD]
@@ -325,7 +329,41 @@ void update(entity_t* this, GlobalContext* globalCtx) {
         // this way we can have animation and playas stuff on the heap, and still write the correct pointer in the puppet
         // so we would instead sync the uuid, and have the puppet perform the scan to get the correct pointer
         // this would also be a good excuse to implement a system which does not allocate copies of existing data
-        LinkAnimation_Change(globalCtx, &this->skelAnime, this->puppet.syncAnimation, this->puppet.syncSpeed, this->puppet.syncFrame, Animation_GetLength(this->puppet.syncAnimation), this->puppet.syncMode, this->puppet.latencyFrames);
+        LinkAnimation_Change(globalCtx, &this->skelAnime, this->syncAnimation, this->syncSpeed, this->syncFrame, Animation_GetLength(this->syncAnimation), ANIMMODE_LOOP_INTERP, this->latencyFrames);
+    }
+}
+
+void update(entity_t* this, GlobalContext* globalCtx) {
+    Vec3f focusPos;
+    Player* player = ((Player*)globalCtx->actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head);
+
+    const uint32_t eyes[3] = { baseToPointer(this, 0), baseToPointer(this, 0x800), baseToPointer(this, 0x1000) };
+    Helper_EyeBlink(&this->puppet.eyeIndex);
+    this->puppet.eyeTexture = eyes[this->puppet.eyeIndex];
+
+    this->actor.shape.shadowAlpha = player->actor.shape.shadowAlpha;
+
+    Collider_UpdateCylinder(this, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+
+    Actor_UpdateBgCheckInfo(globalCtx, this, 26.0f, ageProperties_38[this->puppet.age], ageProperties_00[this->puppet.age], 5);
+
+    SkelAnimeSyncPair_Update(globalCtx, &this->skelAnime0);
+    SkelAnimeSyncPair_Update(globalCtx, &this->skelAnime1);
+
+    if (this->puppet.syncUnk_830 != 0.0f) {
+        if (this->puppet.syncLinearVelocity != 0.0f) {
+            AnimationContext_SetCopyFalse(globalCtx, this->skelAnime0.skelAnime.limbCount, this->skelAnime1.jointTable, this->skelAnime0.jointTable, copyFlags);
+        }
+
+        Math_StepToF(&this->puppet.syncUnk_830, 0.0f, 0.25f);
+        AnimationContext_SetInterp(globalCtx, this->skelAnime0.skelAnime.limbCount, this->skelAnime0.jointTable, this->skelAnime1.jointTable, 1.0f - this->puppet.syncUnk_830);
+    }
+    else if (this->puppet.syncLinearVelocity != 0.0f) {
+        AnimationContext_SetCopyTrue(globalCtx, this->skelAnime0.skelAnime.limbCount, this->skelAnime0.jointTable, this->skelAnime1.jointTable, copyFlags);
+    }
+    else {
+        AnimationContext_SetCopyAll(globalCtx, this->skelAnime0.skelAnime.limbCount, this->skelAnime0.jointTable, this->skelAnime1.jointTable);
     }
 
     focusPos = this->actor.world.pos;
@@ -341,7 +379,7 @@ void draw(entity_t* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(globalCtx->game.gfxCtx->polyOpa.p++, this->puppet.colorTunic.r, this->puppet.colorTunic.g, this->puppet.colorTunic.b, this->puppet.colorTunic.a);
 
     // Teardrop / feet shadow drawn by callback from ActorShape_Init, feetpos is set in AnimateCallback
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, AnimateCallback, OtherCallback, this);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime0.skelAnime.skeleton, this->skelAnime0.skelAnime.jointTable, this->skelAnime0.skelAnime.dListCount, AnimateCallback, OtherCallback, this);
 
     if (this->puppet.soundId > 0) {
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 25, this->puppet.soundId);

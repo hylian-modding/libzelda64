@@ -19,4 +19,7 @@ asm("Math_FAtan2F = 0x800CD76C");
 extern float sqrtf(float x);
 asm("sqrtf = 0x800D0DC0");
 
+extern int32_t Math_StepToF(int32_t* pValue, int32_t target, int32_t step);
+asm("Math_StepToF = 0x8006385C");
+
 #endif
