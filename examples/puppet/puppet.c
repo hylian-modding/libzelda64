@@ -196,7 +196,7 @@ void init(entity_t* this, GlobalContext* globalCtx) {
     this->collider.dim.radius = 12;
 
     if (AGE_IS_ADULT(this->puppet.age)) this->collider.dim.height = 60;
-    else this->collider.dim.height = 44;
+    else this->collider.dim.height = 44; 
 
     Actor_SetScale(this, 0.01f);
 
@@ -241,7 +241,7 @@ void SkelAnimeSyncPair_Update(GlobalContext* globalCtx, SkelAnimeSyncPair* this)
         // so we would instead sync the uuid, and have the puppet perform the scan to get the correct pointer
         // this would also be a good excuse to implement a system which does not allocate copies of existing data
         LinkAnimation_Change(globalCtx, &this->skelAnime, this->syncAnimation, this->syncSpeed, this->syncFrame, Animation_GetLength(this->syncAnimation), ANIMMODE_LOOP_INTERP, this->latencyFrames);
-    }
+    } 
 }
 
 void update(entity_t* this, GlobalContext* globalCtx) {
