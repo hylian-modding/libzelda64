@@ -11,5 +11,5 @@ A boat actor that can be driven.
 The upcoming puppet actor that will be used in OOTO and MMO.
 
 ### Contributors
-[CrookedPoe](https://github.com/CrookedPoe), [Drahsid](https://github.com/Drahsid), [Denoflions](https://github.com/denoflionsx), [Fig02](https://github.com/Fig02), [Psi-Hate](https://github.com/Psi-Hate)
+[CrookedPoe](https://github.com/CrookedPoe), [Denoflions](https://github.com/denoflionsx), [Drahsid](https://github.com/Drahsid), [Fig02](https://github.com/Fig02), [Psi-Hate](https://github.com/Psi-Hate)
 
