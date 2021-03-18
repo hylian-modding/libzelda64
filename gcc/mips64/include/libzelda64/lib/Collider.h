@@ -15,6 +15,7 @@
 #include "types/ColliderTouch.h"
 #include "types/ColliderBump.h"
 #include "types/ColliderBumpInit.h"
+#include "types/CollisionHeader.h"
 #include <inttypes.h>
 
 extern int32_t Collider_SetCylinder(struct GlobalContext* globalCtx, struct ColliderCylinder* collider, struct Actor* actor, struct ColliderCylinderInit* src);
@@ -31,5 +32,8 @@ asm("Collider_UpdateCylinder = 0x80050B00");
 
 extern int32_t CollisionCheck_SetOC(struct GlobalContext* globalCtx, struct CollisionCheckContext* colChkCtx, struct Collider* collider);
 asm("CollisionCheck_SetOC = 0x8004C130");
+
+extern void CollisionHeader_GetVirtual(void* colHeader, struct CollisionHeader** dest);
+asm("CollisionHeader_GetVirtual = 0x80033EF4");
 
 #endif

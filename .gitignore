@@ -1,15 +1,5 @@
-build.cmd
 *.elf
 *.o
 *.ovl
-symbols.txt
 *.map
-nOVL
 .vscode
-gcc/bin
-gcc/lib
-gcc/libexec
-gcc/man
-gcc/mips64/bin
-gcc/mips64/include/libultra
-entry.ld
