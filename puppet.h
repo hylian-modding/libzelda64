@@ -16,7 +16,8 @@
 #include <libzelda64/lib/types/ColliderInitType1.h>
 #include <libzelda64/lib/types/DamageTable.h>
 #include <libzelda64/lib/types/StandardLimb.h>
-#include <libultra/PR/gbi.h>
+#include <libzelda64/lib/Macros.h>
+#include <ultra64.h>
 #include "Helpers.h"
 #include "offsets.h"
 
@@ -70,10 +71,12 @@ typedef struct {
     /* 0x22 */ uint16_t soundId;
     /* 0x24 */ uint8_t strength;
     /* 0x25 */ uint8_t boots;
-    /* 0x26 */ uint8_t shield;
-    /* 0x27 */ uint8_t shield_on_back;
-    /* 0x28 */ uint8_t mask;
-    /* 0x29 */ uint8_t pad[3];
+    /* 0x26 */ uint8_t mask;
+    /* 0x27 */ uint8_t pad[1];
+    /* 0x28 */ uint32_t backDlist;
+    /* 0x2C */ uint32_t rhandDlist;
+    /* 0x30 */ uint32_t lhandDlist;
+    uint32_t DEBUG_OUT;
 } puppet_info_t; /* sizeof = 0x2C */
 
 typedef struct {
@@ -188,7 +191,37 @@ const uint8_t copyFlags[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1,
 
 // TODO: Remove
 #undef AGE_IS_ADULT
-#define AGE_IS_ADULT(a) (1)
+#define AGE_IS_ADULT(a) (a == 0)
+
+#define ALIGN16(val) (((val) + 0xF) & ~0xF)
+
+void SkelAnime_InitLink_Custom(struct GlobalContext* globalCtx, struct SkelAnime* skelAnime, struct FlexSkeletonHeader* skeletonHeaderSeg,
+                        struct LinkAnimationHeader* animation, int32_t flags, struct Vec3s* jointTable, struct Vec3s* morphTable,
+                        int32_t limbBufCount) {
+    struct FlexSkeletonHeader* skeletonHeader = skeletonHeaderSeg;
+    int32_t headerJointCount = skeletonHeader->sh.limbCount;
+    int32_t limbCount;
+
+    skelAnime->initFlags = flags;
+    limbCount = (flags & 2) ? headerJointCount : 1;
+
+    if (flags & 1) {
+        limbCount += headerJointCount;
+    }
+    if (flags & 4) {
+        limbCount += headerJointCount;
+    }
+
+    skelAnime->limbCount = limbCount;
+    skelAnime->dListCount = skeletonHeader->dListCount;
+
+    skelAnime->skeleton = skeletonHeader->sh.segment;
+
+    skelAnime->jointTable = (Vec3s*)ALIGN16((uint32_t)jointTable);
+    skelAnime->morphTable = (Vec3s*)ALIGN16((uint32_t)morphTable);
+
+    if (animation != NULL) LinkAnimation_Change(globalCtx, skelAnime, animation, 1.0f, 0.0f, 0.0f, ANIMMODE_LOOP, 0.0f);
+}
 
 #endif
 

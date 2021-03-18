@@ -10,108 +10,10 @@ void* memcpy(void* dest, const void* src, uint32_t len) {
     return dest;
 }
 
-
 int32_t IsZobjLoaded(GlobalContext* globalCtx, int32_t id) {
     int32_t index = Object_GetIndex(&globalCtx->objectCtx, id);
     if (index < 0) return 0;
     else return 1;
-}
-
-uint32_t AnimateCallback_HandsAndBack(entity_t* this, struct GlobalContext* globalCtx, int32_t limb) {
-    uint32_t dlist = 0;
-
-    if (AGE_IS_ADULT(this->puppet.age)) {
-        // Set the defaults.
-        if (limb == PLAYER_LIMB_R_HAND) {
-            dlist = baseToPointer(this, ADULT_LINK_LUT_DL_RHAND);
-        }
-        else if (limb == PLAYER_LIMB_L_HAND) {
-           dlist = baseToPointer(this, ADULT_LINK_LUT_DL_LHAND);
-        }
-        else if (limb == PLAYER_LIMB_SHEATH) {
-            dlist = baseToPointer(this, ADULT_LINK_LUT_DL_SWORD_SHEATH);
-        }
-
-        if (this->puppet.action > 0) {
-            if (this->puppet.shield_on_back) {
-                if (limb == PLAYER_LIMB_SHEATH) {
-                    if (this->puppet.shield == PLAYER_SHIELD_NONE) {
-                        Matrix_Scale(0, 0, 0, 1);
-                    }
-                    else if (this->puppet.shield == PLAYER_SHIELD_DEKU) {
-                        // TODO Deal with this shit somehow.
-                        Matrix_Scale(0, 0, 0, 1);
-                    }
-                    else if (this->puppet.shield == PLAYER_SHIELD_HYLIAN) {
-                        if (isSwordOut(this->puppet.action)) {
-                            dlist = baseToPointer(this, ADULT_LINK_LUT_DL_SHEATH0_HYLIAN);
-                        }
-                        else {
-                            dlist = baseToPointer(this, ADULT_LINK_LUT_DL_SWORD_SHIELD_HYLIAN);
-                        }
-                    }
-                    else if (this->puppet.shield == PLAYER_SHIELD_MIRROR) {
-                        if (isSwordOut(this->puppet.action)) {
-                            dlist = baseToPointer(this, ADULT_LINK_LUT_DL_SHEATH0_MIRROR);
-                        }
-                        else {
-                            dlist = baseToPointer(this, ADULT_LINK_LUT_DL_SWORD_SHIELD_MIRROR);
-                        }
-                    }
-                }
-            }
-            else if (limb == PLAYER_LIMB_R_HAND) {
-                if (isSwordOut(this->puppet.action)) {
-                    switch (this->puppet.shield) {
-                    case PLAYER_SHIELD_NONE:
-                        Matrix_Scale(0, 0, 0, 1);
-                        break;
-                    case PLAYER_SHIELD_DEKU:
-                        // deal with this shit later.
-                        Matrix_Scale(0, 0, 0, 1);
-                        break;
-                    case PLAYER_SHIELD_HYLIAN:
-                        Gfx_DrawDListOpa(globalCtx, baseToPointer(this, ADULT_LINK_LUT_DL_SHIELD_HYLIAN));
-                        break;
-                    case PLAYER_SHIELD_MIRROR:
-                        Gfx_DrawDListOpa(globalCtx, baseToPointer(this, ADULT_LINK_LUT_DL_SHIELD_MIRROR));
-                        break;
-                    }
-                }
-                else {
-                    if (valueInRange(this->puppet.action, PLAYER_AP_BOW, PLAYER_AP_BOW_0E)) {
-                        Gfx_DrawDListOpa(globalCtx, baseToPointer(this, ADULT_LINK_LUT_DL_BOW));
-                    }
-                    else if (this->puppet.action == PLAYER_AP_OCARINA_FAIRY) {
-                        Matrix_Scale(0, 0, 0, 1);
-                    }
-                    else if (this->puppet.action == PLAYER_AP_OCARINA_TIME) {
-                        Gfx_DrawDListOpa(globalCtx, baseToPointer(this, CHILD_LINK_LUT_DL_OCARINA_TIME));
-                    }
-                    else if (this->puppet.action == valueInRange(this->puppet.action, PLAYER_AP_HOOKSHOT, PLAYER_AP_LONGSHOT)) {
-                        Gfx_DrawDListOpa(globalCtx, baseToPointer(this, ADULT_LINK_LUT_DL_HOOKSHOT));
-                    }
-                }
-            }
-            else if (limb == PLAYER_LIMB_L_HAND) {
-
-            }
-        }
-    }
-    else {
-        if (limb == PLAYER_LIMB_R_HAND) {
-            dlist = baseToPointer(this, CHILD_LINK_LUT_DL_RHAND);
-        }
-        else if (limb == PLAYER_LIMB_L_HAND) {
-            dlist = baseToPointer(this, CHILD_LINK_LUT_DL_LHAND);
-        }
-        else if (limb == PLAYER_LIMB_SHEATH) {
-            dlist = baseToPointer(this, CHILD_LINK_LUT_DL_SWORD_SHEATH);
-        }
-    }
-
-    // Return default fucking hands.
-    return dlist;
 }
 
 int32_t AnimateCallback(struct GlobalContext* globalCtx, int32_t limbIndex, struct Gfx** dList, struct Vec3f* pos, Vec3s* rot, entity_t* this) {
@@ -139,7 +41,7 @@ int32_t AnimateCallback(struct GlobalContext* globalCtx, int32_t limbIndex, stru
             if (this->puppet.boots == PLAYER_BOOTS_IRON) {
                 Gfx_DrawDListOpa(globalCtx, baseToPointer(this, ADULT_LINK_LUT_DL_BOOT_RHOVER));
             }
-            else if (this->puppet.boots = PLAYER_BOOTS_HOVER) {
+            else if (this->puppet.boots == PLAYER_BOOTS_HOVER) {
                 Gfx_DrawDListOpa(globalCtx, baseToPointer(this, ADULT_LINK_LUT_DL_BOOT_RIRON));
             }
             break;
@@ -152,7 +54,7 @@ int32_t AnimateCallback(struct GlobalContext* globalCtx, int32_t limbIndex, stru
             if (this->puppet.boots == PLAYER_BOOTS_IRON) {
                 Gfx_DrawDListOpa(globalCtx, baseToPointer(this, ADULT_LINK_LUT_DL_BOOT_LHOVER));
             }
-            else if (this->puppet.boots = PLAYER_BOOTS_HOVER) {
+            else if (this->puppet.boots == PLAYER_BOOTS_HOVER) {
                 Gfx_DrawDListOpa(globalCtx, baseToPointer(this, ADULT_LINK_LUT_DL_BOOT_LIRON));
             }
             break;
@@ -203,11 +105,13 @@ int32_t AnimateCallback(struct GlobalContext* globalCtx, int32_t limbIndex, stru
             }
             break;
         case PLAYER_LIMB_L_HAND:
-            Matrix_Push();
-            Matrix_Translate(pos->x, pos->y, pos->z, 1);
-            Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
-            dList = AnimateCallback_HandsAndBack(this, limbNumber, globalCtx);
-            Matrix_Pull();
+            if (this->puppet.lhandDlist){
+                Matrix_Push();
+                Matrix_Translate(pos->x, pos->y, pos->z, 1);
+                Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
+                *dList = baseToPointer(this, (this->puppet.lhandDlist & 0x0000FFFF));
+                Matrix_Pull();
+            }
             break;
         case PLAYER_LIMB_R_SHOULDER:
             break;
@@ -219,14 +123,18 @@ int32_t AnimateCallback(struct GlobalContext* globalCtx, int32_t limbIndex, stru
             }
             break;
         case PLAYER_LIMB_R_HAND:
-            Matrix_Push();
-            Matrix_Translate(pos->x, pos->y, pos->z, 1);
-            Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
-            dList = AnimateCallback_HandsAndBack(this, limbNumber, globalCtx);
-            Matrix_Pull();
+            if (this->puppet.rhandDlist){
+                Matrix_Push();
+                Matrix_Translate(pos->x, pos->y, pos->z, 1);
+                Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
+                *dList = baseToPointer(this, (this->puppet.rhandDlist & 0x0000FFFF));
+                Matrix_Pull();
+            }
             break;
         case PLAYER_LIMB_SHEATH:
-            dList = AnimateCallback_HandsAndBack(this, limbNumber, globalCtx);
+            if (this->puppet.backDlist){
+                *dList = baseToPointer(this, (this->puppet.backDlist & 0x0000FFFF));
+            }
             break;
         case PLAYER_LIMB_TORSO:
             break;
@@ -239,17 +147,17 @@ int32_t AnimateCallback(struct GlobalContext* globalCtx, int32_t limbIndex, stru
 
 int32_t OtherCallback(struct GlobalContext* globalCtx, int32_t limbIndex, struct Gfx** dList, struct Vec3s* rot, entity_t* this) {
     TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
-
     gSPSegment(polyOpa->p++, 8, this->puppet.eyeTexture);
-    gSPSegment(polyOpa->p++, 9, baseToPointer(this, 0x4000));
-
+    gSPSegment(polyOpa->p++, 9, baseToPointer(this, 0x00004000));
     return 1;
 }
+
 
 void init(entity_t* this, GlobalContext* globalCtx) {
     Player* player = ((Player*)globalCtx->actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head);
     this->actor.room = 0xFF;
-    this->puppet.age = globalCtx->linkAgeOnLoad; // Don't we need to set this?
+    this->puppet.age = (uint32_t) this->actor.params;
+    this->puppet.DEBUG_OUT = this->puppet.age;
     this->skelAnime0.syncAnimation = player->skelAnime.animation;
 
     this->skelAnime0.syncFrame = 0;
@@ -260,20 +168,19 @@ void init(entity_t* this, GlobalContext* globalCtx) {
     this->skelAnime1.syncSpeed = player->skelAnime2.playSpeed;
     this->skelAnime1.latencyFrames = 0;
 
-
-    SkelAnime_InitLink(globalCtx, &this->skelAnime0.skelAnime,
+    SkelAnime_InitLink_Custom(globalCtx, &this->skelAnime0.skelAnime,
         baseToPointerSkel(this, 0x500C), /* TODO: current method will not work for mm */
         player->skelAnime.animation,
         9, /* initflags */
         this->skelAnime0.jointTable, this->skelAnime0.morphTable, PLAYER_LIMB_MAX
     );
 
-    SkelAnime_InitLink(globalCtx, &this->skelAnime1.skelAnime,
-        baseToPointerSkel(this, 0x500C), /* TODO: current method will not work for mm */
+/*     SkelAnime_InitLink(globalCtx, &this->skelAnime1.skelAnime,
+        baseToPointerSkel(this, 0x500C),
         player->skelAnime2.animation,
-        9, /* initflags */
+        9,
         this->skelAnime1.jointTable, this->skelAnime1.morphTable, PLAYER_LIMB_MAX
-    );
+    ); */
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, shadowScales[this->puppet.age]);
 
@@ -289,18 +196,22 @@ void init(entity_t* this, GlobalContext* globalCtx) {
     this->collider.dim.radius = 12;
 
     if (AGE_IS_ADULT(this->puppet.age)) this->collider.dim.height = 60;
-    else this->collider.dim.height = 44;
+    else this->collider.dim.height = 44; 
 
     Actor_SetScale(this, 0.01f);
 
     this->puppet.colorBottle = white;
     this->puppet.colorGauntlet = white;
 
-    //if (IsZobjLoaded(globalCtx, EPONA_OBJ)) {
-    //    // TODO
-    //}
-
     this->actor.flags |= 0x0E000075;
+
+    //this->puppet.backDlist = 0x06005268;
+    //this->puppet.lhandDlist = 0x060052B8;
+    //this->puppet.mask = 1;
+
+    void* animdata = (void*) 0x80600000;
+    memcpy(&this->skelAnime0.jointTable, animdata, 0x86);
+
     MLDEBUG_END(this, 0xDEADBEEF);
 }
 
@@ -318,7 +229,7 @@ void SkelAnimeSyncPair_Update(GlobalContext* globalCtx, SkelAnimeSyncPair* this)
     LinkAnimation_Update(globalCtx, &this->skelAnime);
     this->skelAnime.mode = this->syncMode; // We use ANIMMODE_LOOP_INTERP first to prevent random folding
 
-    // Change animation if remote player's animation changed
+     // Change animation if remote player's animation changed
     if (this->skelAnime.animation != this->syncAnimation && this->syncAnimation != 0) {
         // FIXME: Playas animations will not have the same animation pointer, we must find a way to safely sync these!
         // We could probably make a table that gives each custom animation a unique id, and use the index of the uuid for the index of the pointer
@@ -330,10 +241,11 @@ void SkelAnimeSyncPair_Update(GlobalContext* globalCtx, SkelAnimeSyncPair* this)
         // so we would instead sync the uuid, and have the puppet perform the scan to get the correct pointer
         // this would also be a good excuse to implement a system which does not allocate copies of existing data
         LinkAnimation_Change(globalCtx, &this->skelAnime, this->syncAnimation, this->syncSpeed, this->syncFrame, Animation_GetLength(this->syncAnimation), ANIMMODE_LOOP_INTERP, this->latencyFrames);
-    }
+    } 
 }
 
 void update(entity_t* this, GlobalContext* globalCtx) {
+
     Vec3f focusPos;
     Player* player = ((Player*)globalCtx->actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head);
 
@@ -349,9 +261,9 @@ void update(entity_t* this, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, this, 26.0f, ageProperties_38[this->puppet.age], ageProperties_00[this->puppet.age], 5);
 
     SkelAnimeSyncPair_Update(globalCtx, &this->skelAnime0);
-    SkelAnimeSyncPair_Update(globalCtx, &this->skelAnime1);
+    //SkelAnimeSyncPair_Update(globalCtx, &this->skelAnime1);
 
-    if (this->puppet.syncUnk_830 != 0.0f) {
+     if (this->puppet.syncUnk_830 != 0.0f) {
         if (this->puppet.syncLinearVelocity != 0.0f) {
             AnimationContext_SetCopyFalse(globalCtx, this->skelAnime0.skelAnime.limbCount, this->skelAnime1.jointTable, this->skelAnime0.jointTable, copyFlags);
         }
@@ -379,9 +291,9 @@ void draw(entity_t* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(globalCtx->game.gfxCtx->polyOpa.p++, this->puppet.colorTunic.r, this->puppet.colorTunic.g, this->puppet.colorTunic.b, this->puppet.colorTunic.a);
 
     // Teardrop / feet shadow drawn by callback from ActorShape_Init, feetpos is set in AnimateCallback
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime0.skelAnime.skeleton, this->skelAnime0.skelAnime.jointTable, this->skelAnime0.skelAnime.dListCount, AnimateCallback, OtherCallback, this);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime0.skelAnime.skeleton, this->skelAnime0.skelAnime.jointTable, this->skelAnime0.skelAnime.dListCount, &AnimateCallback, &OtherCallback, this);
 
-    if (this->puppet.soundId > 0) {
+     if (this->puppet.soundId > 0) {
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 25, this->puppet.soundId);
         this->puppet.soundId = 0;
     }
