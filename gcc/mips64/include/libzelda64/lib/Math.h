@@ -10,6 +10,9 @@
 #define CLAMP_MAX(x, max) ((x) > (max) ? (max) : (x))
 #define CLAMP_MIN(x, min) ((x) < (min) ? (min) : (x))
 
+extern float Rand_ZeroOne(void);
+asm("Rand_ZeroOne = 0x800CDCCC");
+
 extern int16_t Math_Rand_S16Offset(int16_t offset, int16_t range);
 asm("Math_Rand_S16Offset = 0x80063BF0");
 
