@@ -1,7 +1,48 @@
 #include "puppet.h"
 #include "footik.h"
 
-void* memcpy(void* dest, const void* src, uint32_t len) {
+const Vec3f footOffsets[] = {
+    { 200.0f, 300.0f, 0.0f },
+    { 200.0f, 200.0f, 0.0f }
+};
+
+const float shadowScales[] = { 90.0f, 60.0f };
+const float ageProperties_00[] = { 56.0f, 40.0f };
+const float ageProperties_38[] = {70.0f, 45.29412079f };
+
+const Color_RGBA8_u32 white = {.rgba = 0xFFFFFFFF};
+
+const uint8_t copyFlags[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+
+static inline void SkelAnime_InitLink_Custom(struct GlobalContext* globalCtx, struct SkelAnime* skelAnime, struct FlexSkeletonHeader* skeletonHeaderSeg,
+                        struct LinkAnimationHeader* animation, int32_t flags, struct Vec3s* jointTable, struct Vec3s* morphTable,
+                        int32_t limbBufCount) {
+    struct FlexSkeletonHeader* skeletonHeader = skeletonHeaderSeg;
+    int32_t headerJointCount = skeletonHeader->sh.limbCount;
+    int32_t limbCount;
+
+    skelAnime->initFlags = flags;
+    limbCount = (flags & 2) ? headerJointCount : 1;
+
+    if (flags & 1) {
+        limbCount += headerJointCount;
+    }
+    if (flags & 4) {
+        limbCount += headerJointCount;
+    }
+
+    skelAnime->limbCount = limbCount;
+    skelAnime->dListCount = skeletonHeader->dListCount;
+
+    skelAnime->skeleton = skeletonHeader->sh.segment;
+
+    skelAnime->jointTable = (Vec3s*)ALIGN16((uint32_t)jointTable);
+    skelAnime->morphTable = (Vec3s*)ALIGN16((uint32_t)morphTable);
+
+    if (animation != NULL) LinkAnimation_Change(globalCtx, skelAnime, animation, 1.0f, 0.0f, 0.0f, ANIMMODE_LOOP, 0.0f);
+}
+
+static inline void* memcpy(void* dest, const void* src, uint32_t len) {
     char* d = dest;
     const char* s = src;
     while (len--) {
@@ -10,13 +51,13 @@ void* memcpy(void* dest, const void* src, uint32_t len) {
     return dest;
 }
 
-int32_t IsZobjLoaded(GlobalContext* globalCtx, int32_t id) {
+static inline int32_t IsZobjLoaded(GlobalContext* globalCtx, int32_t id) {
     int32_t index = Object_GetIndex(&globalCtx->objectCtx, id);
     if (index < 0) return 0;
     else return 1;
 }
 
-int32_t AnimateCallback(struct GlobalContext* globalCtx, int32_t limbIndex, struct Gfx** dList, struct Vec3f* pos, Vec3s* rot, entity_t* this) {
+static inline int32_t AnimateCallback(struct GlobalContext* globalCtx, int32_t limbIndex, struct Gfx** dList, struct Vec3f* pos, Vec3s* rot, entity_t* this) {
     TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
     int32_t limbNumber = limbIndex; /*- 1; // OG puppet did this, but I think it's because our old enum began at ROOT instead of NONE */
 
@@ -145,7 +186,7 @@ int32_t AnimateCallback(struct GlobalContext* globalCtx, int32_t limbIndex, stru
     return 0;
 }
 
-int32_t OtherCallback(struct GlobalContext* globalCtx, int32_t limbIndex, struct Gfx** dList, struct Vec3s* rot, entity_t* this) {
+static inline int32_t OtherCallback(struct GlobalContext* globalCtx, int32_t limbIndex, struct Gfx** dList, struct Vec3s* rot, entity_t* this) {
     TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
     gSPSegment(polyOpa->p++, 8, this->puppet.eyeTexture);
     gSPSegment(polyOpa->p++, 9, baseToPointer(this, 0x00004000));
@@ -153,7 +194,7 @@ int32_t OtherCallback(struct GlobalContext* globalCtx, int32_t limbIndex, struct
 }
 
 
-void init(entity_t* this, GlobalContext* globalCtx) {
+static inline void init(entity_t* this, GlobalContext* globalCtx) {
     Player* player = ((Player*)globalCtx->actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head);
     this->actor.room = 0xFF;
     this->puppet.age = (uint32_t) this->actor.params;
@@ -215,7 +256,7 @@ void init(entity_t* this, GlobalContext* globalCtx) {
     MLDEBUG_END(this, 0xDEADBEEF);
 }
 
-void destroy(entity_t* this, GlobalContext* globalCtx) {
+static inline void destroy(entity_t* this, GlobalContext* globalCtx) {
     if (this->actor.child) {
         this->actor.child->parent = 0;
         Actor_Kill(this->actor.child);
@@ -223,7 +264,7 @@ void destroy(entity_t* this, GlobalContext* globalCtx) {
     }
 }
 
-void SkelAnimeSyncPair_Update(GlobalContext* globalCtx, SkelAnimeSyncPair* this) {
+static inline void SkelAnimeSyncPair_Update(GlobalContext* globalCtx, SkelAnimeSyncPair* this) {
     if (this->skelAnime.curFrame < this->syncFrame) this->skelAnime.curFrame = this->syncFrame;
 
     LinkAnimation_Update(globalCtx, &this->skelAnime);
@@ -244,7 +285,7 @@ void SkelAnimeSyncPair_Update(GlobalContext* globalCtx, SkelAnimeSyncPair* this)
     } 
 }
 
-void update(entity_t* this, GlobalContext* globalCtx) {
+static inline void update(entity_t* this, GlobalContext* globalCtx) {
 
     Vec3f focusPos;
     Player* player = ((Player*)globalCtx->actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head);
@@ -287,7 +328,7 @@ void update(entity_t* this, GlobalContext* globalCtx) {
     this->actor.focus.rot = this->actor.world.rot;
 }
 
-void draw(entity_t* this, GlobalContext* globalCtx) {
+static inline void draw(entity_t* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(globalCtx->game.gfxCtx->polyOpa.p++, this->puppet.colorTunic.r, this->puppet.colorTunic.g, this->puppet.colorTunic.b, this->puppet.colorTunic.a);
 
     // Teardrop / feet shadow drawn by callback from ActorShape_Init, feetpos is set in AnimateCallback
@@ -298,16 +339,4 @@ void draw(entity_t* this, GlobalContext* globalCtx) {
         this->puppet.soundId = 0;
     }
 }
-
-const ActorInit initVars = {
-    .id = 5,
-    .category = ACTORLIST_CATEGORY_NPC,
-    .flags = 0x00002431,
-    .objectId = 1,
-    .instanceSize = sizeof(entity_t),
-    .init = init,
-    .destroy = destroy,
-    .update = update,
-    .draw = draw
-};
 

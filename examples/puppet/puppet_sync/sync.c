@@ -1,8 +1,12 @@
 #include "../puppet.h"
-#include "../puppet.c"
-#include <libzelda64/lib/types/Player.h>
 
-#define LINK 0x80800000 // Change this to be the start offset in RAM of Link's instance, or whever the start of `player_t` is.
+/*#if OOT_DEBUG
+    #define LINK 0x802245B0
+#elif OOT_U_1_0
+    #define LINK 0x801DAA30
+#endif*/
+
+#define LINK 0x801DAA30
 
 #define SYNC_START (ooto_sync_object_t){"sync_start", 0x0, 0x0}
 #define SYNC_END (ooto_sync_object_t){"sync_end", 0x0, 0x0}
@@ -20,12 +24,11 @@ typedef struct sync_obj_s {
     uint32_t buffer_size;
 } ooto_sync_object_t;
 
-Player* player = (Player*) LINK;
-
-volatile ooto_sync_object_t sync[] = {
+volatile ooto_sync_object_t sync_entries[] = {
     SYNC_START,
-    SYNC("world", Player, en_puppet_t, actor.world),
-    SYNC("anim", Player, en_puppet_t, actor.world),
-    SYNC('backDlist', Player, puppet_info_t, ),
+    SYNC("world_pos", Player, entity_t, actor.world),
+    SYNC("focus_pos", Player, entity_t, actor.focus),
     SYNC_END
 };
+
+#include "../puppet.c"

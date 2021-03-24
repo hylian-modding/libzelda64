@@ -1,0 +1,117 @@
+
+puppet.elf:     file format elf32-bigmips
+
+SYMBOL TABLE:
+80800000 l    d  .text	00000000 .text
+80801e80 l    d  .data	00000000 .data
+80801ef0 l    d  .rodata	00000000 .rodata
+80802040 l    d  .MIPS.abiflags	00000000 .MIPS.abiflags
+80802058 l    d  .bss	00000000 .bss
+00000000 l    d  .reginfo	00000000 .reginfo
+00000000 l    d  .pdr	00000000 .pdr
+00000000 l    d  .mdebug.abi32	00000000 .mdebug.abi32
+00000000 l    d  .comment	00000000 .comment
+00000000 l    d  .gnu.attributes	00000000 .gnu.attributes
+00000000 l    d  .debug_info	00000000 .debug_info
+00000000 l    d  .debug_abbrev	00000000 .debug_abbrev
+00000000 l    d  .debug_aranges	00000000 .debug_aranges
+00000000 l    d  .debug_ranges	00000000 .debug_ranges
+00000000 l    d  .debug_line	00000000 .debug_line
+00000000 l    d  .debug_str	00000000 .debug_str
+00000000 l    d  .debug_frame	00000000 .debug_frame
+00000000 l    df *ABS*	00000000 /home/nick/Zelda/libzelda64/gcc/mips64/include/libzelda64/lib/types/Vec3f.h
+80800000 l     F .text	00000078 Math3D_Vec3f_MulF
+80800078 l     F .text	00000094 Math3D_Vec3f_DivF
+8080010c l     F .text	00000084 Math3D_Vec3f_MulV
+80800190 l     F .text	000000cc Math3D_Vec3f_DivV
+8080025c l     F .text	00000084 Math3D_Vec3f_AddV
+808002e0 l     F .text	00000084 Math3D_Vec3f_SubV
+80020f88 l       *ABS*	00000000 Actor_SetScale
+8001f280 l       *ABS*	00000000 ActorShadow_DrawFeet
+8001f74c l       *ABS*	00000000 Actor_SetFeetPos
+80020eb4 l       *ABS*	00000000 Actor_Kill
+8001ec20 l       *ABS*	00000000 ActorShape_Init
+80058ff8 l       *ABS*	00000000 Audio_PlaySoundAtPosition
+8004acec l       *ABS*	00000000 Collider_SetCylinder
+8004abcc l       *ABS*	00000000 Collider_DestroyCylinder
+8004ab7c l       *ABS*	00000000 Collider_InitCylinder
+80050b00 l       *ABS*	00000000 Collider_UpdateCylinder
+8004c130 l       *ABS*	00000000 CollisionCheck_SetOC
+80033ef4 l       *ABS*	00000000 CollisionHeader_GetVirtual
+80028048 l       *ABS*	00000000 Gfx_DrawDListOpa
+800aa6ec l       *ABS*	00000000 Matrix_Push
+800aa7f4 l       *ABS*	00000000 Matrix_Translate
+800aaf00 l       *ABS*	00000000 Matrix_RotateRPY
+800aa8fc l       *ABS*	00000000 Matrix_Scale
+800aa724 l       *ABS*	00000000 Matrix_Pull
+800ab1bc l       *ABS*	00000000 Matrix_JointPosition
+800ab958 l       *ABS*	00000000 Matrix_MultVec3f
+8008c000 l       *ABS*	00000000 LinkAnimation_Change
+8008bca4 l       *ABS*	00000000 LinkAnimation_Update
+80081628 l       *ABS*	00000000 Object_GetIndex
+8008c684 l       *ABS*	00000000 SkelAnime_Init
+8008c788 l       *ABS*	00000000 SkelAnime_InitFlex
+8008bb08 l       *ABS*	00000000 SkelAnime_InitLink
+8008d17c l       *ABS*	00000000 SkelAnime_ChangeAnim
+8008993c l       *ABS*	00000000 SkelAnime_DrawOpa
+80089d8c l       *ABS*	00000000 SkelAnime_DrawFlexOpa
+8008a158 l       *ABS*	00000000 Animation_GetLength
+8002f4b8 l       *ABS*	00000000 BgCheck_EntityRaycastFloor4
+80021e6c l       *ABS*	00000000 Actor_UpdateBgCheckInfo
+8008b5c0 l       *ABS*	00000000 AnimationContext_SetCopyAll
+8008b698 l       *ABS*	00000000 AnimationContext_SetCopyTrue
+8008b708 l       *ABS*	00000000 AnimationContext_SetCopyFalse
+8008b628 l       *ABS*	00000000 AnimationContext_SetInterp
+800cdccc l       *ABS*	00000000 Rand_ZeroOne
+80063bf0 l       *ABS*	00000000 Math_Rand_S16Offset
+800cd76c l       *ABS*	00000000 Math_FAtan2F
+800d0dc0 l       *ABS*	00000000 sqrtf
+8006385c l       *ABS*	00000000 Math_StepToF
+80063684 l       *ABS*	00000000 Math_CosS
+800636c4 l       *ABS*	00000000 Math_SinS
+800a4650 l       *ABS*	00000000 Math_CosF
+800a45fc l       *ABS*	00000000 Math_SinF
+800a54e4 l       *ABS*	00000000 Math3D_Vec3fMagnitudeSq
+800a5510 l       *ABS*	00000000 Math3D_Vec3fMagnitude
+800a56b8 l       *ABS*	00000000 Math3D_Vec3f_Cross
+80800364 l     F .text	000000b4 Helper_EyeBlink
+808015c4 l     F .text	00000270 init
+80801834 l     F .text	0000006c destroy
+808019d8 l     F .text	00000374 update
+80801d4c l     F .text	0000012c draw
+80800af8 l     F .text	0000016c SkelAnime_InitLink_Custom
+80800c64 l     F .text	0000007c memcpy
+80800ce0 l     F .text	00000828 AnimateCallback
+80801508 l     F .text	000000bc OtherCallback
+808018a0 l     F .text	00000138 SkelAnimeSyncPair_Update
+80801f3c g     O .rodata	00000018 footOffsets
+80801f1c g     O .rodata	00000020 damageTable
+80800418 g     F .text	000006e0 FootIK
+80801ef0 g     O .rodata	0000002c colliderInit
+80801ee8 g       .data	00000000 _gp
+80800000 g       .text	00000000 __text_start
+80801ec0 g     O .data	00000008 D_80126058
+80802040 g       .rodata	00000000 __rodata_end
+80801f64 g     O .rodata	00000008 ageProperties_38
+80801f54 g     O .rodata	00000008 shadowScales
+80802058 g     O .bss	00000004 Oot_Mask
+80802068 g       .bss	00000000 __bss_end
+80801ed8 g     O .data	0000000c D_80126070
+80801ed0 g     O .data	00000008 D_80126068
+80802068 g       .bss	00000000 end
+80801ef0 g       .rodata	00000000 __rodata_start
+80801ef0 g       .data	00000000 __data_end
+8080205c g     O .bss	0000000c D_8012602C
+80801e80 g       .text	00000000 __text_end
+80801f5c g     O .rodata	00000008 ageProperties_00
+80802058 g       .bss	00000000 __bss_start
+80801e80 g     O .data	00000020 initVars
+80801ea0 g     O .data	00000018 D_80126038
+80801ec8 g     O .data	00000008 D_80126060
+80801eb8 g     O .data	00000008 D_80126050
+80801f6c g     O .rodata	00000004 white
+80801f70 g     O .rodata	00000016 copyFlags
+80801e80 g       .data	00000000 __data_start
+80800000 g       *ABS*	00000000 ENTRY_POINT
+
+

@@ -9,9 +9,10 @@ CFLAGS = -Iinclude -G 0 -Os 						\
 --std=gnu99 -mtune=vr4300 -mabi=32 -mips3 			\
 -mno-explicit-relocs -mno-memcpy -ffreestanding		\
 -Wno-main -mno-gpopt -Wno-unused-function 			\
--fomit-frame-pointer -mno-check-zero-division		
-LDFLAGS = --emit-relocs -T										
-LDFLAGS = -L$(Z64OVL_LD) -T z64ovl.ld --emit-relocs
+-fomit-frame-pointer -mno-check-zero-division
+
+LDFLAGS = -L$(LIBZ64_PATH) -T $(LIBZ64_LD) --emit-relocs
+NOVLFLAGS = -s -c -A $(ADDRESS) -o $(OVLOUT)
 
 default: clean sync_data
 
@@ -23,14 +24,13 @@ sync_data:
 	@$(CC) -c sync.c $(CFLAGS)
 	@$(LD) -o sync.elf sync.o $(LDFLAGS) $(LDFILE)
 	@$(OBJCOPY) -R .MIPS.abiflags -O binary sync.elf sync.bin
-	@echo -n "data_start=0x" > d.txt
-	@$(OBJDUMP) -t sync.elf | grep "l    d  .data" | cut -c1-8 >> d.txt
-	@echo -n "ivars=0x" >> d.txt
-	@$(OBJDUMP) -t sync.elf | grep "init_vars" | cut -c1-8 >> d.txt
-	@makets/makets
-	@mv PuppetData.ts ../PuppetData.ts
-	@echo "Success!"
-	@rm -f *.bin *.elf *.o entry.ld
+	@echo -n "data_start=0x" > sync_sym.txt
+	@$(OBJDUMP) -t sync.elf | grep "sync_entries" | cut -c1-8 >> sync_sym.txt
+	@echo -n "ivars=0x" >> sync_sym.txt
+	@$(OBJDUMP) -t sync.elf | grep "initVars" | cut -c1-8 >> sync_sym.txt
+	@node makeData/makets.js
+	@echo "Congratualtions! This was a massive pain in the <redacted>!"
+	@rm -f *.bin *.elf *.o *.ld *.txt
 
 clean:
-	@rm -f *.bin *.elf *.o
+	@rm -f *.bin *.elf *.o *.ld

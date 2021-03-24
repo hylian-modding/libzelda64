@@ -1,7 +1,7 @@
 "use strict";
 exports.__esModule = true;
 var fs = require("fs");
-var symbolMap = "symbols.txt";
+var symbolMap = "sync_sym.txt";
 var syncObject = fs.readFileSync("sync.bin");
 var syncEntries = [];
 function parseSymbols(path) {
@@ -39,6 +39,7 @@ function writeEntries(func) {
     }
     return copyFields;
 }
+//console.log(`${process.argv}`);
 // Parse Symbols and Extract Sync Data Entries
 var syncSymbolData = parseSymbols(symbolMap);
 if (syncObject) {
@@ -61,15 +62,18 @@ if (syncObject) {
     console.log(syncEntries);
 }
 if (syncEntries) {
-    fs.readFile("template.ts", 'utf8', function (err, data) {
+    fs.readFile("/home/nick/Zelda/libzelda64/examples/puppet/puppet_sync/makeData/template.ts", 'utf8', function (err, data) {
         if (err) {
             return console.log(err);
         }
         var result = data.replace(/push_entries/g, "" + writeEntries(0)).replace(/fields_to_sync/g, "" + writeEntries(1));
-        fs.writeFile("PuppetData.ts", result, 'utf8', function (err) {
+        fs.writeFile("../PuppetData.ts", result, 'utf8', function (err) {
             if (err)
                 return console.log(err);
         });
     });
     //writeEntries();
+}
+else {
+    console.log("No Sync Entries!");
 }

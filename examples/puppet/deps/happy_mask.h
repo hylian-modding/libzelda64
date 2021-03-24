@@ -1,0 +1,17 @@
+#ifndef __PUPPET_MASK_H__
+#define __PUPPET_MASK_H__
+
+enum {
+    OOT_MASK_NONE,
+    OOT_MASK_KEATON,
+    OOT_MASK_SKULL,
+    OOT_MASK_SPOOKY,
+    OOT_MASK_BUNNY_HOOD,
+    OOT_MASK_GORON,
+    OOT_MASK_ZORA,
+    OOT_MASK_GERUDO,
+    OOT_MASK_TRUTH,
+    OOT_MASK_COUNT
+} Oot_Mask;
+
+#endif /* __PUPPET_MASK_H__ */
