@@ -3,10 +3,10 @@ puppet.elf:     file format elf32-bigmips
 
 SYMBOL TABLE:
 80800000 l    d  .text	00000000 .text
-80801e80 l    d  .data	00000000 .data
-80801ef0 l    d  .rodata	00000000 .rodata
-80802040 l    d  .MIPS.abiflags	00000000 .MIPS.abiflags
-80802058 l    d  .bss	00000000 .bss
+80801f00 l    d  .data	00000000 .data
+80801f70 l    d  .rodata	00000000 .rodata
+808020c0 l    d  .MIPS.abiflags	00000000 .MIPS.abiflags
+808020d8 l    d  .bss	00000000 .bss
 00000000 l    d  .reginfo	00000000 .reginfo
 00000000 l    d  .pdr	00000000 .pdr
 00000000 l    d  .mdebug.abi32	00000000 .mdebug.abi32
@@ -75,43 +75,44 @@ SYMBOL TABLE:
 800a5510 l       *ABS*	00000000 Math3D_Vec3fMagnitude
 800a56b8 l       *ABS*	00000000 Math3D_Vec3f_Cross
 80800364 l     F .text	000000b4 Helper_EyeBlink
-808015c4 l     F .text	00000270 init
-80801834 l     F .text	0000006c destroy
-808019d8 l     F .text	00000374 update
-80801d4c l     F .text	0000012c draw
+80801640 l     F .text	00000270 init
+808018b0 l     F .text	0000006c destroy
+80801a54 l     F .text	00000374 update
+80801dc8 l     F .text	0000012c draw
 80800af8 l     F .text	0000016c SkelAnime_InitLink_Custom
 80800c64 l     F .text	0000007c memcpy
-80800ce0 l     F .text	00000828 AnimateCallback
-80801508 l     F .text	000000bc OtherCallback
-808018a0 l     F .text	00000138 SkelAnimeSyncPair_Update
-80801f3c g     O .rodata	00000018 footOffsets
-80801f1c g     O .rodata	00000020 damageTable
+80800ce0 l     F .text	0000007c IsZobjLoaded
+80800d5c l     F .text	00000828 AnimateCallback
+80801584 l     F .text	000000bc OtherCallback
+8080191c l     F .text	00000138 SkelAnimeSyncPair_Update
+80801fbc g     O .rodata	00000018 footOffsets
+80801f9c g     O .rodata	00000020 damageTable
 80800418 g     F .text	000006e0 FootIK
-80801ef0 g     O .rodata	0000002c colliderInit
-80801ee8 g       .data	00000000 _gp
+80801f70 g     O .rodata	0000002c colliderInit
+80801f68 g       .data	00000000 _gp
 80800000 g       .text	00000000 __text_start
-80801ec0 g     O .data	00000008 D_80126058
-80802040 g       .rodata	00000000 __rodata_end
-80801f64 g     O .rodata	00000008 ageProperties_38
-80801f54 g     O .rodata	00000008 shadowScales
-80802058 g     O .bss	00000004 Oot_Mask
-80802068 g       .bss	00000000 __bss_end
-80801ed8 g     O .data	0000000c D_80126070
-80801ed0 g     O .data	00000008 D_80126068
-80802068 g       .bss	00000000 end
-80801ef0 g       .rodata	00000000 __rodata_start
-80801ef0 g       .data	00000000 __data_end
-8080205c g     O .bss	0000000c D_8012602C
-80801e80 g       .text	00000000 __text_end
-80801f5c g     O .rodata	00000008 ageProperties_00
-80802058 g       .bss	00000000 __bss_start
-80801e80 g     O .data	00000020 initVars
-80801ea0 g     O .data	00000018 D_80126038
-80801ec8 g     O .data	00000008 D_80126060
-80801eb8 g     O .data	00000008 D_80126050
-80801f6c g     O .rodata	00000004 white
-80801f70 g     O .rodata	00000016 copyFlags
-80801e80 g       .data	00000000 __data_start
+80801f40 g     O .data	00000008 D_80126058
+808020c0 g       .rodata	00000000 __rodata_end
+80801fe4 g     O .rodata	00000008 ageProperties_38
+80801fd4 g     O .rodata	00000008 shadowScales
+808020d8 g     O .bss	00000004 Oot_Mask
+808020e8 g       .bss	00000000 __bss_end
+80801f58 g     O .data	0000000c D_80126070
+80801f50 g     O .data	00000008 D_80126068
+808020e8 g       .bss	00000000 end
+80801f70 g       .rodata	00000000 __rodata_start
+80801f70 g       .data	00000000 __data_end
+808020dc g     O .bss	0000000c D_8012602C
+80801f00 g       .text	00000000 __text_end
+80801fdc g     O .rodata	00000008 ageProperties_00
+808020d8 g       .bss	00000000 __bss_start
+80801f00 g     O .data	00000020 initVars
+80801f20 g     O .data	00000018 D_80126038
+80801f48 g     O .data	00000008 D_80126060
+80801f38 g     O .data	00000008 D_80126050
+80801fec g     O .rodata	00000004 white
+80801ff0 g     O .rodata	00000016 copyFlags
+80801f00 g       .data	00000000 __data_start
 80800000 g       *ABS*	00000000 ENTRY_POINT
 
 

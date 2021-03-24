@@ -14,7 +14,7 @@ const Color_RGBA8_u32 white = {.rgba = 0xFFFFFFFF};
 
 const uint8_t copyFlags[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 
-static inline void SkelAnime_InitLink_Custom(struct GlobalContext* globalCtx, struct SkelAnime* skelAnime, struct FlexSkeletonHeader* skeletonHeaderSeg,
+static void SkelAnime_InitLink_Custom(struct GlobalContext* globalCtx, struct SkelAnime* skelAnime, struct FlexSkeletonHeader* skeletonHeaderSeg,
                         struct LinkAnimationHeader* animation, int32_t flags, struct Vec3s* jointTable, struct Vec3s* morphTable,
                         int32_t limbBufCount) {
     struct FlexSkeletonHeader* skeletonHeader = skeletonHeaderSeg;
@@ -42,7 +42,7 @@ static inline void SkelAnime_InitLink_Custom(struct GlobalContext* globalCtx, st
     if (animation != NULL) LinkAnimation_Change(globalCtx, skelAnime, animation, 1.0f, 0.0f, 0.0f, ANIMMODE_LOOP, 0.0f);
 }
 
-static inline void* memcpy(void* dest, const void* src, uint32_t len) {
+static void* memcpy(void* dest, const void* src, uint32_t len) {
     char* d = dest;
     const char* s = src;
     while (len--) {
@@ -51,13 +51,13 @@ static inline void* memcpy(void* dest, const void* src, uint32_t len) {
     return dest;
 }
 
-static inline int32_t IsZobjLoaded(GlobalContext* globalCtx, int32_t id) {
+static int32_t IsZobjLoaded(GlobalContext* globalCtx, int32_t id) {
     int32_t index = Object_GetIndex(&globalCtx->objectCtx, id);
     if (index < 0) return 0;
     else return 1;
 }
 
-static inline int32_t AnimateCallback(struct GlobalContext* globalCtx, int32_t limbIndex, struct Gfx** dList, struct Vec3f* pos, Vec3s* rot, entity_t* this) {
+static int32_t AnimateCallback(struct GlobalContext* globalCtx, int32_t limbIndex, struct Gfx** dList, struct Vec3f* pos, Vec3s* rot, entity_t* this) {
     TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
     int32_t limbNumber = limbIndex; /*- 1; // OG puppet did this, but I think it's because our old enum began at ROOT instead of NONE */
 
@@ -186,7 +186,7 @@ static inline int32_t AnimateCallback(struct GlobalContext* globalCtx, int32_t l
     return 0;
 }
 
-static inline int32_t OtherCallback(struct GlobalContext* globalCtx, int32_t limbIndex, struct Gfx** dList, struct Vec3s* rot, entity_t* this) {
+static int32_t OtherCallback(struct GlobalContext* globalCtx, int32_t limbIndex, struct Gfx** dList, struct Vec3s* rot, entity_t* this) {
     TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
     gSPSegment(polyOpa->p++, 8, this->puppet.eyeTexture);
     gSPSegment(polyOpa->p++, 9, baseToPointer(this, 0x00004000));
@@ -194,7 +194,7 @@ static inline int32_t OtherCallback(struct GlobalContext* globalCtx, int32_t lim
 }
 
 
-static inline void init(entity_t* this, GlobalContext* globalCtx) {
+static void init(entity_t* this, GlobalContext* globalCtx) {
     Player* player = ((Player*)globalCtx->actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head);
     this->actor.room = 0xFF;
     this->puppet.age = (uint32_t) this->actor.params;
@@ -256,7 +256,7 @@ static inline void init(entity_t* this, GlobalContext* globalCtx) {
     MLDEBUG_END(this, 0xDEADBEEF);
 }
 
-static inline void destroy(entity_t* this, GlobalContext* globalCtx) {
+static void destroy(entity_t* this, GlobalContext* globalCtx) {
     if (this->actor.child) {
         this->actor.child->parent = 0;
         Actor_Kill(this->actor.child);
@@ -264,7 +264,7 @@ static inline void destroy(entity_t* this, GlobalContext* globalCtx) {
     }
 }
 
-static inline void SkelAnimeSyncPair_Update(GlobalContext* globalCtx, SkelAnimeSyncPair* this) {
+static void SkelAnimeSyncPair_Update(GlobalContext* globalCtx, SkelAnimeSyncPair* this) {
     if (this->skelAnime.curFrame < this->syncFrame) this->skelAnime.curFrame = this->syncFrame;
 
     LinkAnimation_Update(globalCtx, &this->skelAnime);
@@ -285,7 +285,7 @@ static inline void SkelAnimeSyncPair_Update(GlobalContext* globalCtx, SkelAnimeS
     } 
 }
 
-static inline void update(entity_t* this, GlobalContext* globalCtx) {
+static void update(entity_t* this, GlobalContext* globalCtx) {
 
     Vec3f focusPos;
     Player* player = ((Player*)globalCtx->actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head);
@@ -328,7 +328,7 @@ static inline void update(entity_t* this, GlobalContext* globalCtx) {
     this->actor.focus.rot = this->actor.world.rot;
 }
 
-static inline void draw(entity_t* this, GlobalContext* globalCtx) {
+static void draw(entity_t* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(globalCtx->game.gfxCtx->polyOpa.p++, this->puppet.colorTunic.r, this->puppet.colorTunic.g, this->puppet.colorTunic.b, this->puppet.colorTunic.a);
 
     // Teardrop / feet shadow drawn by callback from ActorShape_Init, feetpos is set in AnimateCallback

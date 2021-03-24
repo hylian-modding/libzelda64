@@ -73,7 +73,7 @@ if (syncObject) {
 }
 
 if (syncEntries){
-    fs.readFile("/home/nick/Zelda/libzelda64/examples/puppet/puppet_sync/makeData/template.ts", 'utf8', (err, data) => {
+    fs.readFile("makeData/template.ts", 'utf8', (err, data) => {
         if (err) {
             return console.log(err);
         }
