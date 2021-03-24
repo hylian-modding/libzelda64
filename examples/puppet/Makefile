@@ -6,24 +6,26 @@ PARTS = $(PROGRAM).o
 
 CC   = @mips64-gcc
 LD   = mips64-ld
-NOVL = novl
+NOVL = nOVL
 
-CFLAGS = -I$(LIBZ64_PATH) -D_LANGUAGE_C -DF3DEX_GBI_2 -D_MLDEBUG -G 0 -g -O0                            \
--std=gnu99 -mtune=vr4300 -march=vr4300 -mabi=32 -mips3            \
--mno-shared -mdivide-breaks -mno-explicit-relocs -mno-memcpy    \
+CFLAGS = -I$(LIBZ64_PATH) -D_LANGUAGE_C -DF3DEX_GBI_2 -D_MLDEBUG -G 0 -g -O0	\
+-std=gnu99 -mtune=vr4300 -march=vr4300 -mabi=32 -mips3							\
+-mno-shared -mdivide-breaks -mno-explicit-relocs -mno-memcpy					\
 -mno-check-zero-division -ffreestanding -fno-reorder-blocks
 
 LDFLAGS = -L$(LIBZ64_PATH) -T $(LIBZ64_LD) --emit-relocs
 NOVLFLAGS = -s -c -A $(ADDRESS) -o $(OVLOUT)
 
-default: clean entry $(PROGRAM).ovl symbols make_sync
+default: clean entry $(PROGRAM).ovl
 
 $(PROGRAM).ovl: $(PARTS)
 	@$(LD) -o $(PROGRAM).elf $(PARTS) $(LDFLAGS)
 	@$(NOVL) $(NOVLFLAGS) $(PROGRAM).elf
 	@echo "Generated $(PROGRAM).elf"
 	@echo "Compiling..."
-	@echo ${OVLOUT} written successfully!
+	@mv $(OVLOUT) bin/$(OVLOUT)
+	@echo bin/$(OVLOUT) written successfully!
+	@rm *.elf *.o *.ld
 
 entry:
 	@echo -n "ENTRY_POINT = "$(ADDRESS) > entry.ld
@@ -33,10 +35,11 @@ entry:
 symbols:
 	@$(OBJDUMP) -t $(PROGRAM).elf > symbols.txt
 
-make_sync:
+sync:
 	@echo Generating Instance Sync Data...
-	@$(MAKE) -s -C puppet_sync
-	@echo PuppetData.ts written successfully!
+	@$(MAKE) -s -C sync
+	@mv PuppetData.ts bin/PuppetData.ts
+	@echo bin/PuppetData.ts written successfully!
 
 clean:
 	@rm -f $(PROGRAM).elf $(OVLOUT) $(PARTS) entry.ld

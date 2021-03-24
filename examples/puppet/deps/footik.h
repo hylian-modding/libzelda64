@@ -1,7 +1,7 @@
 #ifndef FOOTIK_H
 #define FOOTIK_H
 
-#include "puppet.h"
+#include "../puppet.h"
 
 /*
 Link's func:

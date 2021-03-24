@@ -9,7 +9,8 @@ typedef enum {
     MTXMODE_APPLY // applies transformation to the current matrix
 } MatrixMode;
 
-extern void Gfx_DrawDListOpa(struct GlobalContext* globalCtx, struct Gfx* dlist);
+#define DrawDlistOpa(DLIST) (Gfx_DrawDListOpa)(globalCtx, (DLIST));
+extern void (Gfx_DrawDListOpa)(struct GlobalContext* globalCtx, struct Gfx* dlist);
 asm("Gfx_DrawDListOpa = 0x80028048");
 
 extern void Matrix_Push(void);
@@ -25,9 +26,9 @@ extern void Matrix_Scale(float x, float y, float z, int32_t mode);
 asm("Matrix_Scale = 0x800AA8FC");
 
 // called Matrix_Pop in decomp, Pull is another function. Poe's sheet is wack?
+#define Matrix_Pop Matrix_Pull
 extern void Matrix_Pull(void);
 asm("Matrix_Pull = 0x800AA724");
-#define Matrix_Pop Matrix_Pull
 
 extern void Matrix_JointPosition(struct Vec3f* position, struct Vec3f* rotation);
 asm("Matrix_JointPosition = 0x800AB1BC");

@@ -1,5 +1,5 @@
 #include "puppet.h"
-#include "footik.h"
+#include "deps/footik.h"
 
 const Vec3f footOffsets[] = {
     { 200.0f, 300.0f, 0.0f },
@@ -14,10 +14,17 @@ const Color_RGBA8_u32 white = {.rgba = 0xFFFFFFFF};
 
 const uint8_t copyFlags[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 
-// It's right here.
-static void SkelAnime_InitLink_Custom(struct GlobalContext* globalCtx, struct SkelAnime* skelAnime, struct FlexSkeletonHeader* skeletonHeaderSeg,
-                        struct LinkAnimationHeader* animation, int32_t flags, struct Vec3s* jointTable, struct Vec3s* morphTable,
-                        int32_t limbBufCount) {
+static void SkelAnime_InitLink_Custom(
+    struct GlobalContext* globalCtx
+    , struct SkelAnime* skelAnime
+    , struct FlexSkeletonHeader* skeletonHeaderSeg
+    , struct LinkAnimationHeader* animation
+    , int32_t flags
+    , struct Vec3s* jointTable
+    , struct Vec3s* morphTable
+    , int32_t limbBufCount
+)
+{
     struct FlexSkeletonHeader* skeletonHeader = skeletonHeaderSeg;
     int32_t headerJointCount = skeletonHeader->sh.limbCount;
     int32_t limbCount;
@@ -43,6 +50,7 @@ static void SkelAnime_InitLink_Custom(struct GlobalContext* globalCtx, struct Sk
     if (animation != NULL) LinkAnimation_Change(globalCtx, skelAnime, animation, 1.0f, 0.0f, 0.0f, ANIMMODE_LOOP, 0.0f);
 }
 
+// TODO: Move to a more appropriate header or file.
 static void* memcpy(void* dest, const void* src, uint32_t len) {
     char* d = dest;
     const char* s = src;
@@ -52,142 +60,150 @@ static void* memcpy(void* dest, const void* src, uint32_t len) {
     return dest;
 }
 
-static int32_t IsZobjLoaded(GlobalContext* globalCtx, int32_t id) {
-    int32_t index = Object_GetIndex(&globalCtx->objectCtx, id);
-    if (index < 0) return 0;
-    else return 1;
-}
-
-static int32_t AnimateCallback(struct GlobalContext* globalCtx, int32_t limbIndex, struct Gfx** dList, struct Vec3f* pos, Vec3s* rot, entity_t* this) {
+static int32_t AnimateCallback(
+    struct GlobalContext* globalCtx
+    , int32_t limbIndex
+    , struct Gfx** dList
+    , struct Vec3f* pos
+    , Vec3s* rot
+    , entity_t* this
+)
+{
     TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
     int32_t limbNumber = limbIndex; /*- 1; // OG puppet did this, but I think it's because our old enum began at ROOT instead of NONE */
 
-    Actor_SetFeetPos(&this->actor, limbIndex, PLAYER_LIMB_L_FOOT, &footOffsets[this->puppet.age], PLAYER_LIMB_R_FOOT, &footOffsets[this->puppet.age]);
+    Actor_SetFeetPos(&this->actor, limbIndex, PLAYER_LIMB_FOOT_L, &footOffsets[this->puppet.age], PLAYER_LIMB_FOOT_L, &footOffsets[this->puppet.age]);
 
     // TODO:
     switch (limbNumber) {
-        case PLAYER_LIMB_NONE:
-            break;
-        case PLAYER_LIMB_ROOT:
-            break;
-        case PLAYER_LIMB_WAIST:
-            break;
-        case PLAYER_LIMB_LOWER:
-            break;
-        case PLAYER_LIMB_R_THIGH:
-            FootIK(globalCtx, this, &this->skelAnime0.skelAnime, pos, rot, PLAYER_LIMB_R_THIGH, PLAYER_LIMB_R_SHIN, PLAYER_LIMB_R_FOOT);
-            break;
-        case PLAYER_LIMB_R_SHIN:
-            break;
-        case PLAYER_LIMB_R_FOOT:
-            if (this->puppet.boots == PLAYER_BOOTS_IRON) {
-                Gfx_DrawDListOpa(globalCtx, baseToPointer(this, ADULT_LINK_LUT_DL_BOOT_RHOVER));
+        case PLAYER_LIMB_NONE: {
+        } break;
+        case PLAYER_LIMB_ROOT: {
+        } break;
+        case PLAYER_LIMB_WAIST: {
+        } break;
+        case PLAYER_LIMB_LOWER: {
+        } break;
+        case PLAYER_LIMB_THIGH_R: {
+            FootIK(globalCtx, this, &this->skelAnime0.skelAnime, pos, rot, PLAYER_LIMB_THIGH_R, PLAYER_LIMB_SHIN_R, PLAYER_LIMB_FOOT_R);
+        } break;
+        case PLAYER_LIMB_SHIN_R: {
+        } break;
+        case PLAYER_LIMB_FOOT_R: {
+            uint32_t bootDList = 0;
+            if (this->puppet.boots > PLAYER_BOOTS_NORMAL) {
+                bootDList = (this->puppet.boots > 1) ? ADULT_LINK_LUT_DL_BOOT_RIRON : ADULT_LINK_LUT_DL_BOOT_RHOVER;
+                DrawDlistOpa(baseToPointer(this, bootDList));
             }
-            else if (this->puppet.boots == PLAYER_BOOTS_HOVER) {
-                Gfx_DrawDListOpa(globalCtx, baseToPointer(this, ADULT_LINK_LUT_DL_BOOT_RIRON));
+        } break;
+        case PLAYER_LIMB_THIGH_L: {
+            FootIK(globalCtx, this, &this->skelAnime0.skelAnime, pos, rot, PLAYER_LIMB_THIGH_L, PLAYER_LIMB_SHIN_L, PLAYER_LIMB_FOOT_L);
+        } break;
+        case PLAYER_LIMB_SHIN_L: {
+        } break;
+        case PLAYER_LIMB_FOOT_L: {
+            uint32_t bootDList = 0;
+            if (this->puppet.boots > PLAYER_BOOTS_NORMAL) {
+                bootDList = (this->puppet.boots > 1) ? ADULT_LINK_LUT_DL_BOOT_LIRON : ADULT_LINK_LUT_DL_BOOT_LHOVER;
+                DrawDlistOpa(baseToPointer(this, bootDList));
             }
-            break;
-        case PLAYER_LIMB_L_THIGH:
-            FootIK(globalCtx, this, &this->skelAnime0.skelAnime, pos, rot, PLAYER_LIMB_L_THIGH, PLAYER_LIMB_L_SHIN, PLAYER_LIMB_L_FOOT);
-            break;
-        case PLAYER_LIMB_L_SHIN:
-            break;
-        case PLAYER_LIMB_L_FOOT:
-            if (this->puppet.boots == PLAYER_BOOTS_IRON) {
-                Gfx_DrawDListOpa(globalCtx, baseToPointer(this, ADULT_LINK_LUT_DL_BOOT_LHOVER));
-            }
-            else if (this->puppet.boots == PLAYER_BOOTS_HOVER) {
-                Gfx_DrawDListOpa(globalCtx, baseToPointer(this, ADULT_LINK_LUT_DL_BOOT_LIRON));
-            }
-            break;
-        case PLAYER_LIMB_UPPER:
-            break;
-        case PLAYER_LIMB_HEAD:
+        } break;
+        case PLAYER_LIMB_UPPER: {
+        } break;
+        case PLAYER_LIMB_HEAD: {
             if (!AGE_IS_ADULT(this->puppet.age)) {
                 switch (this->puppet.mask)
                 {
                     case OOT_MASK_KEATON:
-                        Gfx_DrawDListOpa(globalCtx, baseToPointer(this, CHILD_LINK_LUT_DL_MASK_KEATON));
+                        DrawDlistOpa(baseToPointer(this, CHILD_LINK_LUT_DL_MASK_KEATON));
                         break;
                     case OOT_MASK_SKULL:
-                        Gfx_DrawDListOpa(globalCtx, baseToPointer(this, CHILD_LINK_LUT_DL_MASK_SKULL));
+                        DrawDlistOpa(baseToPointer(this, CHILD_LINK_LUT_DL_MASK_SKULL));
                         break;
                     case OOT_MASK_SPOOKY:
-                        Gfx_DrawDListOpa(globalCtx, baseToPointer(this, CHILD_LINK_LUT_DL_MASK_SPOOKY));
+                        DrawDlistOpa(baseToPointer(this, CHILD_LINK_LUT_DL_MASK_SPOOKY));
                         break;
                     case OOT_MASK_BUNNY_HOOD:
-                        Gfx_DrawDListOpa(globalCtx, baseToPointer(this, CHILD_LINK_LUT_DL_MASK_BUNNY));
+                        DrawDlistOpa(baseToPointer(this, CHILD_LINK_LUT_DL_MASK_BUNNY));
                         break;
                     case OOT_MASK_GORON:
-                        Gfx_DrawDListOpa(globalCtx, baseToPointer(this, CHILD_LINK_LUT_DL_MASK_GORON));
+                        DrawDlistOpa(baseToPointer(this, CHILD_LINK_LUT_DL_MASK_GORON));
                         break;
                     case OOT_MASK_ZORA:
-                        Gfx_DrawDListOpa(globalCtx, baseToPointer(this, CHILD_LINK_LUT_DL_MASK_ZORA));
+                        DrawDlistOpa(baseToPointer(this, CHILD_LINK_LUT_DL_MASK_ZORA));
                         break;
                     case OOT_MASK_GERUDO:
-                        Gfx_DrawDListOpa(globalCtx, baseToPointer(this, CHILD_LINK_LUT_DL_MASK_GERUDO));
+                        DrawDlistOpa(baseToPointer(this, CHILD_LINK_LUT_DL_MASK_GERUDO));
                         break;
                     case OOT_MASK_TRUTH:
-                        Gfx_DrawDListOpa(globalCtx, baseToPointer(this, CHILD_LINK_LUT_DL_MASK_TRUTH));
+                        DrawDlistOpa(baseToPointer(this, CHILD_LINK_LUT_DL_MASK_TRUTH));
                         break;
                 }
             }
-            break;
-        case PLAYER_LIMB_HAT:
-            break;
-        case PLAYER_LIMB_COLLAR:
-            break;
-        case PLAYER_LIMB_L_SHOULDER:
-            break;
-        case PLAYER_LIMB_L_FOREARM:
-            if (this->puppet.strength) {
+        } break;
+        case PLAYER_LIMB_HAT: {
+        } break;
+        case PLAYER_LIMB_COLLAR: {
+        } break;
+        case PLAYER_LIMB_SHOULDER_L: {
+        } break;
+        case PLAYER_LIMB_FOREARM_L: {
+            if (this->puppet.strength)
+            {
                 gDPSetEnvColor(polyOpa->p++, this->puppet.colorGauntlet.r, this->puppet.colorGauntlet.g, this->puppet.colorGauntlet.b, this->puppet.colorGauntlet.a);
-                Gfx_DrawDListOpa(globalCtx, baseToPointer(this, AGE_IS_ADULT(this->puppet.age) ? ADULT_LINK_LUT_DL_UPGRADE_LFOREARM : CHILD_LINK_LUT_DL_GORON_BRACELET));
+                DrawDlistOpa(baseToPointer(this, baseToPointer(this, AGE_IS_ADULT(this->puppet.age) ? ADULT_LINK_LUT_DL_UPGRADE_LFOREARM : CHILD_LINK_LUT_DL_GORON_BRACELET)));
                 gDPSetEnvColor(polyOpa->p++, this->puppet.colorTunic.r, this->puppet.colorTunic.g, this->puppet.colorTunic.b, this->puppet.colorTunic.a);
             }
-            break;
-        case PLAYER_LIMB_L_HAND:
-            if (this->puppet.lhandDlist){
+        } break;
+        case PLAYER_LIMB_HAND_L: {
+            if (this->puppet.lhandDlist)
+            {
                 Matrix_Push();
-                Matrix_Translate(pos->x, pos->y, pos->z, 1);
-                Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
-                *dList = baseToPointer(this, (this->puppet.lhandDlist & 0x0000FFFF));
-                Matrix_Pull();
+                {
+                    Matrix_Translate(pos->x, pos->y, pos->z, 1);
+                    Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
+                    *dList = baseToPointer(this, (this->puppet.lhandDlist & 0x0000FFFF));
+                }
+                Matrix_Pop();
             }
-            break;
-        case PLAYER_LIMB_R_SHOULDER:
-            break;
-        case PLAYER_LIMB_R_FOREARM:
-            if (this->puppet.strength) {
+        } break;
+        case PLAYER_LIMB_SHOULDER_R: {
+        } break;
+        case PLAYER_LIMB_FOREARM_R: {
+            if (this->puppet.strength)
+            {
                 gDPSetEnvColor(polyOpa->p++, this->puppet.colorGauntlet.r, this->puppet.colorGauntlet.g, this->puppet.colorGauntlet.b, this->puppet.colorGauntlet.a);
-                Gfx_DrawDListOpa(globalCtx, baseToPointer(this, ADULT_LINK_LUT_DL_UPGRADE_RFOREARM));
+                DrawDlistOpa(baseToPointer(this, ADULT_LINK_LUT_DL_UPGRADE_RFOREARM));
                 gDPSetEnvColor(polyOpa->p++, this->puppet.colorTunic.r, this->puppet.colorTunic.g, this->puppet.colorTunic.b, this->puppet.colorTunic.a);
             }
-            break;
-        case PLAYER_LIMB_R_HAND:
-            if (this->puppet.rhandDlist){
+        } break;
+        case PLAYER_LIMB_HAND_R: {
+            if (this->puppet.rhandDlist)
+            {
                 Matrix_Push();
-                Matrix_Translate(pos->x, pos->y, pos->z, 1);
-                Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
-                *dList = baseToPointer(this, (this->puppet.rhandDlist & 0x0000FFFF));
-                Matrix_Pull();
+                {
+                    Matrix_Translate(pos->x, pos->y, pos->z, 1);
+                    Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
+                    *dList = baseToPointer(this, (this->puppet.rhandDlist & 0x0000FFFF));
+                }
+                Matrix_Pop();
             }
-            break;
-        case PLAYER_LIMB_SHEATH:
-            if (this->puppet.backDlist){
+        } break;
+        case PLAYER_LIMB_SHEATH: {
+            if (this->puppet.backDlist)
                 *dList = baseToPointer(this, (this->puppet.backDlist & 0x0000FFFF));
-            }
-            break;
-        case PLAYER_LIMB_TORSO:
-            break;
-        case PLAYER_LIMB_MAX:
-            break;
+        } break;
+        case PLAYER_LIMB_TORSO: {
+        } break;
+        case PLAYER_LIMB_MAX: {
+        } break;
     }
 
     return 0;
 }
 
-static int32_t OtherCallback(struct GlobalContext* globalCtx, int32_t limbIndex, struct Gfx** dList, struct Vec3s* rot, entity_t* this) {
+static int32_t OtherCallback(struct GlobalContext* globalCtx, int32_t limbIndex, struct Gfx** dList, struct Vec3s* rot, entity_t* this)
+{
     TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
     gSPSegment(polyOpa->p++, 8, this->puppet.eyeTexture);
     gSPSegment(polyOpa->p++, 9, baseToPointer(this, 0x00004000));
@@ -195,7 +211,8 @@ static int32_t OtherCallback(struct GlobalContext* globalCtx, int32_t limbIndex,
 }
 
 
-static void init(entity_t* this, GlobalContext* globalCtx) {
+static void init(entity_t* this, GlobalContext* globalCtx)
+{
     Player* player = ((Player*)globalCtx->actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head);
     this->actor.room = 0xFF;
     this->puppet.age = (uint32_t) this->actor.params;
@@ -257,7 +274,8 @@ static void init(entity_t* this, GlobalContext* globalCtx) {
     MLDEBUG_END(this, 0xDEADBEEF);
 }
 
-static void destroy(entity_t* this, GlobalContext* globalCtx) {
+static void destroy(entity_t* this, GlobalContext* globalCtx)
+{
     if (this->actor.child) {
         this->actor.child->parent = 0;
         Actor_Kill(this->actor.child);
@@ -265,7 +283,8 @@ static void destroy(entity_t* this, GlobalContext* globalCtx) {
     }
 }
 
-static void SkelAnimeSyncPair_Update(GlobalContext* globalCtx, SkelAnimeSyncPair* this) {
+static void SkelAnimeSyncPair_Update(GlobalContext* globalCtx, SkelAnimeSyncPair* this)
+{
     if (this->skelAnime.curFrame < this->syncFrame) this->skelAnime.curFrame = this->syncFrame;
 
     LinkAnimation_Update(globalCtx, &this->skelAnime);
@@ -286,7 +305,8 @@ static void SkelAnimeSyncPair_Update(GlobalContext* globalCtx, SkelAnimeSyncPair
     } 
 }
 
-static void update(entity_t* this, GlobalContext* globalCtx) {
+static void update(entity_t* this, GlobalContext* globalCtx)
+{
 
     Vec3f focusPos;
     Player* player = ((Player*)globalCtx->actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head);
@@ -329,13 +349,15 @@ static void update(entity_t* this, GlobalContext* globalCtx) {
     this->actor.focus.rot = this->actor.world.rot;
 }
 
-static void draw(entity_t* this, GlobalContext* globalCtx) {
+static void draw(entity_t* this, GlobalContext* globalCtx)
+{
     gDPSetEnvColor(globalCtx->game.gfxCtx->polyOpa.p++, this->puppet.colorTunic.r, this->puppet.colorTunic.g, this->puppet.colorTunic.b, this->puppet.colorTunic.a);
 
     // Teardrop / feet shadow drawn by callback from ActorShape_Init, feetpos is set in AnimateCallback
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime0.skelAnime.skeleton, this->skelAnime0.skelAnime.jointTable, this->skelAnime0.skelAnime.dListCount, &AnimateCallback, &OtherCallback, this);
 
-     if (this->puppet.soundId > 0) {
+    if (this->puppet.soundId)
+    {
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 25, this->puppet.soundId);
         this->puppet.soundId = 0;
     }
