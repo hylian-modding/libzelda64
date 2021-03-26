@@ -146,5 +146,28 @@
 #define CHILD_LINK_LUT_DL_RHAND_OCARINA_TIME 0x5388
 #define CHILD_LINK_DL_FPS_RARM_SLINGSHOT 0x5390
 
+#define RESOLVE_DL(                                 \
+    /* uint8_t */ AGE,                              \
+    /* bool */    IS_LUT,                           \
+    /* ... */     DL_NAME                           \
+)                                                   \
+{                                                   \
+    if (AGE)                                        \
+    {                                               \
+    if (IS_LUT)                                     \
+        return CHILD_LINK_LUT_DL_##DL_NAME;         \
+    else                                            \
+        return CHILD_LINK_DL_##DL_NAME;             \
+    }                                               \
+    else                                            \
+    {                                               \
+    if (IS_LUT)                                     \
+        return ADULT_LINK_LUT_DL_##DL_NAME;         \
+    else                                            \
+        return ADULT_LINK_DL_##DL_NAME;             \
+    }                                               \
+                                                    \
+}                                                   \
+
 #endif
 

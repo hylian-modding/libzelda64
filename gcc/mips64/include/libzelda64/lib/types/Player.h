@@ -164,6 +164,11 @@ typedef enum {
     /* 5 */ ANIMMODE_LOOP_PARTIAL_INTERP
 } AnimationModes;
 
+typedef enum {
+    /* 0 */ PLAYER_AGE_ADULT,
+    /* 1 */ PLAYER_AGE_CHILD
+} Ages;
+
 #define PLAYER_LIMB_BUF_COUNT PLAYER_LIMB_MAX + 2 // 2 extra entries in limb buffers?
 
 #define AGE_IS_ADULT(age) (age == 0)

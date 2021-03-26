@@ -35,10 +35,6 @@
 #define MLDEBUG_END(this, value)
 #endif
 
-// TODO: Remove
-#undef AGE_IS_ADULT
-#define AGE_IS_ADULT(a) (a == 0)
-
 //!Old Stuff
 //typedef struct {
 //    /* 0x00 */ uint32_t age;
