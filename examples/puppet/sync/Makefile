@@ -5,7 +5,7 @@ LD   = mips64-ld
 OBJCOPY = mips64-objcopy
 OBJDUMP = mips64-objdump
 
-CFLAGS = -Iinclude -G 0 -Os 						\
+CFLAGS = -I$(LIBZ64_PATH) -G 0 -Os 						\
 --std=gnu99 -mtune=vr4300 -mabi=32 -mips3 			\
 -mno-explicit-relocs -mno-memcpy -ffreestanding		\
 -Wno-main -mno-gpopt -Wno-unused-function 			\

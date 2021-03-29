@@ -206,7 +206,7 @@ static int32_t OtherCallback(struct GlobalContext* globalCtx, int32_t limbIndex,
 {
     TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
     gSPSegment(polyOpa->p++, 8, this->puppet.eyeTexture);
-    gSPSegment(polyOpa->p++, 9, baseToPointer(this, 0x00004000));
+    gSPSegment(polyOpa->p++, 9, baseToPointerSkel(this, 0x584));
     return 1;
 }
 
@@ -228,7 +228,7 @@ static void init(entity_t* this, GlobalContext* globalCtx)
     this->skelAnime1.latencyFrames = 0;
 
     SkelAnime_InitLink_Custom(globalCtx, &this->skelAnime0.skelAnime,
-        baseToPointerSkel(this, 0x500C), /* TODO: current method will not work for mm */
+        baseToPointerSkel(this, 0xC), /* TODO: current method will not work for mm */
         player->skelAnime.animation,
         9, /* initflags */
         this->skelAnime0.jointTable, this->skelAnime0.morphTable, PLAYER_LIMB_MAX
@@ -311,7 +311,7 @@ static void update(entity_t* this, GlobalContext* globalCtx)
     Vec3f focusPos;
     Player* player = ((Player*)globalCtx->actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head);
 
-    const uint32_t eyes[3] = { baseToPointer(this, 0), baseToPointer(this, 0x800), baseToPointer(this, 0x1000) };
+    const uint32_t eyes[3] = { baseToPointerSkel(this, 0x580) + 0, baseToPointerSkel(this, 0x580) + 0x800, baseToPointerSkel(this, 0x580) + 0x1000 };
     Helper_EyeBlink(&this->puppet.eyeIndex);
     this->puppet.eyeTexture = eyes[this->puppet.eyeIndex];
 
@@ -320,12 +320,12 @@ static void update(entity_t* this, GlobalContext* globalCtx)
     Collider_UpdateCylinder(this, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
-    Actor_UpdateBgCheckInfo(globalCtx, this, 26.0f, ageProperties_38[this->puppet.age], ageProperties_00[this->puppet.age], 5);
+    //Actor_UpdateBgCheckInfo(globalCtx, this, 26.0f, ageProperties_38[this->puppet.age], ageProperties_00[this->puppet.age], 5);
 
     SkelAnimeSyncPair_Update(globalCtx, &this->skelAnime0);
     //SkelAnimeSyncPair_Update(globalCtx, &this->skelAnime1);
 
-     if (this->puppet.syncUnk_830 != 0.0f) {
+    /*  if (this->puppet.syncUnk_830 != 0.0f) {
         if (this->puppet.syncLinearVelocity != 0.0f) {
             AnimationContext_SetCopyFalse(globalCtx, this->skelAnime0.skelAnime.limbCount, this->skelAnime1.jointTable, this->skelAnime0.jointTable, copyFlags);
         }
@@ -338,7 +338,7 @@ static void update(entity_t* this, GlobalContext* globalCtx)
     }
     else {
         AnimationContext_SetCopyAll(globalCtx, this->skelAnime0.skelAnime.limbCount, this->skelAnime0.jointTable, this->skelAnime1.jointTable);
-    }
+    } */
 
     focusPos = this->actor.world.pos;
 
