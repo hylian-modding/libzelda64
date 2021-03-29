@@ -38,8 +38,8 @@ function writeEntries(func: number) {
         case 1: {
             for (let i = 1; i < syncEntries.length - 1; i++) {
                 let e = syncEntries[i];
-                copyFields += `\tget ${e.nameString}(): Buffer { return this.ModLoader.emulator.rdReadBuffer(0x${e.sourceAddress.toString(16).toUpperCase()}, 0x${e.bufferSize.toString(16).toUpperCase()}); }\n\n`;
-                copyFields += `\tset ${e.nameString}(${e.nameString}: Buffer) { this.ModLoader.emulator.rdWriteBuffer(this.pointer + 0x${e.destinationAddress.toString(16).toUpperCase()}, ${e.nameString}); }\n\n`;
+                copyFields += `\tget ${e.nameString}(): Buffer { return this.ModLoader.emulator.rdramWriteBuffer(0x${e.sourceAddress.toString(16).toUpperCase()}, 0x${e.bufferSize.toString(16).toUpperCase()}); }\n\n`;
+                copyFields += `\tset ${e.nameString}(${e.nameString}: Buffer) { this.ModLoader.emulator.rdramReadBuffer(this.pointer + 0x${e.destinationAddress.toString(16).toUpperCase()}, ${e.nameString}); }\n\n`;
             }
         } break;
     }

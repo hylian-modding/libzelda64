@@ -12,6 +12,9 @@ export class PuppetData {
 private readonly copyFields: string[] = new Array<string>();
 
 	constructor(pointer: number, ModLoader: IModLoaderAPI, core: IOOTCore) {
+		this.pointer = pointer;
+		this.ModLoader = ModLoader;
+		this.core = core;
 	push_entries
 	}
 
