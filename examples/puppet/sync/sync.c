@@ -40,6 +40,7 @@ volatile ooto_sync_object_t sync_entries[] = {
     SYNC_RAW("syncSpeed", OFFSETOF(Player, skelAnime.playSpeed), OFFSETOF(entity_t, skelAnime0.syncSpeed), sizeof(float)),
     SYNC_RAW("latencyFrames", 0xDEADBEEF, OFFSETOF(entity_t, skelAnime0.latencyFrames), sizeof(float)),
     SYNC_RAW("syncMode", OFFSETOF(Player, skelAnime.mode), OFFSETOF(entity_t, skelAnime0.syncMode), sizeof(uint8_t)),
+    SYNC_RAW("jointTable", OFFSETOF(Player, skelAnime.jointTable), OFFSETOF(entity_t, skelAnime0.skelAnime.jointTable), 0x86),
     SYNC_END
 };
 

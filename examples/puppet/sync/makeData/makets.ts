@@ -12,7 +12,7 @@ let symbolMap: string = "sync_sym.txt"
 let syncObject: Buffer = fs.readFileSync("sync.bin");
 let syncEntries: Array<ISyncEntry> = [];
 
-function parseSymbols(path) {
+function parseSymbols(path: string) {
     let fileLines: Array<string> = fs.readFileSync(path).toString().split('\n');
     let dataOffsets: Array<number> = [];
     //console.log(fileLines);
@@ -38,8 +38,8 @@ function writeEntries(func: number) {
         case 1: {
             for (let i = 1; i < syncEntries.length - 1; i++) {
                 let e = syncEntries[i];
-                copyFields += `\tget ${e.nameString}(): Buffer { return this.ModLoader.emulator.rdramWriteBuffer(0x${e.sourceAddress.toString(16).toUpperCase()}, 0x${e.bufferSize.toString(16).toUpperCase()}); }\n\n`;
-                copyFields += `\tset ${e.nameString}(${e.nameString}: Buffer) { this.ModLoader.emulator.rdramReadBuffer(this.pointer + 0x${e.destinationAddress.toString(16).toUpperCase()}, ${e.nameString}); }\n\n`;
+                copyFields += `\tget ${e.nameString}(): Buffer { return this.ModLoader.emulator.rdramReadBuffer(0x${e.sourceAddress.toString(16).toUpperCase()}, 0x${e.bufferSize.toString(16).toUpperCase()}); }\n\n`;
+                copyFields += `\tset ${e.nameString}(${e.nameString}: Buffer) { this.ModLoader.emulator.rdramWriteBuffer(this.pointer + 0x${e.destinationAddress.toString(16).toUpperCase()}, ${e.nameString}); }\n\n`;
             }
         } break;
     }
@@ -73,7 +73,7 @@ if (syncObject) {
 }
 
 if (syncEntries){
-    fs.readFile("makeData/template.ts", 'utf8', (err, data) => {
+    fs.readFile("makeData/template.fts", 'utf8', (err, data) => {
         if (err) {
             return console.log(err);
         }
