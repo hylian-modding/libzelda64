@@ -21,8 +21,8 @@
 #include "Helpers.h"
 #include "deps/lut_offsets.h"
 #include "deps/collider.h"
-#include "deps/happy_mask.h"
-#include "./tpose.h"
+//#include "./tpose.h" ---V
+#include "deps/animations.h"
 
 #define F3DEX_GBI_2 1
 #define _LANGUAGE_C 1
@@ -52,15 +52,20 @@ typedef struct {
     uint8_t currentShield;
     uint8_t currentBoots;
     uint8_t currentMask;
-    uint8_t action;
-    uint8_t action2;
-    uint32_t stateFlags1;
-    uint32_t stateFlags2;
-    uint32_t stateFlags3;
+    vec3s_t bodyAngle;
+    struct {
+        uint8_t Params[2];
+    } action;
+    struct {
+        uint32_t Flags[3];
+    } state;
     struct {
         vec3s_t rot;
         vec3s_t unk;
     } bunny_hood;
+    struct {
+        float length;
+    } deku_stick;
 } puppet_info_t;
 
 typedef struct {

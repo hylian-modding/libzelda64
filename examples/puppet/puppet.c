@@ -1,6 +1,6 @@
 #include "puppet.h"
-#include "deps/footik.h"
 #include "deps/equip.h"
+#include "deps/happy_mask.h"
 #include <libzelda64/lib/GraphicsContext.h>
 
 const Vec3f footOffsets[] = {
@@ -15,17 +15,6 @@ const float ageProperties_38[] = {70.0f, 45.29412079f };
 const Color_RGBA8_u32 white = {.rgba = 0xFFFFFFFF};
 
 const uint8_t copyFlags[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-
-const uint32_t mask_dlists[8] = {
-    CHILD_LINK_LUT_DL_MASK_KEATON,
-    CHILD_LINK_LUT_DL_MASK_SKULL,
-    CHILD_LINK_LUT_DL_MASK_SPOOKY,
-    CHILD_LINK_LUT_DL_MASK_BUNNY,
-    CHILD_LINK_LUT_DL_MASK_GORON,
-    CHILD_LINK_LUT_DL_MASK_ZORA,
-    CHILD_LINK_LUT_DL_MASK_GERUDO,
-    CHILD_LINK_LUT_DL_MASK_TRUTH
-};
 
 static void SkelAnime_InitLink_Custom(
     struct GlobalContext* globalCtx
@@ -83,6 +72,7 @@ static int32_t AnimateCallback(
 )
 {
     TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
+    TwoHeadGfxArena* polyXlu = &globalCtx->game.gfxCtx->polyXlu;
 
     memcpy(&this->skelAnime0.jointTable, &this->puppet.anim, 0x86);
 
@@ -124,7 +114,7 @@ static int32_t AnimateCallback(
             }
         } break;
         case PLAYER_LIMB_UPPER: {
-            // TODO: Sync Shield Shit
+            Matrix_RotateRPY((this->puppet).bodyAngle.x, (this->puppet).bodyAngle.y, (this->puppet).bodyAngle.z, 1);
         } break;
         case PLAYER_LIMB_HEAD: {
             if (this->puppet.age && this->puppet.currentMask) {
@@ -132,26 +122,9 @@ static int32_t AnimateCallback(
                 {
                     Matrix_Translate(pos->x, pos->y, pos->z, 1);
                     Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
-                    if (this->puppet.currentMask == DL_MASK_BUNNY_HOOD) {
-                        Mtx *ear_mtx = ((Mtx*)baseToPointer(this, PROXY_LINK_MTX_BUNNY1));
-                        vec3s_t *r = &(this->puppet).bunny_hood.rot;
-                        vec3s_t ear;
-                        gSPSegment(polyOpa->p++, 0x0B, ear_mtx);
 
-                        // Right Ear
-                        ear.x = r->y + 0x03E2;
-                        ear.y = r->z + 0x0D8E;
-                        ear.z = r->x + 0xCB76;
-                        Matrix_SoftCv3_Load(97.0f, -1203.0f, -240.0f, &ear);
-                        Matrix_ToMtx(ear_mtx, 0, 0);
-
-                        // Left Ear
-                        ear.x = r->y + 0xFC1E;
-                        ear.y = 0xF242 - r->z;
-                        ear.z = r->x + 0xCB76;
-                        Matrix_SoftCv3_Load(97.0f, -1203.0f, 240.0f, &ear);
-                        Matrix_ToMtx(ear_mtx + 1, 0, 0);
-                    }
+                    if (this->puppet.currentMask == MASK_INDEX_BUNNY_HOOD)
+                        BunnyHood_Mtx_Setup(this, globalCtx);
                     
                     gSPDisplayList(polyOpa->p++, baseToPointer(this, RESOLVE_PROXY(mask_dlists[this->puppet.currentMask - 1])));
                 }
@@ -167,43 +140,51 @@ static int32_t AnimateCallback(
         case PLAYER_LIMB_FOREARM_L: {
         } break;
         case PLAYER_LIMB_HAND_L: {
+            if ((this->actor.speedXZ > 2.0f && !(this->puppet.state.Flags[0] & PLAYER_ACTION_ANCHOR_FIGHT)) || (ACTION_IS_WEAPON)) /* && Link->bVar1 == 0*/
+            {
+                *dList = baseToPointer(this, RESOLVE_PROXY(RESOLVE_LEFT_FIST(this->puppet.age)));
+            }
+            *dList = baseToPointer(this, RESOLVE_PROXY(RESOLVE_LEFT_HAND(this->puppet.age)));
             Matrix_Push();
             {
                 Matrix_Translate(pos->x, pos->y, pos->z, 1);
                 Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
-                // Hands should be fists of XZ speed is > 2.0f
-                if (this->puppet.action >= ACTION_MASTER_SWORD && this->puppet.action <= ACTION_BIGGORON_SWORD) {
-                    *dList = baseToPointer(this, RESOLVE_PROXY(RESOLVE_LEFT_FIST(this->puppet.age)));
-                    if (this->puppet.action == ACTION_KOKIRI_SWORD){
+
+                if (ACTION_IS_SWORD)
+                {
+                    if (ACTION_IS_KOKIRI_SWORD)
+                    {
                         DRAW_PROXY_OPA(DL_SWORD0_HILT); DRAW_PROXY_OPA(DL_SWORD0_BLADE);
-                    }else if (this->puppet.action == ACTION_MASTER_SWORD){
+                    }
+                    else if (ACTION_IS_MASTER_SWORD)
+                    {
                         DRAW_PROXY_OPA(DL_SWORD1_HILT); DRAW_PROXY_OPA(DL_SWORD1_BLADE);
-                    }else if (this->puppet.action == ACTION_BIGGORON_SWORD){
+                    }
+                    else if (ACTION_IS_BIGGORON_SWORD)
+                    {
                         DRAW_PROXY_OPA(DL_SWORD2_HILT); DRAW_PROXY_OPA(DL_SWORD2_BLADE);
                     }
                 }
-                else if (this->puppet.action == ACTION_DEKU_STICK) {
-                    *dList = baseToPointer(this, RESOLVE_PROXY(RESOLVE_LEFT_FIST(this->puppet.age)));
+                else if (ACTION_IS_DEKU_STICK) {
                     Matrix_Push();
                     {
                         Matrix_Translate(-428.26f, 267.20f, -33.82f, 1);
                         Matrix_RotateRPY(0x8000, 0, 0x4000, 1);
-                        // TODO: Deku Stick Length
+                        Matrix_Scale(1.0f, (this->puppet).deku_stick.length, 1.0f, 1);
                         DRAW_PROXY_OPA(DL_STICK);
                     }
                     Matrix_Pop();
-                } else if (ACTION_BOTTLE(this->puppet.action2)) {
-                    *dList = baseToPointer(this, RESOLVE_PROXY(RESOLVE_BOTTLE_HAND(this->puppet.age)));
-                    Color_RGB8 color = RESOLVE_BOTTLE_COLOR(this->puppet.action2);
-                    gDPSetEnvColor(polyOpa->p++, color.r, color.g, color.b, 0xFF);
-                    DrawDlistOpa(baseToPointer(this, RESOLVE_PROXY(RESOLVE_BOTTLE(this->puppet.age))));
-                    gDPSetEnvColor(polyOpa->p++, this->puppet.colorTunic.r, this->puppet.colorTunic.g, this->puppet.colorTunic.b, this->puppet.colorTunic.a);
-                } else if (this->puppet.action == ACTION_HAMMER_TIME) {
-                    *dList = baseToPointer(this, RESOLVE_PROXY(RESOLVE_LEFT_FIST(this->puppet.age)));
-                    DRAW_PROXY_OPA(DL_HAMMER);
                 }
-                else {
-                    *dList = baseToPointer(this, RESOLVE_PROXY(RESOLVE_LEFT_HAND(this->puppet.age)));
+                else if (ACTION_IS_BOTTLE)
+                {
+                    *dList = baseToPointer(this, RESOLVE_PROXY(RESOLVE_BOTTLE_HAND(this->puppet.age)));
+                    gDPSetEnvColor(polyOpa->p++, contents[BOTTLE_INDEX].r, contents[BOTTLE_INDEX].g, contents[BOTTLE_INDEX].b, 255);
+                    DrawDlistOpa(baseToPointer(this, RESOLVE_PROXY(RESOLVE_BOTTLE(this->puppet.age))));
+                    RESET_ENV_TO_TUNIC(polyOpa);
+                }
+                else if (ACTION_IS_MEGATON_HAMMER)
+                {
+                    DRAW_PROXY_OPA(DL_HAMMER);
                 }
             }
             Matrix_Pop();
@@ -213,6 +194,11 @@ static int32_t AnimateCallback(
         case PLAYER_LIMB_FOREARM_R: {
         } break;
         case PLAYER_LIMB_HAND_R: {
+            if (this->actor.speedXZ > 2.0f && !(this->puppet.state.Flags[0] & PLAYER_ACTION_ANCHOR_FIGHT)) /* && Link->right_hand_item == 8*/
+            {
+                *dList = baseToPointer(this, RESOLVE_PROXY(RESOLVE_RIGHT_FIST(this->puppet.age)));
+            }
+            *dList = baseToPointer(this, RESOLVE_PROXY(RESOLVE_RIGHT_HAND(this->puppet.age)));
         } break;
         case PLAYER_LIMB_SHEATH: {
         } break;

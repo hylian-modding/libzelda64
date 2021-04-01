@@ -350,9 +350,7 @@ typedef struct Player {
     /* 0x06A6 */ int16_t unk_6A6;
     /* 0x06A8 */ int16_t unk_6A8;
     /* 0x06AA */ int16_t unk_6AA;
-    /* 0x06AC */ int16_t unk_6AC;
-    /* 0x06AE */ int16_t unk_6AE;
-    /* 0x06B0 */ int16_t unk_6B0;
+    /* 0x06AC */ vec3s_t bodyAngle;
     /* 0x06B2 */ int16_t unk_6B2;
     /* 0x06B4 */ float unk_6B4;
     /* 0x06B8 */ SkelAnime skelAnime2;
@@ -415,8 +413,8 @@ typedef struct Player {
     /* 0x08A0 */ int16_t windDirection;
     /* 0x08A4 */ WeaponInfo swordInfo[3];
     /* 0x08F8 */ Vec3f bodyPartsPos[18];
-    /* 0x09D0 */ MtxF mf_9E0;
-    /* 0x0A10 */ MtxF shieldMf;
+    /* 0x09D0 */ MtxF swordMtxF;
+    /* 0x0A10 */ MtxF shieldMtxF;
     /* 0x0A50 */ uint8_t isBurning;
     /* 0x0A51 */ uint8_t flameTimers[18]; // one flame per body part
     /* 0x0A63 */ uint8_t unk_A63;
@@ -425,8 +423,8 @@ typedef struct Player {
     /* 0x0A69 */ uint8_t unk_A69;
     /* 0x0A6A */ uint8_t unk_A6A;
     /* 0x0A6B */ uint8_t unk_A6B;
-    /* 0x0A6C */ float unk_A6C;
-    /* 0x0A70 */ int16_t unk_A70;
+    /* 0x0A6C */ float dekuStickLength;
+    /* 0x0A70 */ int16_t dekuStickAngle;
     /* 0x0A72 */ uint16_t unk_A72;
     /* 0x0A74 */ int16_t unk_A74;
     /* 0x0A76 */ int8_t unk_A76;

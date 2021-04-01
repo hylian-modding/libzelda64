@@ -19,111 +19,86 @@
 #define HYLIAN_SHIELD SHIELD1
 #define MIRROR_SHIELD SHIELD2
 
-#define ACTION_MASTER_SWORD PLAYER_AP_SWORD_MASTER
-#define ACTION_KOKIRI_SWORD PLAYER_AP_SWORD_KOKIRI
-#define ACTION_BIGGORON_SWORD PLAYER_AP_SWORD_BGS
-#define ACTION_DEKU_STICK PLAYER_AP_STICK
-#define ACTION_HAMMER_TIME PLAYER_AP_HAMMER
+// Left-Handed Weapons
+#define ACTION_IS_SWORD (((this)->puppet).action.Params[0] >= PLAYER_AP_SWORD_MASTER && ((this)->puppet).action.Params[0] <= PLAYER_AP_SWORD_BGS)
+#define ACTION_IS_KOKIRI_SWORD (((this)->puppet).action.Params[0] == PLAYER_AP_SWORD_KOKIRI)
+#define ACTION_IS_MASTER_SWORD (((this)->puppet).action.Params[0] == PLAYER_AP_SWORD_MASTER)
+#define ACTION_IS_BIGGORON_SWORD (((this)->puppet).action.Params[0] == PLAYER_AP_SWORD_BGS)
+#define ACTION_IS_DEKU_STICK (((this)->puppet).action.Params[0] == PLAYER_AP_STICK)
+#define ACTION_IS_BOW (                                              \
+    ((this)->puppet).action.Params[0] == PLAYER_AP_BOW               \   
+    || ((this)->puppet).action.Params[0] == PLAYER_AP_BOW_FIRE       \
+    || ((this)->puppet).action.Params[0] == PLAYER_AP_BOW_ICE        \
+    || ((this)->puppet).action.Params[0] == PLAYER_AP_BOW_LIGHT      \
+    || ((this)->puppet).action.Params[0] == PLAYER_AP_BOW_0C         \
+    || ((this)->puppet).action.Params[0] == PLAYER_AP_BOW_0D         \
+    || ((this)->puppet).action.Params[0] == PLAYER_AP_BOW_0E         \
+)                                                                    \
+#define ACTION_IS_SLINGSHOT (((this)->puppet).action.Params[0] == PLAYER_AP_SLINGSHOT)
+#define ACTION_IS_HOOKSHOT (((this)->puppet).action.Params[0] == PLAYER_AP_HOOKSHOT)
+#define ACTION_IS_LONGSHOT (((this)->puppet).action.Params[0] == PLAYER_AP_LONGSHOT)
+#define ACTION_IS_BOOMERANG (((this)->puppet).action.Params[0] == PLAYER_AP_BOOMERANG)
+#define ACTION_IS_FISHING_POLE (((this)->puppet).action.Params[0] == PLAYER_AP_FISHING_POLE)
+#define ACTION_IS_MEGATON_HAMMER (((this)->puppet).action.Params[0] == PLAYER_AP_HAMMER)
+#define ACTION_IS_WEAPON ((((this)->puppet).action.Params[0] >= PLAYER_AP_FISHING_POLE && ((this)->puppet).action.Params[0] <= PLAYER_AP_LONGSHOT) || ((this)->puppet).action.Params[0] <= PLAYER_AP_BOOMERANG)
+#define DEKU_STICK_IS_BROKEN (((this)->puppet).deku_stick.length < 1.0f)
+//#define KNIFE_IS_BROKEN
+#define SLASH_INDEX(ACTION) {                   \
+    uint8_t out = 0;                            \
+    switch((ACTION))                            \
+    {                                           \
+        case ACTION_IS_KOKIRI_SWORD:            \
+            out = 2;                            \
+            break;                              \
+        case ACTION_IS_MASTER_SWORD:            \
+            out = 1;                            \
+            break;                              \
+        case ACTION_IS_BIGGORON_SWORD:          \
+            out = 3;                            \
+            break;                              \
+        case ACTION_IS_MEGATON_HAMMER:          \
+            out = 5;                            \
+            break;                              \
+        case ACTION_IS_DEKU_STICK:              \
+            out = DEKU_STICK_IS_BROKEN ? 5 : 3; \
+            break;                              \
+    }                                           \
+    return out;                                 \
+}                                               \
 
-#define ACTION_BOTTLE(action)(action >= PLAYER_AP_BOTTLE && action <= PLAYER_AP_BOTTLE_FAIRY)
+// Slash Lengths
+float slash_length_table[6] = {
+    0.0f,
+    4000.0f,
+    3000.0f,
+    5500.0f,
+    0.0f,
+    2500.0f
+};
 
-#endif /* __PUPPET_EQUIP_H__ */
+// Bottles
+//#define ACTION_BOTTLE(action)(action >= PLAYER_AP_BOTTLE && action <= PLAYER_AP_BOTTLE_FAIRY)
+#define ACTION_IS_BOTTLE (((this)->puppet).action.Params[1] >= PLAYER_AP_BOTTLE && ((this)->puppet).action.Params[1] <= PLAYER_AP_BOTTLE_FAIRY)
+#define BOTTLE_INDEX (((this)->puppet).action.Params[1] - 30)
 
-// static void draw_bottle(z64_global_t* gl, entity_t* en, int32_t id)
-// {
-//   z64_disp_buf_t* xlu = &ZQDL(gl, poly_xlu);
-//   /* Bottle + Contents */
-
-
-//   /* Set Environment Color */
-//   gDPSetEnvColor(
-//    xlu->p++
-//   , bottle_colors[id].r
-//   , bottle_colors[id].g
-//   , bottle_colors[id].b
-//   , 255
-//   );
-//   if (zh_link_is_adult())
-//     z_cheap_proc_draw_xlu(gl, OOT_ZZ_PUPPET_DLIST(OOT_ADULT_BOTTLE));
-//   else
-//     z_cheap_proc_draw_xlu(gl, OOT_ZZ_PUPPET_DLIST(OOT_CHILD_BOTTLE));
-//   /* Restore Environment Color */
-//   gDPSetEnvColor(
-//    xlu->p++
-//   , en->puppetData.tunicColor.r
-//   , en->puppetData.tunicColor.g
-//   , en->puppetData.tunicColor.b
-//   , en->puppetData.tunicColor.a
-//   );
-// }
-
-//fuck
-Color_RGB8 bottle_colors[] = {
-    {
-        0xFF,
-        0xFF,
-        0xFF
-    },
-    /* Empty Bottle */ {
-        0x50,
-        0x50,
-        0xFF
-    } /* Fish */ ,
-    {
-        0xFF,
-        0x64,
-        0xFF
-    } /* Blue Fire */ ,
-    {
-        0x00,
-        0x00,
-        0xFF
-    } /* Bugs */ ,
-    {
-        0xFF,
-        0x00,
-        0xFF
-    } /* Poe */ ,
-    {
-        0xFF,
-        0x00,
-        0xFF
-    } /* Big Poe */ ,
-    {
-        0xC8,
-        0xC8,
-        0x64
-    } /* Ruto's Letter */ ,
-    {
-        0xFF,
-        0x00,
-        0x00
-    } /* Red Potion */ ,
-    {
-        0x00,
-        0x00,
-        0xFF
-    } /* Blue Potion */ ,
-    {
-        0x00,
-        0xFF,
-        0x00
-    } /* Green Potion */ ,
-    {
-        0xFF,
-        0xFF,
-        0xFF
-    } /* Milk (Full) */ ,
-    {
-        0xFF,
-        0xFF,
-        0xFF
-    } /* Milk (Half) */ ,
-    {
-        0x50,
-        0x50,
-        0xFF
-    } /* Fairy */
+Color_RGB8 contents[13] = {
+    { 0xFF, 0xFF, 0xFF },   /* Empty Bottle */
+    { 0x50, 0x50, 0xFF },   /* Fish */
+    { 0xFF, 0x64, 0xFF },   /* Blue Fire */
+    { 0x00, 0x00, 0xFF },   /* Bugs */
+    { 0xFF, 0x00, 0xFF },   /* Poe */
+    { 0xFF, 0x00, 0xFF },   /* Big Poe */
+    { 0xC8, 0xC8, 0x64 },   /* Ruto's Letter */
+    { 0xFF, 0x00, 0x00 },   /* Red Potion */
+    { 0x00, 0x00, 0xFF },   /* Blue Potion */
+    { 0x00, 0xFF, 0x00 },   /* Green Potion */
+    { 0xFF, 0xFF, 0xFF },   /* Milk (Full) */
+    { 0xFF, 0xFF, 0xFF },   /* Milk (Half) */
+    { 0x50, 0x50, 0xFF },   /* Fairy */
 };
 
 #define RESOLVE_BOTTLE_COLOR(action)(bottle_colors[action - 30])
+
+#define RESET_ENV_TO_TUNIC(GFX) gDPSetEnvColor((GFX)->p++, ((this)->puppet).colorTunic.r, ((this)->puppet).colorTunic.g, ((this)->puppet).colorTunic.b, ((this)->puppet).colorTunic.a);
+
+#endif /* __PUPPET_EQUIP_H__ */

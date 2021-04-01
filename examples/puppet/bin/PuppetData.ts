@@ -23,12 +23,14 @@ private readonly copyFields: string[] = new Array<string>();
 		this.copyFields.push('shield');
 		this.copyFields.push('sword');
 		this.copyFields.push('mask');
-		this.copyFields.push('anim');
 		this.copyFields.push('action_a');
 		this.copyFields.push('action_b');
 		this.copyFields.push('state1');
 		this.copyFields.push('state2');
 		this.copyFields.push('state3');
+		this.copyFields.push('deku_stick_length');
+		this.copyFields.push('body_angle');
+		this.copyFields.push('anim');
 		this.copyFields.push('str');
 		this.copyFields.push('ears');
 	
@@ -66,29 +68,37 @@ private readonly copyFields: string[] = new Array<string>();
 
 	set mask(mask: Buffer) { this.ModLoader.emulator.rdramWriteBuffer(this.pointer + 0x398, mask); }
 
-	get anim(): Buffer { return this.ModLoader.emulator.rdramReadBuffer(0x80600000, 0x86); }
-
-	set anim(anim: Buffer) { this.ModLoader.emulator.rdramWriteBuffer(this.pointer + 0x2EC, anim); }
-
 	get action_a(): Buffer { return this.ModLoader.emulator.rdramReadBuffer(0x801DAB71, 0x1); }
 
-	set action_a(action_a: Buffer) { this.ModLoader.emulator.rdramWriteBuffer(this.pointer + 0x399, action_a); }
+	set action_a(action_a: Buffer) { this.ModLoader.emulator.rdramWriteBuffer(this.pointer + 0x3A0, action_a); }
 
 	get action_b(): Buffer { return this.ModLoader.emulator.rdramReadBuffer(0x801DAB74, 0x1); }
 
-	set action_b(action_b: Buffer) { this.ModLoader.emulator.rdramWriteBuffer(this.pointer + 0x39A, action_b); }
+	set action_b(action_b: Buffer) { this.ModLoader.emulator.rdramWriteBuffer(this.pointer + 0x3A1, action_b); }
 
 	get state1(): Buffer { return this.ModLoader.emulator.rdramReadBuffer(0x801DB09C, 0x4); }
 
-	set state1(state1: Buffer) { this.ModLoader.emulator.rdramWriteBuffer(this.pointer + 0x39C, state1); }
+	set state1(state1: Buffer) { this.ModLoader.emulator.rdramWriteBuffer(this.pointer + 0x3A4, state1); }
 
 	get state2(): Buffer { return this.ModLoader.emulator.rdramReadBuffer(0x801DB0A0, 0x4); }
 
-	set state2(state2: Buffer) { this.ModLoader.emulator.rdramWriteBuffer(this.pointer + 0x3A0, state2); }
+	set state2(state2: Buffer) { this.ModLoader.emulator.rdramWriteBuffer(this.pointer + 0x3A8, state2); }
 
 	get state3(): Buffer { return this.ModLoader.emulator.rdramReadBuffer(0x801DB0B2, 0x4); }
 
-	set state3(state3: Buffer) { this.ModLoader.emulator.rdramWriteBuffer(this.pointer + 0x3A4, state3); }
+	set state3(state3: Buffer) { this.ModLoader.emulator.rdramWriteBuffer(this.pointer + 0x3AC, state3); }
+
+	get deku_stick_length(): Buffer { return this.ModLoader.emulator.rdramReadBuffer(0x801DB49C, 0x4); }
+
+	set deku_stick_length(deku_stick_length: Buffer) { this.ModLoader.emulator.rdramWriteBuffer(this.pointer + 0x3BC, deku_stick_length); }
+
+	get body_angle(): Buffer { return this.ModLoader.emulator.rdramReadBuffer(0x801DB0DC, 0x6); }
+
+	set body_angle(body_angle: Buffer) { this.ModLoader.emulator.rdramWriteBuffer(this.pointer + 0x39A, body_angle); }
+
+	get anim(): Buffer { return this.ModLoader.emulator.rdramReadBuffer(0x80600000, 0x86); }
+
+	set anim(anim: Buffer) { this.ModLoader.emulator.rdramWriteBuffer(this.pointer + 0x2EC, anim); }
 
 	get str(): Buffer { return this.ModLoader.emulator.rdramReadBuffer(0x806FFF00, 0x1); }
 
@@ -96,7 +106,7 @@ private readonly copyFields: string[] = new Array<string>();
 
 	get ears(): Buffer { return this.ModLoader.emulator.rdramReadBuffer(0x803AF180, 0xC); }
 
-	set ears(ears: Buffer) { this.ModLoader.emulator.rdramWriteBuffer(this.pointer + 0x3A8, ears); }
+	set ears(ears: Buffer) { this.ModLoader.emulator.rdramWriteBuffer(this.pointer + 0x3B0, ears); }
 
 
 
