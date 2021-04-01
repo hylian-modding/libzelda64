@@ -147,41 +147,34 @@
 #define CHILD_LINK_LUT_DL_RHAND_OCARINA_TIME 0x5388
 #define CHILD_LINK_DL_FPS_RARM_SLINGSHOT 0x5390
 
-#define PROXY_DL_DEKU_SHIELD 0x0590
-#define PROXY_DL_HYLIAN_SHIELD 0x0598
-#define PROXY_DL_MIRROR_SHIELD 0x05A0
-#define PROXY_DL_SWORD1_HILT 0x05B0
-#define PROXY_DL_SWORD1_BLADE 0x05B8
-#define PROXY_DL_SWORD1_SHEATH 0x05C0
-#define PROXY_DL_SWORD2_HILT 0x05C8
-#define PROXY_DL_SWORD2_BLADE 0x05D0
-#define PROXY_DL_SWORD2_SHEATH 0x05D8
-#define PROXY_DL_SWORD3_HILT 0x05E0
-#define PROXY_DL_SWORD3_BLADE 0x05E8
-#define PROXY_DL_SWORD3_SHEATH 0x05F0
+// Proxies
+#define PROXY_LINK_DL_SWORD0_HILT 0x5A8
+#define PROXY_LINK_DL_SWORD0_BLADE 0x5B0
+#define PROXY_LINK_DL_SWORD0_SHEATH 0x5B8
 
-#define RESOLVE_DL(                                 \
-    /* uint8_t */ AGE,                              \
-    /* bool */    IS_LUT,                           \
-    /* ... */     DL_NAME                           \
-)                                                   \
-{                                                   \
-    if (AGE)                                        \
-    {                                               \
-    if (IS_LUT)                                     \
-        return CHILD_LINK_LUT_DL_##DL_NAME;         \
-    else                                            \
-        return CHILD_LINK_DL_##DL_NAME;             \
-    }                                               \
-    else                                            \
-    {                                               \
-    if (IS_LUT)                                     \
-        return ADULT_LINK_LUT_DL_##DL_NAME;         \
-    else                                            \
-        return ADULT_LINK_DL_##DL_NAME;             \
-    }                                               \
-                                                    \
-}                                                   \
+#define PROXY_LINK_DL_SWORD1_HILT 0x590
+#define PROXY_LINK_DL_SWORD1_BLADE 0x598
+#define PROXY_LINK_DL_SWORD1_SHEATH 0x5A0
+
+#define PROXY_LINK_DL_SWORD2_HILT 0x5c0
+#define PROXY_LINK_DL_SWORD2_BLADE 0x5c8
+#define PROXY_LINK_DL_SWORD2_SHEATH 0x5d0
+
+#define PROXY_LINK_DL_STICK 0x5D8
+
+#define PROXY_LINK_DL_HAMMER 0x5E0
+
+#define PROXY_LINK_MTX_BUNNY1 0x690
+#define PROXY_LINK_MTX_BUNNY2 0x6D0
+
+#define DRAW_PROXY_OPA(DL) DrawDlistOpa(baseToPointer((this), PROXY_LINK_##DL));
+
+#define RESOLVE_PROXY(LUT)(LUT - 0x5000)
+#define RESOLVE_LEFT_FIST(age)(age == 0 ? ADULT_LINK_LUT_DL_LFIST : CHILD_LINK_LUT_DL_LFIST)
+#define RESOLVE_LEFT_HAND(age)(age == 0 ? ADULT_LINK_LUT_DL_LHAND : CHILD_LINK_LUT_DL_LHAND)
+#define RESOLVE_RIGHT_FIST(age)(age == 0 ? ADULT_LINK_LUT_DL_RFIST : CHILD_LINK_LUT_DL_RFIST)
+#define RESOLVE_BOTTLE_HAND(age)(age == 0 ? ADULT_LINK_LUT_DL_LHAND_BOTTLE : CHILD_LINK_LUT_DL_LHAND_BOTTLE)
+#define RESOLVE_BOTTLE(age)(age == 0 ? ADULT_LINK_LUT_DL_BOTTLE : CHILD_LINK_LUT_DL_BOTTLE)
 
 #endif
 

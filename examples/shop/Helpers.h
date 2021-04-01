@@ -11,13 +11,6 @@ typedef enum {
     , true
 } bool;
 
-#define SIZEOFARRAY(ARRAY) sizeof((ARRAY)) / sizeof((ARRAY)[0])
-
-#define DrawListsOpa(ARRAY)                           \
-    for (int i = 0; i < SIZEOFARRAY((ARRAY)); i++) {  \
-        DrawDlistOpa(baseToPointer(this, (ARRAY)[i]); \
-    }                                                 \
-
 static inline uint32_t Seg2Ram(uint32_t addr)
 {
     return (AVAL((RAM_SEGMENT_TABLE + (addr >> 22)), uint32_t, 0) + (addr & 0x00FFFFFF)) | 0x80000000;
