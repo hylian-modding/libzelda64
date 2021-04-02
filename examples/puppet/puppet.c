@@ -84,6 +84,7 @@ static int32_t AnimateCallback(
     //Actor_SetFeetPos(&this->actor, limbIndex, PLAYER_LIMB_FOOT_L, &footOffsets[this->puppet.age], PLAYER_LIMB_FOOT_L, &footOffsets[this->puppet.age]);
 
     uint32_t bootDList = 0;
+    bool swordIsOut = false;
     switch (limbIndex) {
         case PLAYER_LIMB_NONE: {
         } break;
@@ -144,7 +145,8 @@ static int32_t AnimateCallback(
             {
                 *dList = baseToPointer(this, RESOLVE_PROXY(RESOLVE_LEFT_FIST(this->puppet.age)));
             }
-            *dList = baseToPointer(this, RESOLVE_PROXY(RESOLVE_LEFT_HAND(this->puppet.age)));
+            else
+                *dList = baseToPointer(this, RESOLVE_PROXY(RESOLVE_LEFT_HAND(this->puppet.age)));
             Matrix_Push();
             {
                 Matrix_Translate(pos->x, pos->y, pos->z, 1);
@@ -152,7 +154,8 @@ static int32_t AnimateCallback(
 
                 if (ACTION_IS_SWORD)
                 {
-                    if (ACTION_IS_KOKIRI_SWORD)
+                    swordIsOut = true;
+                    /*if (ACTION_IS_KOKIRI_SWORD)
                     {
                         DRAW_PROXY_OPA(DL_SWORD0_HILT); DRAW_PROXY_OPA(DL_SWORD0_BLADE);
                     }
@@ -163,7 +166,9 @@ static int32_t AnimateCallback(
                     else if (ACTION_IS_BIGGORON_SWORD)
                     {
                         DRAW_PROXY_OPA(DL_SWORD2_HILT); DRAW_PROXY_OPA(DL_SWORD2_BLADE);
-                    }
+                    }*/
+                    gSPDisplayList(polyOpa->p++, baseToPointer(this, RESOLVE_PROXY(hilt_proxies[this->puppet.currentSword - 0x3B])));
+                    gSPDisplayList(polyOpa->p++, baseToPointer(this, RESOLVE_PROXY(blade_proxies[this->puppet.currentSword - 0x3B])));
                 }
                 else if (ACTION_IS_DEKU_STICK) {
                     Matrix_Push();
@@ -186,6 +191,9 @@ static int32_t AnimateCallback(
                 {
                     DRAW_PROXY_OPA(DL_HAMMER);
                 }
+                // TODO:
+                // Boomerang
+                // Fishing Pole
             }
             Matrix_Pop();
         } break;
@@ -198,15 +206,74 @@ static int32_t AnimateCallback(
             {
                 *dList = baseToPointer(this, RESOLVE_PROXY(RESOLVE_RIGHT_FIST(this->puppet.age)));
             }
-            *dList = baseToPointer(this, RESOLVE_PROXY(RESOLVE_RIGHT_HAND(this->puppet.age)));
+            else
+                *dList = baseToPointer(this, RESOLVE_PROXY(RESOLVE_RIGHT_HAND(this->puppet.age)));
+            
+            Matrix_Push();
+            {
+                Matrix_Translate(pos->x, pos->y, pos->z, 1);
+                Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
+
+                if (ACTION_IS_SHIELD)
+                {
+                    /*if (SHIELD_IS_DEKU)
+                    {
+                        DRAW_PROXY_OPA(DL_SHIELD0);
+                    }
+                    else if (SHIELD_IS_HYLIAN)
+                    {
+                        DRAW_PROXY_OPA(DL_SHIELD1);
+                    }
+                    else if (SHIELD_IS_MIRROR)
+                    {
+                        DRAW_PROXY_OPA(DL_SHIELD2);
+                    }*/
+                    gSPDisplayList(polyOpa->p++, baseToPointer(this, RESOLVE_PROXY(shield_proxies[this->puppet.currentShield - 1])));
+                }
+                // TODO:
+                // Bow
+                // Slingshot
+                // Hookshot / Longshot
+            }
+            Matrix_Pop();
         } break;
         case PLAYER_LIMB_SHEATH: {
+            if (this->puppet.currentSword)
+            {
+                Matrix_Push();
+                {
+                    Matrix_Translate(pos->x, pos->y, pos->z, 1);
+                    Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
+                    
+                    *dList = baseToPointer(this, RESOLVE_PROXY(sheath_proxies[this->puppet.currentSword - 0x3B]));
+
+                    if (!swordIsOut)
+                    {
+                        gSPMatrix(polyOpa->p++, MATRIX_MOVE_HILT_TO_SHEATH, G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
+                        gSPDisplayList(polyOpa->p++, baseToPointer(this, RESOLVE_PROXY(hilt_proxies[this->puppet.currentSword - 0x3B])));
+                        gSPPopMatrix(polyOpa->p++, 1);
+                    }
+
+                    if (!ACTION_IS_SHIELD)
+                    {
+                        gSPMatrix(polyOpa->p++, MATRIX_ROTATE_SHIELD_TO_BACK, G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
+                        gSPDisplayList(polyOpa->p++, baseToPointer(this, RESOLVE_PROXY(shield_proxies[this->puppet.currentShield - 1])));
+                        gSPPopMatrix(polyOpa->p++, 1);
+                    }
+                }
+                Matrix_Pop();
+            }
+            //else
+                //*dList = G_ENDDL
         } break;
         case PLAYER_LIMB_TORSO: {
         } break;
         case PLAYER_LIMB_MAX: {
         } break;
     }
+
+    //#L10296 is hover boot special effects
+    //#L10357 is damage color effect
 
     return 0;
 }
