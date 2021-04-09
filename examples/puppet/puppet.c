@@ -84,7 +84,6 @@ static int32_t AnimateCallback(
     //Actor_SetFeetPos(&this->actor, limbIndex, PLAYER_LIMB_FOOT_L, &footOffsets[this->puppet.age], PLAYER_LIMB_FOOT_L, &footOffsets[this->puppet.age]);
 
     uint32_t bootDList = 0;
-    bool swordIsOut = false;
     switch (limbIndex) {
         case PLAYER_LIMB_NONE: {
         } break;
@@ -154,8 +153,7 @@ static int32_t AnimateCallback(
 
                 if (ACTION_IS_SWORD)
                 {
-                    swordIsOut = true;
-                    /*if (ACTION_IS_KOKIRI_SWORD)
+                    if (ACTION_IS_KOKIRI_SWORD)
                     {
                         DRAW_PROXY_OPA(DL_SWORD0_HILT); DRAW_PROXY_OPA(DL_SWORD0_BLADE);
                     }
@@ -166,9 +164,9 @@ static int32_t AnimateCallback(
                     else if (ACTION_IS_BIGGORON_SWORD)
                     {
                         DRAW_PROXY_OPA(DL_SWORD2_HILT); DRAW_PROXY_OPA(DL_SWORD2_BLADE);
-                    }*/
-                    gSPDisplayList(polyOpa->p++, baseToPointer(this, RESOLVE_PROXY(hilt_proxies[this->puppet.currentSword - 0x3B])));
-                    gSPDisplayList(polyOpa->p++, baseToPointer(this, RESOLVE_PROXY(blade_proxies[this->puppet.currentSword - 0x3B])));
+                    }
+/*                     gSPDisplayList(polyOpa->p++, baseToPointer(this, RESOLVE_PROXY(hilt_proxies[this->puppet.currentSword - 0x3B])));
+                    gSPDisplayList(polyOpa->p++, baseToPointer(this, RESOLVE_PROXY(blade_proxies[this->puppet.currentSword - 0x3B]))); */
                 }
                 else if (ACTION_IS_DEKU_STICK) {
                     Matrix_Push();
@@ -214,9 +212,9 @@ static int32_t AnimateCallback(
                 Matrix_Translate(pos->x, pos->y, pos->z, 1);
                 Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
 
-                if (ACTION_IS_SHIELD)
+                if (ACTION_IS_SHIELD || ACTION_IS_SWORD)
                 {
-                    /*if (SHIELD_IS_DEKU)
+                    if (SHIELD_IS_DEKU)
                     {
                         DRAW_PROXY_OPA(DL_SHIELD0);
                     }
@@ -227,8 +225,8 @@ static int32_t AnimateCallback(
                     else if (SHIELD_IS_MIRROR)
                     {
                         DRAW_PROXY_OPA(DL_SHIELD2);
-                    }*/
-                    gSPDisplayList(polyOpa->p++, baseToPointer(this, RESOLVE_PROXY(shield_proxies[this->puppet.currentShield - 1])));
+                    }
+                    //gSPDisplayList(polyOpa->p++, baseToPointer(this, RESOLVE_PROXY(shield_proxies[this->puppet.currentShield - 1])));
                 }
                 // TODO:
                 // Bow
@@ -247,7 +245,7 @@ static int32_t AnimateCallback(
                     
                     *dList = baseToPointer(this, RESOLVE_PROXY(sheath_proxies[this->puppet.currentSword - 0x3B]));
 
-                    if (!swordIsOut)
+                    if (!ACTION_IS_SWORD)
                     {
                         gSPMatrix(polyOpa->p++, MATRIX_MOVE_HILT_TO_SHEATH, G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
                         gSPDisplayList(polyOpa->p++, baseToPointer(this, RESOLVE_PROXY(hilt_proxies[this->puppet.currentSword - 0x3B])));
@@ -263,8 +261,6 @@ static int32_t AnimateCallback(
                 }
                 Matrix_Pop();
             }
-            //else
-                //*dList = G_ENDDL
         } break;
         case PLAYER_LIMB_TORSO: {
         } break;
@@ -292,7 +288,7 @@ static void init(entity_t* this, GlobalContext* globalCtx)
 {
     Player* player = ((Player*)globalCtx->actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head);
     this->actor.room = 0xFF;
-    this->puppet.age = this->actor.params;
+    this->puppet.age = ((uint32_t)this->actor.params);
 
     SkelAnime_InitLink_Custom(globalCtx, &this->skelAnime0.skelAnime,
         baseToPointerSkel(this, 0xC), /* TODO: current method will not work for mm */

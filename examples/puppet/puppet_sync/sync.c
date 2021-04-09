@@ -7,6 +7,7 @@
 #endif*/
 
 #define LINK 0x801DAA30
+#define SAVE_CONTEXT 0x8011A5D0
 #define OFFSETOF(TYPE, ELEMENT) ((uint32_t)&(((TYPE *)0)->ELEMENT))
 #define SYNC_START (ooto_sync_object_t){"sync_start", 0x0, 0x0}
 #define SYNC_END (ooto_sync_object_t){"sync_end", 0x0, 0x0}
@@ -62,6 +63,7 @@ volatile ooto_sync_object_t sync_entries[] = {
     SYNC_RAW_NO_LINK("anim", 0x80600000, OFFSETOF(entity_t, puppet.anim), 0x86),
     SYNC_RAW_NO_LINK("str", 0x806FFF00, OFFSETOF(entity_t, puppet.strength), sizeof(uint8_t)),
     SYNC_RAW_NO_LINK("ears", 0x803AF180, OFFSETOF(entity_t, puppet.bunny_hood), (sizeof(vec3s_t) * 2)),
+    SYNC_RAW_NO_LINK("age", 0x8011A5D4, OFFSETOF(entity_t, puppet.age), sizeof(uint32_t)),
     SYNC_END
 };
 

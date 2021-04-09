@@ -1,9 +1,21 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -23,28 +35,14 @@ function parseSymbols(path) {
     return dataOffsets;
 }
 ;
-function writeEntries(func) {
-    var copyFields = "";
-    switch (func) {
-        case 0:
-            {
-                for (var i = 1; i < syncEntries.length - 1; i++) {
-                    var e = syncEntries[i];
-                    copyFields += "\tthis.copyFields.push('" + e.nameString + "');\n\t";
-                }
-            }
-            break;
-        case 1:
-            {
-                for (var i = 1; i < syncEntries.length - 1; i++) {
-                    var e = syncEntries[i];
-                    copyFields += "\tget " + e.nameString + "(): Buffer { return this.ModLoader.emulator.rdramReadBuffer(0x" + e.sourceAddress.toString(16).toUpperCase() + ", 0x" + e.bufferSize.toString(16).toUpperCase() + "); }\n\n";
-                    copyFields += "\tset " + e.nameString + "(" + e.nameString + ": Buffer) { this.ModLoader.emulator.rdramWriteBuffer(this.pointer + 0x" + e.destinationAddress.toString(16).toUpperCase() + ", " + e.nameString + "); }\n\n";
-                }
-            }
-            break;
+function writeEntries(data) {
+    for (var i = 1; i < syncEntries.length - 1; i++) {
+        var e = syncEntries[i];
+        data["lengths"]["" + e.nameString] = e.bufferSize;
+        data["sources"]["" + e.nameString] = e.sourceAddress;
+        data["destinations"]["" + e.nameString] = e.destinationAddress;
     }
-    return copyFields;
+    return data;
 }
 //console.log(`${process.argv}`);
 // Parse Symbols and Extract Sync Data Entries
@@ -69,17 +67,11 @@ if (syncObject) {
     console.log(syncEntries);
 }
 if (syncEntries) {
-    fs.readFile("makeData/template.fts", 'utf8', function (err, data) {
-        if (err) {
+    var result = writeEntries({ lengths: {}, sources: {}, destinations: {} });
+    fs.writeFile("../PuppetData.json", JSON.stringify(result, null, 2), 'utf8', function (err) {
+        if (err)
             return console.log(err);
-        }
-        var result = data.replace(/push_entries/g, "" + writeEntries(0)).replace(/fields_to_sync/g, "" + writeEntries(1));
-        fs.writeFile("../PuppetData.ts", result, 'utf8', function (err) {
-            if (err)
-                return console.log(err);
-        });
     });
-    //writeEntries();
 }
 else {
     console.log("No Sync Entries!");

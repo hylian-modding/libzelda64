@@ -26,24 +26,14 @@ function parseSymbols(path: string) {
     return dataOffsets;
 };
 
-function writeEntries(func: number) {
-    let copyFields = "";
-    switch (func) {
-        case 0: {
-            for (let i = 1; i < syncEntries.length - 1; i++) {
-                let e = syncEntries[i];
-                copyFields += `\tthis.copyFields.push('${e.nameString}');\n\t`;
-            }
-        } break;
-        case 1: {
-            for (let i = 1; i < syncEntries.length - 1; i++) {
-                let e = syncEntries[i];
-                copyFields += `\tget ${e.nameString}(): Buffer { return this.ModLoader.emulator.rdramReadBuffer(0x${e.sourceAddress.toString(16).toUpperCase()}, 0x${e.bufferSize.toString(16).toUpperCase()}); }\n\n`;
-                copyFields += `\tset ${e.nameString}(${e.nameString}: Buffer) { this.ModLoader.emulator.rdramWriteBuffer(this.pointer + 0x${e.destinationAddress.toString(16).toUpperCase()}, ${e.nameString}); }\n\n`;
-            }
-        } break;
+function writeEntries(data: any) {
+    for (let i = 1; i < syncEntries.length - 1; i++) {
+        let e = syncEntries[i];
+        data["lengths"][`${e.nameString}`] = e.bufferSize;
+        data["sources"][`${e.nameString}`] = e.sourceAddress;
+        data["destinations"][`${e.nameString}`] = e.destinationAddress;
     }
-    return copyFields;
+    return data;
 }
 
 //console.log(`${process.argv}`);
@@ -73,17 +63,10 @@ if (syncObject) {
 }
 
 if (syncEntries){
-    fs.readFile("makeData/template.fts", 'utf8', (err, data) => {
-        if (err) {
-            return console.log(err);
-        }
-        let result = data.replace(/push_entries/g, `${writeEntries(0)}`).replace(/fields_to_sync/g, `${writeEntries(1)}`);
-
-        fs.writeFile("../PuppetData.ts", result, 'utf8', (err) => {
-            if (err) return console.log(err);
-        });
+    let result = writeEntries({lengths: {}, sources: {}, destinations: {}});
+    fs.writeFile("../PuppetData.json", JSON.stringify(result, null, 2), 'utf8', (err) => {
+        if (err) return console.log(err);
     });
-    //writeEntries();
 } else {
     console.log("No Sync Entries!")
 }

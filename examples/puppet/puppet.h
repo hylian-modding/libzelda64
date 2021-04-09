@@ -40,7 +40,7 @@
 
 typedef struct {
     Vec3s anim[PLAYER_LIMB_BUF_COUNT];
-    uint16_t age;
+    uint32_t age;
     Color_RGBA8_u32 colorGauntlet;
     Color_RGBA8_u32 colorBottle;
     Color_RGBA8_u32 colorTunic;
