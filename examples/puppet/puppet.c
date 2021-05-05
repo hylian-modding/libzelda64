@@ -75,6 +75,7 @@ static int32_t AnimateCallback(
     TwoHeadGfxArena* polyXlu = &globalCtx->game.gfxCtx->polyXlu;
 
     memcpy(&this->skelAnime0.jointTable, &this->puppet.anim, 0x86);
+    RESET_ENV_TO_TUNIC(polyOpa);
 
     if (limbIndex == 1)
     {
@@ -82,8 +83,10 @@ static int32_t AnimateCallback(
     }
 
     //Actor_SetFeetPos(&this->actor, limbIndex, PLAYER_LIMB_FOOT_L, &footOffsets[this->puppet.age], PLAYER_LIMB_FOOT_L, &footOffsets[this->puppet.age]);
-
+    
+    // TODO rewrite this trash
     uint32_t bootDList = 0;
+    bool isFist = false;
     switch (limbIndex) {
         case PLAYER_LIMB_NONE: {
         } break;
@@ -98,7 +101,7 @@ static int32_t AnimateCallback(
         case PLAYER_LIMB_SHIN_R: {
         } break;
         case PLAYER_LIMB_FOOT_R: {
-            if (this->puppet.currentBoots > PLAYER_BOOTS_NORMAL) {
+            if (this->puppet.currentBoots > PLAYER_BOOTS_NORMAL && this->puppet.age == 0) {
                 bootDList = (this->puppet.currentBoots > 1) ? RESOLVE_PROXY(ADULT_LINK_LUT_DL_BOOT_RHOVER) : RESOLVE_PROXY(ADULT_LINK_LUT_DL_BOOT_RIRON);
                 DrawDlistOpa(baseToPointer(this, bootDList));
             }
@@ -108,7 +111,7 @@ static int32_t AnimateCallback(
         case PLAYER_LIMB_SHIN_L: {
         } break;
         case PLAYER_LIMB_FOOT_L: {
-            if (this->puppet.currentBoots > PLAYER_BOOTS_NORMAL) {
+            if (this->puppet.currentBoots > PLAYER_BOOTS_NORMAL && this->puppet.age == 0) {
                 bootDList = (this->puppet.currentBoots > 1) ? RESOLVE_PROXY(ADULT_LINK_LUT_DL_BOOT_LHOVER) : RESOLVE_PROXY(ADULT_LINK_LUT_DL_BOOT_LIRON);
                 DrawDlistOpa(baseToPointer(this, bootDList));
             }
@@ -138,14 +141,41 @@ static int32_t AnimateCallback(
         case PLAYER_LIMB_SHOULDER_L: {
         } break;
         case PLAYER_LIMB_FOREARM_L: {
+            if (this->puppet.age){
+                if (this->puppet.strength){
+                    DrawDlistOpa(baseToPointer(this, RESOLVE_PROXY(CHILD_LINK_LUT_DL_GORON_BRACELET)));
+                }
+            }else{
+                if (this->puppet.strength > 1){
+                    gDPSetEnvColor(polyOpa->p++, this->puppet.colorGauntlet.r, this->puppet.colorGauntlet.g, this->puppet.colorGauntlet.b, 255);
+                    DrawDlistOpa(baseToPointer(this, RESOLVE_PROXY(ADULT_LINK_LUT_DL_UPGRADE_LFOREARM)));
+                    RESET_ENV_TO_TUNIC(polyOpa);
+                }
+            }
         } break;
         case PLAYER_LIMB_HAND_L: {
             if ((this->actor.speedXZ > 2.0f && !(this->puppet.state.Flags[0] & PLAYER_ACTION_ANCHOR_FIGHT)) || (ACTION_IS_WEAPON)) /* && Link->bVar1 == 0*/
             {
-                *dList = baseToPointer(this, RESOLVE_PROXY(RESOLVE_LEFT_FIST(this->puppet.age)));
-            }
-            else
                 *dList = baseToPointer(this, RESOLVE_PROXY(RESOLVE_LEFT_HAND(this->puppet.age)));
+                isFist = false;
+            }
+            else{
+                *dList = baseToPointer(this, RESOLVE_PROXY(RESOLVE_LEFT_FIST(this->puppet.age)));
+                isFist = true;
+            }
+
+            if (!(this->puppet).age) {
+                if ((this->puppet).strength > 1){
+                    gDPSetEnvColor(polyOpa->p++, this->puppet.colorGauntlet.r, this->puppet.colorGauntlet.g, this->puppet.colorGauntlet.b, 255);
+                    if (isFist){
+                        DrawDlistOpa(baseToPointer(this, RESOLVE_PROXY(ADULT_LINK_LUT_DL_UPGRADE_LFIST)));
+                    }else{
+                        DrawDlistOpa(baseToPointer(this, RESOLVE_PROXY(ADULT_LINK_LUT_DL_UPGRADE_LHAND)));
+                    }
+                    RESET_ENV_TO_TUNIC(polyOpa);
+                }
+            }
+
             Matrix_Push();
             {
                 Matrix_Translate(pos->x, pos->y, pos->z, 1);
@@ -188,9 +218,10 @@ static int32_t AnimateCallback(
                 else if (ACTION_IS_MEGATON_HAMMER)
                 {
                     DRAW_PROXY_OPA(DL_HAMMER);
+                }else if (ACTION_IS_BOOMERANG){
+                    DRAW_PROXY_OPA(DL_BOOMERANG);
                 }
                 // TODO:
-                // Boomerang
                 // Fishing Pole
             }
             Matrix_Pop();
@@ -198,21 +229,43 @@ static int32_t AnimateCallback(
         case PLAYER_LIMB_SHOULDER_R: {
         } break;
         case PLAYER_LIMB_FOREARM_R: {
+            if (!this->puppet.age){
+                if (this->puppet.strength > 1){
+                    gDPSetEnvColor(polyOpa->p++, this->puppet.colorGauntlet.r, this->puppet.colorGauntlet.g, this->puppet.colorGauntlet.b, 255);
+                    DrawDlistOpa(baseToPointer(this, RESOLVE_PROXY(ADULT_LINK_LUT_DL_UPGRADE_RFOREARM)));
+                    RESET_ENV_TO_TUNIC(polyOpa);
+                }
+            }
         } break;
         case PLAYER_LIMB_HAND_R: {
             if (this->actor.speedXZ > 2.0f && !(this->puppet.state.Flags[0] & PLAYER_ACTION_ANCHOR_FIGHT)) /* && Link->right_hand_item == 8*/
             {
-                *dList = baseToPointer(this, RESOLVE_PROXY(RESOLVE_RIGHT_FIST(this->puppet.age)));
-            }
-            else
                 *dList = baseToPointer(this, RESOLVE_PROXY(RESOLVE_RIGHT_HAND(this->puppet.age)));
+                isFist = false;
+            }
+            else{
+                *dList = baseToPointer(this, RESOLVE_PROXY(RESOLVE_RIGHT_FIST(this->puppet.age)));
+                isFist = true;
+            }
+
+            if (!(this->puppet).age) {
+                if ((this->puppet).strength > 1){
+                    gDPSetEnvColor(polyOpa->p++, this->puppet.colorGauntlet.r, this->puppet.colorGauntlet.g, this->puppet.colorGauntlet.b, 255);
+                    if (isFist){
+                        DrawDlistOpa(baseToPointer(this, RESOLVE_PROXY(ADULT_LINK_LUT_DL_UPGRADE_RFIST)));
+                    }else{
+                        DrawDlistOpa(baseToPointer(this, RESOLVE_PROXY(ADULT_LINK_LUT_DL_UPGRADE_RHAND)));
+                    }
+                    RESET_ENV_TO_TUNIC(polyOpa);
+                }
+            }
             
             Matrix_Push();
             {
                 Matrix_Translate(pos->x, pos->y, pos->z, 1);
                 Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
 
-                if (ACTION_IS_SHIELD || ACTION_IS_SWORD)
+                if (ACTION_IS_SHIELD || (ACTION_IS_SWORD && !ACTION_IS_BIGGORON_SWORD))
                 {
                     if (SHIELD_IS_DEKU)
                     {
@@ -226,12 +279,13 @@ static int32_t AnimateCallback(
                     {
                         DRAW_PROXY_OPA(DL_SHIELD2);
                     }
-                    //gSPDisplayList(polyOpa->p++, baseToPointer(this, RESOLVE_PROXY(shield_proxies[this->puppet.currentShield - 1])));
+                }else if (ACTION_IS_BOW){
+                    DRAW_PROXY_OPA(DL_BOW);
+                }else if (ACTION_IS_SLINGSHOT){
+                    DRAW_PROXY_OPA(DL_SLINGSHOT);
+                }else if (ACTION_IS_HOOKSHOT || ACTION_IS_LONGSHOT){
+                    DRAW_PROXY_OPA(DL_HOOKSHOT);
                 }
-                // TODO:
-                // Bow
-                // Slingshot
-                // Hookshot / Longshot
             }
             Matrix_Pop();
         } break;
@@ -243,20 +297,34 @@ static int32_t AnimateCallback(
                     Matrix_Translate(pos->x, pos->y, pos->z, 1);
                     Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
                     
-                    *dList = baseToPointer(this, RESOLVE_PROXY(sheath_proxies[this->puppet.currentSword - 0x3B]));
-
-                    if (!ACTION_IS_SWORD)
+                    if (ACTION_IS_SWORD)
                     {
-                        gSPMatrix(polyOpa->p++, MATRIX_MOVE_HILT_TO_SHEATH, G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
-                        gSPDisplayList(polyOpa->p++, baseToPointer(this, RESOLVE_PROXY(hilt_proxies[this->puppet.currentSword - 0x3B])));
-                        gSPPopMatrix(polyOpa->p++, 1);
+                        if (this->puppet.currentSword - 0x3B == 0){
+                            *dList = baseToPointer(this, PROXY_LINK_DL_SWORD0_SHEATH);
+                        }else if (this->puppet.currentSword - 0x3B == 1){
+                            *dList = baseToPointer(this, PROXY_LINK_DL_SWORD1_SHEATH);
+                        }else if (this->puppet.currentSword - 0x3B == 2){
+                            *dList = baseToPointer(this, PROXY_LINK_DL_SWORD2_SHEATH);
+                        }
+                    }else{
+                        if (this->puppet.currentSword - 0x3B == 0){
+                            *dList = baseToPointer(this, PROXY_LINK_DL_SHEATH0_BACK);
+                        }else if (this->puppet.currentSword - 0x3B == 1){
+                            *dList = baseToPointer(this, PROXY_LINK_DL_SHEATH1_BACK);
+                        }else if (this->puppet.currentSword - 0x3B == 2){
+                            *dList = baseToPointer(this, PROXY_LINK_DL_SHEATH2_BACK);
+                        }
                     }
 
-                    if (!ACTION_IS_SHIELD)
+                    if (!ACTION_IS_SHIELD && !ACTION_IS_SWORD)
                     {
-                        gSPMatrix(polyOpa->p++, MATRIX_ROTATE_SHIELD_TO_BACK, G_MTX_LOAD | G_MTX_NOPUSH | G_MTX_MODELVIEW);
-                        gSPDisplayList(polyOpa->p++, baseToPointer(this, RESOLVE_PROXY(shield_proxies[this->puppet.currentShield - 1])));
-                        gSPPopMatrix(polyOpa->p++, 1);
+                        if (this->puppet.currentShield == 1){
+                            DRAW_PROXY_OPA(DL_SHIELD0_BACK);
+                        }else if (this->puppet.currentShield == 2){
+                            DRAW_PROXY_OPA(DL_SHIELD1_BACK);
+                        }else if (this->puppet.currentShield == 3){
+                            DRAW_PROXY_OPA(DL_SHIELD2_BACK);
+                        }
                     }
                 }
                 Matrix_Pop();
@@ -308,9 +376,6 @@ static void init(entity_t* this, GlobalContext* globalCtx)
 
     this->collider.dim.radius = 12;
 
-    if (AGE_IS_ADULT(this->puppet.age)) this->collider.dim.height = 60;
-    else this->collider.dim.height = 44; 
-
     Actor_SetScale(this, 0.01f);
 
     this->puppet.colorBottle = white;
@@ -319,6 +384,7 @@ static void init(entity_t* this, GlobalContext* globalCtx)
     this->actor.flags |= 0x0E000075;
 
     memcpy(&this->puppet.anim, __tpose_anim, __tpose_anim_size);
+    this->puppet.colorTunic.a = 0xFF;
 
     MLDEBUG_END(this, 0xDEADBEEF);
 }
@@ -334,6 +400,9 @@ static void destroy(entity_t* this, GlobalContext* globalCtx)
 
 static void update(entity_t* this, GlobalContext* globalCtx)
 {
+
+    if (AGE_IS_ADULT(this->puppet.age)) this->collider.dim.height = 60;
+    else this->collider.dim.height = 44; 
 
     Vec3f focusPos;
     Player* player = ((Player*)globalCtx->actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head);

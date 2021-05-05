@@ -58,12 +58,15 @@ volatile ooto_sync_object_t sync_entries[] = {
     SYNC_RAW("state1", OFFSETOF(Player, stateFlags1), OFFSETOF(entity_t, puppet.state.Flags[0]), sizeof(uint32_t)),
     SYNC_RAW("state2", OFFSETOF(Player, stateFlags2), OFFSETOF(entity_t, puppet.state.Flags[1]), sizeof(uint32_t)),
     SYNC_RAW("state3", OFFSETOF(Player, stateFlags3), OFFSETOF(entity_t, puppet.state.Flags[2]), sizeof(uint32_t)),
-    SYNC_RAW("deku_stick_length", OFFSETOF(Player, dekuStickLength), OFFSETOF(entity_t, puppet.deku_stick.length), sizeof(float)),
+    SYNC_RAW_NO_LINK("deku_stick_length", (LINK + 0x84c), OFFSETOF(entity_t, puppet.deku_stick.length), sizeof(float)),
     SYNC_RAW("body_angle", OFFSETOF(Player, bodyAngle), OFFSETOF(entity_t, puppet.bodyAngle), sizeof(vec3s_t)),
     SYNC_RAW_NO_LINK("anim", 0x80600000, OFFSETOF(entity_t, puppet.anim), 0x86),
     SYNC_RAW_NO_LINK("str", 0x806FFF00, OFFSETOF(entity_t, puppet.strength), sizeof(uint8_t)),
     SYNC_RAW_NO_LINK("ears", 0x803AF180, OFFSETOF(entity_t, puppet.bunny_hood), (sizeof(vec3s_t) * 2)),
     SYNC_RAW_NO_LINK("age", 0x8011A5D4, OFFSETOF(entity_t, puppet.age), sizeof(uint32_t)),
+    SYNC_RAW_NO_LINK("tunic", 0xDEADBEEF, OFFSETOF(entity_t, puppet.colorTunic), 0x3),
+    SYNC_RAW_NO_LINK("strength", 0xDEADBEEF, OFFSETOF(entity_t, puppet.strength), sizeof(uint8_t)),
+    SYNC_RAW_NO_LINK("gauntlet", 0xDEADBEEF, OFFSETOF(entity_t, puppet.colorGauntlet), 0x3),
     SYNC_END
 };
 

@@ -39,7 +39,7 @@
     || ((this)->puppet).action.Params[1] == PLAYER_AP_BOW_0C         \
     || ((this)->puppet).action.Params[1] == PLAYER_AP_BOW_0D         \
     || ((this)->puppet).action.Params[1] == PLAYER_AP_BOW_0E         \
-)                                                                    \
+)                                                                    
 #define ACTION_IS_SLINGSHOT (((this)->puppet).action.Params[1] == PLAYER_AP_SLINGSHOT)
 #define ACTION_IS_HOOKSHOT (((this)->puppet).action.Params[1] == PLAYER_AP_HOOKSHOT)
 #define ACTION_IS_LONGSHOT (((this)->puppet).action.Params[1] == PLAYER_AP_LONGSHOT)

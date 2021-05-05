@@ -38,7 +38,7 @@ symbols:
 sync:
 	@echo Generating Instance Sync Data...
 	@$(MAKE) -s -C puppet_sync
-	@mv PuppetData.ts bin/PuppetData.ts
+	@mv PuppetData.json bin/PuppetData.json
 	@echo bin/PuppetData.ts written successfully!
 
 clean:
