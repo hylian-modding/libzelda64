@@ -121,8 +121,9 @@ static int32_t AnimateCallback(
         } break;
         case PLAYER_LIMB_HEAD: {
             if (this->puppet.age && this->puppet.currentMask) {
-                Matrix_Push();
+                Matrix_Push(); // Child to Head
                 {
+                    // Translate to Head Base
                     Matrix_Translate(pos->x, pos->y, pos->z, 1);
                     Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
 
@@ -176,27 +177,20 @@ static int32_t AnimateCallback(
                 }
             }
 
-            Matrix_Push();
+            Matrix_Push(); // Child to Left Hand
             {
+                // Translate to Left Hand Base
                 Matrix_Translate(pos->x, pos->y, pos->z, 1);
                 Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
 
-                if (ACTION_IS_SWORD)
+                if (ACTION_IS_SWORD && this->puppet.currentSword)
                 {
-                    if (ACTION_IS_KOKIRI_SWORD)
-                    {
-                        DRAW_PROXY_OPA(DL_SWORD0_HILT); DRAW_PROXY_OPA(DL_SWORD0_BLADE);
+                    if (this->puppet.currentSword < 0xFF){
+                        DrawDlistOpa(baseToPointer(this, hilt_proxies[this->puppet.currentSword - 0x3B]));
+                        DrawDlistOpa(baseToPointer(this, blade_proxies[this->puppet.currentSword - 0x3B]));
+                    }else{
+                        DEBUG_OPA(0x4E4F5357);
                     }
-                    else if (ACTION_IS_MASTER_SWORD)
-                    {
-                        DRAW_PROXY_OPA(DL_SWORD1_HILT); DRAW_PROXY_OPA(DL_SWORD1_BLADE);
-                    }
-                    else if (ACTION_IS_BIGGORON_SWORD)
-                    {
-                        DRAW_PROXY_OPA(DL_SWORD2_HILT); DRAW_PROXY_OPA(DL_SWORD2_BLADE);
-                    }
-/*                     gSPDisplayList(polyOpa->p++, baseToPointer(this, RESOLVE_PROXY(hilt_proxies[this->puppet.currentSword - 0x3B])));
-                    gSPDisplayList(polyOpa->p++, baseToPointer(this, RESOLVE_PROXY(blade_proxies[this->puppet.currentSword - 0x3B]))); */
                 }
                 else if (ACTION_IS_DEKU_STICK) {
                     Matrix_Push();
@@ -260,25 +254,14 @@ static int32_t AnimateCallback(
                 }
             }
             
-            Matrix_Push();
+            Matrix_Push(); // Child to Right Hand
             {
+                // Translate to Right Hand Base
                 Matrix_Translate(pos->x, pos->y, pos->z, 1);
                 Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
 
-                if (ACTION_IS_SHIELD || (ACTION_IS_SWORD && !ACTION_IS_BIGGORON_SWORD))
-                {
-                    if (SHIELD_IS_DEKU)
-                    {
-                        DRAW_PROXY_OPA(DL_SHIELD0);
-                    }
-                    else if (SHIELD_IS_HYLIAN)
-                    {
-                        DRAW_PROXY_OPA(DL_SHIELD1);
-                    }
-                    else if (SHIELD_IS_MIRROR)
-                    {
-                        DRAW_PROXY_OPA(DL_SHIELD2);
-                    }
+                if (ACTION_IS_SHIELD || (ACTION_IS_SWORD && !ACTION_IS_BIGGORON_SWORD)){
+                    DrawDlistOpa(baseToPointer(this, shield_proxies[this->puppet.currentShield]));
                 }else if (ACTION_IS_BOW){
                     DRAW_PROXY_OPA(DL_BOW);
                 }else if (ACTION_IS_SLINGSHOT){
@@ -290,7 +273,7 @@ static int32_t AnimateCallback(
             Matrix_Pop();
         } break;
         case PLAYER_LIMB_SHEATH: {
-            if (this->puppet.currentSword)
+             if (this->puppet.currentSword)
             {
                 Matrix_Push();
                 {
@@ -308,11 +291,11 @@ static int32_t AnimateCallback(
                         }
                     }else{
                         if (this->puppet.currentSword - 0x3B == 0){
-                            *dList = baseToPointer(this, PROXY_LINK_DL_SHEATH0_BACK);
+                            *dList = baseToPointer(this, PROXY_LINK_DL_HILT1_BACK);
                         }else if (this->puppet.currentSword - 0x3B == 1){
-                            *dList = baseToPointer(this, PROXY_LINK_DL_SHEATH1_BACK);
+                            *dList = baseToPointer(this, PROXY_LINK_DL_HILT2_BACK);
                         }else if (this->puppet.currentSword - 0x3B == 2){
-                            *dList = baseToPointer(this, PROXY_LINK_DL_SHEATH2_BACK);
+                            *dList = baseToPointer(this, PROXY_LINK_DL_HILT3_BACK);
                         }
                     }
 
@@ -321,7 +304,11 @@ static int32_t AnimateCallback(
                         if (this->puppet.currentShield == 1){
                             DRAW_PROXY_OPA(DL_SHIELD0_BACK);
                         }else if (this->puppet.currentShield == 2){
-                            DRAW_PROXY_OPA(DL_SHIELD1_BACK);
+                            if (this->puppet.age){
+                                DRAW_PROXY_OPA(DL_SHIELD1_BACK_CHILD);
+                            }else{
+                                DRAW_PROXY_OPA(DL_SHIELD1_BACK_ADULT);
+                            }
                         }else if (this->puppet.currentShield == 3){
                             DRAW_PROXY_OPA(DL_SHIELD2_BACK);
                         }

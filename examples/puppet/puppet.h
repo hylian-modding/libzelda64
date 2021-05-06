@@ -38,6 +38,8 @@
 #define MLDEBUG_END(this, value)
 #endif
 
+#define DEBUG_OPA(ITEM0) gDPNoOpTag(polyOpa->p++, (ITEM0));
+
 typedef struct {
     Vec3s anim[PLAYER_LIMB_BUF_COUNT];
     uint32_t age;
@@ -99,6 +101,8 @@ ActorInit initVars = {
     .update = update,
     .draw = draw
 };
+
+#define __FUCK__ 0x4655434B
 
 #endif /* __OVL_EN_OOTO_PUPPET__ */
 
