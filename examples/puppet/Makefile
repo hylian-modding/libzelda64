@@ -16,7 +16,7 @@ CFLAGS = -I$(LIBZ64_PATH) -D_LANGUAGE_C -DF3DEX_GBI_2 -D_MLDEBUG -G 0 -g -O0	\
 LDFLAGS = -L$(LIBZ64_PATH) -T $(LIBZ64_LD) --emit-relocs
 NOVLFLAGS = -s -c -A $(ADDRESS) -o $(OVLOUT)
 
-default: clean entry $(PROGRAM).ovl sync move
+default: clean entry $(PROGRAM).ovl sync
 
 $(PROGRAM).ovl: $(PARTS)
 	@$(LD) -o $(PROGRAM).elf $(PARTS) $(LDFLAGS)
