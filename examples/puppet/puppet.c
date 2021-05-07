@@ -85,9 +85,21 @@ static int32_t AnimateCallback(
     
     // Limb Logic
     uint32_t bootDList = 0;
-    bool isFist = false;
+    bool isLFist = false;
+    bool isRFist = false;
     
-    // TODO: Fisting Logic
+    // TODO: Improve Fisting Logic
+
+    if (this->actor.speedXZ >= 2.0f)
+    {
+        isLFist = true;
+        isRFist = true;
+    }
+    else
+    {
+        isLFist = false;
+        isRFist = false;
+    }
 
     switch(limbIndex)
     {
@@ -130,11 +142,11 @@ static int32_t AnimateCallback(
             }
         } break;
         case PLAYER_LIMB_HAND_L: {
-            *dl = (isFist) ? baseToPointer(this, RESOLVE_PROXY(RESOLVE_LEFT_FIST(this->puppet.age))) : baseToPointer(this, RESOLVE_PROXY(RESOLVE_LEFT_HAND(this->puppet.age)));
+            *dl = (isLFist) ? baseToPointer(this, RESOLVE_PROXY(RESOLVE_LEFT_FIST(this->puppet.age))) : baseToPointer(this, RESOLVE_PROXY(RESOLVE_LEFT_HAND(this->puppet.age)));
 
             if (AGE_IS_ADULT((this->puppet).age))
             {
-                if (isFist) {
+                if (isLFist) {
                     GAUNTLET(ADULT_LINK_LUT_DL_UPGRADE_LFIST);
                 } else {
                     GAUNTLET(ADULT_LINK_LUT_DL_UPGRADE_LHAND);
@@ -149,12 +161,16 @@ static int32_t AnimateCallback(
                 Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
 
                 if (ACTION_IS_SWORD && this->puppet.currentSword) {
+                    *dl = baseToPointer(this, RESOLVE_PROXY(RESOLVE_LEFT_FIST(this->puppet.age)));
+                    isLFist = true;
                     if (!IS_SWORDLESS)
                     {
                         DrawDlistOpa(baseToPointer(this, hilt_proxies[(this->puppet).currentSword - 0x3B]));
                         DrawDlistOpa(baseToPointer(this, blade_proxies[(this->puppet).currentSword - 0x3B]));
                     }
                 } else if (ACTION_IS_DEKU_STICK) {
+                    *dl = baseToPointer(this, RESOLVE_PROXY(RESOLVE_LEFT_FIST(this->puppet.age)));
+                    isLFist = true;
                     Matrix_Push();
                     {
                         Matrix_Translate(-428.26f, 267.20f, -33.82f, 1);
@@ -169,9 +185,13 @@ static int32_t AnimateCallback(
                     DrawDlistOpa(baseToPointer(this, RESOLVE_PROXY(RESOLVE_BOTTLE(this->puppet.age))));
                     RESET_ENV_TO_TUNIC(polyOpa);
                 } else if (ACTION_IS_BOOMERANG) {
+                    *dl = baseToPointer(this, RESOLVE_PROXY(RESOLVE_LEFT_FIST(this->puppet.age)));
+                    isLFist = true;
                     // TODO: Make sure this isn't drawn when the boomerang is in the air.
                     DRAW_PROXY_OPA(DL_BOOMERANG);
                 } else if (ACTION_IS_MEGATON_HAMMER) {
+                    *dl = baseToPointer(this, RESOLVE_PROXY(RESOLVE_LEFT_FIST(this->puppet.age)));
+                    isLFist = true;
                     DRAW_PROXY_OPA(DL_HAMMER);
                 }
             }
@@ -185,11 +205,11 @@ static int32_t AnimateCallback(
             }
         } break;
         case PLAYER_LIMB_HAND_R: {
-            *dl = (isFist) ? baseToPointer(this, RESOLVE_PROXY(RESOLVE_RIGHT_FIST(this->puppet.age))) : baseToPointer(this, RESOLVE_PROXY(RESOLVE_RIGHT_HAND(this->puppet.age)));
+            *dl = (isRFist) ? baseToPointer(this, RESOLVE_PROXY(RESOLVE_RIGHT_FIST(this->puppet.age))) : baseToPointer(this, RESOLVE_PROXY(RESOLVE_RIGHT_HAND(this->puppet.age)));
 
             if (AGE_IS_ADULT((this->puppet).age))
             {
-                if (isFist) {
+                if (isRFist) {
                     GAUNTLET(ADULT_LINK_LUT_DL_UPGRADE_RFIST);
                 } else {
                     GAUNTLET(ADULT_LINK_LUT_DL_UPGRADE_RHAND);
@@ -204,14 +224,24 @@ static int32_t AnimateCallback(
                 Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
 
                 if (ACTION_IS_SHIELD || (ACTION_IS_SWORD && !ACTION_IS_BIGGORON_SWORD)) {
+                    *dl = baseToPointer(this, RESOLVE_PROXY(RESOLVE_RIGHT_FIST(this->puppet.age)));
+                    isRFist = true;
                     DrawDlistOpa(baseToPointer(this, shield_proxies[(this->puppet).currentShield]));
                 } else if (ACTION_IS_HOOKSHOT || ACTION_IS_LONGSHOT) {
+                    *dl = baseToPointer(this, RESOLVE_PROXY(RESOLVE_RIGHT_FIST(this->puppet.age)));
+                    isRFist = true;
                     DRAW_PROXY_OPA(DL_HOOKSHOT);
                 } else if (ACTION_IS_SLINGSHOT) {
+                    *dl = baseToPointer(this, RESOLVE_PROXY(RESOLVE_RIGHT_FIST(this->puppet.age)));
+                    isRFist = true;
                     DRAW_PROXY_OPA(DL_SLINGSHOT);
                 } else if (ACTION_IS_BOW) {
+                    *dl = baseToPointer(this, RESOLVE_PROXY(RESOLVE_RIGHT_FIST(this->puppet.age)));
+                    isRFist = true;
                     DRAW_PROXY_OPA(DL_BOW);
                 } else if (ACTION_IS_OCARINA) {
+                    *dl = baseToPointer(this, RESOLVE_PROXY(RESOLVE_RIGHT_HAND(this->puppet.age)));
+                    isRFist = false;
                     if ((this->puppet).currentOcarina == ITEM_OCARINA_FAIRY) {
                         DRAW_PROXY_OPA(DL_OCARINA0);
                     }
@@ -240,7 +270,6 @@ static int32_t AnimateCallback(
                         gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx, __FILE__, __LINE__), G_MTX_LOAD);
                         gSPMatrix(polyOpa->p++, baseToPointer(this, PROXY_LINK_MTX_HILT), G_MTX_MUL);
                         gSPDisplayList(polyOpa->p++, baseToPointer(this, hilt_proxies[(this->puppet).currentSword - 0x3B]));
-                        //DrawDlistOpa(baseToPointer(this, hilt_proxies[(this->puppet).currentSword - 0x3B]));
                     }
                     Matrix_Pop();
                 }
@@ -268,8 +297,14 @@ static int32_t AnimateCallback(
         } break;
     }
 
+    //Sword Swipes
+    //Megaton Hammer Camera Shake?
+    //Megaton Hammer Shockwave
     //#L10296 is hover boot special effects
     //#L10357 is damage color effect
+
+    // Someday I'd like to implement the fishing pole.
+    
 
     return 0;
 }
