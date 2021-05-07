@@ -87,6 +87,8 @@ static int32_t AnimateCallback(
     uint32_t bootDList = 0;
     bool isFist = false;
     
+    // TODO: Fisting Logic
+
     switch(limbIndex)
     {
         case PLAYER_LIMB_FOOT_R: {
@@ -166,8 +168,12 @@ static int32_t AnimateCallback(
                     gDPSetEnvColor(polyOpa->p++, contents[BOTTLE_INDEX].r, contents[BOTTLE_INDEX].g, contents[BOTTLE_INDEX].b, 255);
                     DrawDlistOpa(baseToPointer(this, RESOLVE_PROXY(RESOLVE_BOTTLE(this->puppet.age))));
                     RESET_ENV_TO_TUNIC(polyOpa);
+                } else if (ACTION_IS_BOOMERANG) {
+                    // TODO: Make sure this isn't drawn when the boomerang is in the air.
+                    DRAW_PROXY_OPA(DL_BOOMERANG);
+                } else if (ACTION_IS_MEGATON_HAMMER) {
+                    DRAW_PROXY_OPA(DL_HAMMER);
                 }
-
             }
             Matrix_Pop();
 
@@ -199,6 +205,19 @@ static int32_t AnimateCallback(
 
                 if (ACTION_IS_SHIELD || (ACTION_IS_SWORD && !ACTION_IS_BIGGORON_SWORD)) {
                     DrawDlistOpa(baseToPointer(this, shield_proxies[(this->puppet).currentShield]));
+                } else if (ACTION_IS_HOOKSHOT || ACTION_IS_LONGSHOT) {
+                    DRAW_PROXY_OPA(DL_HOOKSHOT);
+                } else if (ACTION_IS_SLINGSHOT) {
+                    DRAW_PROXY_OPA(DL_SLINGSHOT);
+                } else if (ACTION_IS_BOW) {
+                    DRAW_PROXY_OPA(DL_BOW);
+                } else if (ACTION_IS_OCARINA) {
+                    if ((this->puppet).currentOcarina == ITEM_OCARINA_FAIRY) {
+                        DRAW_PROXY_OPA(DL_OCARINA0);
+                    }
+                    else {
+                        DRAW_PROXY_OPA(DL_OCARINA1_CHILD);
+                    }
                 }
             }
             Matrix_Pop();
@@ -209,33 +228,42 @@ static int32_t AnimateCallback(
             {
                 *dl = baseToPointer(this, sheath_proxies[(this->puppet).currentSword - 0x3B]);
 
-                // Child (Hilt)
+                if (!ACTION_IS_SWORD)
+                {
+                    // Child (Hilt)
+                    Matrix_Push();
+                    {
+                        // Translate Child to Base
+                        Matrix_Translate(pos->x, pos->y, pos->z, 1);
+                        Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
+
+                        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx, __FILE__, __LINE__), G_MTX_LOAD);
+                        gSPMatrix(polyOpa->p++, baseToPointer(this, PROXY_LINK_MTX_HILT), G_MTX_MUL);
+                        gSPDisplayList(polyOpa->p++, baseToPointer(this, hilt_proxies[(this->puppet).currentSword - 0x3B]));
+                        //DrawDlistOpa(baseToPointer(this, hilt_proxies[(this->puppet).currentSword - 0x3B]));
+                    }
+                    Matrix_Pop();
+                }
+
+            } else {
+                *dl = baseToPointer(this, PROXY_LINK_DL_DF);
+            }
+
+            if ((!ACTION_IS_SHIELD && !ACTION_IS_SWORD) || (ACTION_IS_BIGGORON_SWORD))
+            {
+                // Child (Shield)
                 Matrix_Push();
                 {
                     // Translate Child to Base
                     Matrix_Translate(pos->x, pos->y, pos->z, 1);
                     Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
 
-                    //gSPMatrix(polyOpa->p++, HILT_TO_SHEATH, G_MTX_LOAD);
-                    gSPDisplayList(polyOpa->p++, baseToPointer(this, hilt_proxies[(this->puppet).currentSword - 0x3B]));
+                    gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx, __FILE__, __LINE__), G_MTX_LOAD);
+                    gSPMatrix(polyOpa->p++, baseToPointer(this, PROXY_LINK_MTX_SHIELD), G_MTX_MUL);
+                    gSPDisplayList(polyOpa->p++, baseToPointer(this, shield_proxies[(this->puppet).currentShield]));
                 }
                 Matrix_Pop();
-
-            } else {
-                *dl = baseToPointer(this, PROXY_LINK_DL_DF);
             }
-
-            // Child (Shield)
-            Matrix_Push();
-            {
-                // Translate Child to Base
-                Matrix_Translate(pos->x, pos->y, pos->z, 1);
-                Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
-
-                //gSPMatrix(polyOpa->p++, SHIELD_TO_BACK, G_MTX_LOAD);
-                gSPDisplayList(polyOpa->p++, baseToPointer(this, shield_proxies[(this->puppet).currentShield - 0x3B]));
-            }
-            Matrix_Pop();
 
         } break;
     }

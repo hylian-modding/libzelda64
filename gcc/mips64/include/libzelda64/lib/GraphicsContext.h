@@ -43,4 +43,7 @@ asm("Matrix_SoftCv3_Load = 0x800AB510");
 extern Mtx* Matrix_ToMtx(Mtx* dest, char* file, int32_t line);
 asm("Matrix_ToMtx = 0x800AB8D8");
 
+extern Mtx* Matrix_NewMtx(struct GraphicsContext* gfxCtx, char* file, int32_t line);
+asm("Matrix_NewMtx = 0x800AB900");
+
 #endif

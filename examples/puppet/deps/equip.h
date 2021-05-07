@@ -19,6 +19,9 @@
 #define HYLIAN_SHIELD SHIELD1
 #define MIRROR_SHIELD SHIELD2
 
+#define ITEM_OCARINA_FAIRY 0x07
+#define ITEM_OCARINA_OF_TIME 0x08
+
 // Left-Handed Weapons
 #define ACTION_IS_SWORD (((this)->puppet).action.Params[0] >= PLAYER_AP_SWORD_MASTER && ((this)->puppet).action.Params[0] <= PLAYER_AP_SWORD_BGS)
 #define ACTION_IS_KOKIRI_SWORD (((this)->puppet).action.Params[0] == PLAYER_AP_SWORD_KOKIRI)
@@ -29,6 +32,7 @@
 #define ACTION_IS_FISHING_POLE (((this)->puppet).action.Params[0] == PLAYER_AP_FISHING_POLE)
 #define ACTION_IS_MEGATON_HAMMER (((this)->puppet).action.Params[0] == PLAYER_AP_HAMMER)
 #define ACTION_IS_WEAPON ((((this)->puppet).action.Params[0] >= PLAYER_AP_FISHING_POLE && ((this)->puppet).action.Params[0] <= PLAYER_AP_LONGSHOT) || ((this)->puppet).action.Params[0] <= PLAYER_AP_BOOMERANG)
+#define ACTION_IS_OCARINA (((((this)->puppet).action.Params[1] == PLAYER_AP_OCARINA_FAIRY) || (((this)->puppet).action.Params[1] == PLAYER_AP_OCARINA_TIME)) || ((((this)->puppet).action.Params[0] == PLAYER_AP_OCARINA_FAIRY) || (((this)->puppet).action.Params[0] == PLAYER_AP_OCARINA_TIME)))
 
 // Right-Handed Items
 #define ACTION_IS_BOW (                                              \

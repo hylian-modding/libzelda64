@@ -67,6 +67,7 @@ volatile ooto_sync_object_t sync_entries[] = {
     SYNC_RAW_NO_LINK("tunic", 0xDEADBEEF, OFFSETOF(entity_t, puppet.colorTunic), 0x3),
     SYNC_RAW_NO_LINK("strength", 0xDEADBEEF, OFFSETOF(entity_t, puppet.strength), sizeof(uint8_t)),
     SYNC_RAW_NO_LINK("gauntlet", 0xDEADBEEF, OFFSETOF(entity_t, puppet.colorGauntlet), 0x3),
+    SYNC_RAW_NO_LINK("ocarina", 0x8011A64B, OFFSETOF(entity_t, puppet.currentOcarina), sizeof(uint8_t)),
     SYNC_END
 };
 

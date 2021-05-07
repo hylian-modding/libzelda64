@@ -55,6 +55,7 @@ typedef struct {
     uint8_t currentShield;
     uint8_t currentBoots;
     uint8_t currentMask;
+    uint8_t currentOcarina;
     vec3s_t bodyAngle;
     struct {
         uint8_t Params[2];
