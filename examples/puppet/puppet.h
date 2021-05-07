@@ -39,6 +39,7 @@
 #endif
 
 #define DEBUG_OPA(ITEM0) gDPNoOpTag(polyOpa->p++, (ITEM0));
+#define IS_SWORDLESS ((this->puppet).currentSword < 0x3B || (this->puppet).currentSword > 0x3D)
 
 typedef struct {
     Vec3s anim[PLAYER_LIMB_BUF_COUNT];
@@ -103,6 +104,14 @@ ActorInit initVars = {
 };
 
 #define __FUCK__ 0x4655434B
+
+#define GAUNTLET(DLIST) {   \
+    if ((this->puppet).strength > 1) {  \
+        gDPSetEnvColor(polyOpa->p++, (this->puppet).colorGauntlet.r, (this->puppet).colorGauntlet.g, (this->puppet).colorGauntlet.b, 255);  \
+        DrawDlistOpa(baseToPointer(this, RESOLVE_PROXY((DLIST))));  \
+        RESET_ENV_TO_TUNIC(polyOpa);    \
+    }   \
+}
 
 #endif /* __OVL_EN_OOTO_PUPPET__ */
 

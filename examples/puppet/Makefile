@@ -16,7 +16,7 @@ CFLAGS = -I$(LIBZ64_PATH) -D_LANGUAGE_C -DF3DEX_GBI_2 -D_MLDEBUG -G 0 -g -O0	\
 LDFLAGS = -L$(LIBZ64_PATH) -T $(LIBZ64_LD) --emit-relocs
 NOVLFLAGS = -s -c -A $(ADDRESS) -o $(OVLOUT)
 
-default: clean entry $(PROGRAM).ovl sync
+default: clean entry $(PROGRAM).ovl sync move
 
 $(PROGRAM).ovl: $(PARTS)
 	@$(LD) -o $(PROGRAM).elf $(PARTS) $(LDFLAGS)
@@ -40,6 +40,13 @@ sync:
 	@$(MAKE) -s -C puppet_sync
 	@mv PuppetData.json bin/PuppetData.json
 	@echo bin/PuppetData.ts written successfully!
+
+move:
+	@echo Moving to payload folder...
+	@cp bin/$(OVLOUT) /mnt/c/ModLoader64/OcarinaOfTimeOnline/src/OotOnline/payloads/E0/$(OVLOUT)
+	@echo Moved $(OVLOUT)!
+	@cp bin/PuppetData.json /mnt/c/ModLoader64/OcarinaOfTimeOnline/src/OotOnline/data/linkPuppet/PuppetData.json
+	@echo Moved PuppetData.json!
 
 clean:
 	@rm -f $(PROGRAM).elf $(OVLOUT) $(PARTS) entry.ld
