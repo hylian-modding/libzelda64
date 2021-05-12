@@ -49,7 +49,7 @@ volatile ooto_sync_object_t sync_entries[] = {
     SYNC("rot", Player, entity_t, actor.shape.rot),
     SYNC("fpos", Player, entity_t, actor.focus),
     SYNC("xz_speed", Player, entity_t, actor.speedXZ),
-    SYNC_RAW("sword_info", OFFSETOF(Player, swordInfo[0]), OFFSETOF(entity_t, puppet.blure.swordInfo[0]), sizeof(WeaponInfo)),
+    SYNC_RAW("sword_info", OFFSETOF(Player, swordInfo[0]), OFFSETOF(entity_t, puppet.blure.swordInfo), sizeof(WeaponInfo)),
     SYNC_RAW("boots", OFFSETOF(Player, currentBoots), OFFSETOF(entity_t, puppet.currentBoots), sizeof(uint8_t)),
     SYNC_RAW("shield", OFFSETOF(Player, currentShield), OFFSETOF(entity_t, puppet.currentShield), sizeof(uint8_t)),
     SYNC_RAW("sword", OFFSETOF(Player, currentSword), OFFSETOF(entity_t, puppet.currentSword), sizeof(uint8_t)),

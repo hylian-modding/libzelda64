@@ -74,7 +74,7 @@ typedef struct {
     } deku_stick;
     struct {
         int32_t effectID;
-        WeaponInfo swordInfo[3];
+        WeaponInfo swordInfo;
     } blure;
 } puppet_info_t;
 

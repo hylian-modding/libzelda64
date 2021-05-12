@@ -124,6 +124,8 @@ static int32_t AnimateCallback(
         case PLAYER_LIMB_HAND_L: {
             if (ACTION_IS_SWORD) {
                 draw_sword(globalCtx, this, pos, rot);
+            } else if (ACTION_IS_MEGATON_HAMMER) {
+                draw_hammer(globalCtx, this, pos, rot);
             }
         } break;
         case PLAYER_LIMB_HAND_R: {
@@ -141,9 +143,30 @@ static int32_t AnimateCallback(
         } break;
     }
 
-    //Sword Swipes
     //Megaton Hammer Camera Shake?
     //Megaton Hammer Shockwave
+    /*
+    else if (this->heldItemActionParam == PLAYER_AP_HAMMER) {
+            if ((this->swordAnimation == 0x16) || (this->swordAnimation == 0x13)) {
+                static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+                Vec3f shockwavePos;
+                f32 sp2C;
+
+                shockwavePos.y = func_8083973C(globalCtx, this, &D_80854A40, &shockwavePos);
+                sp2C = this->actor.world.pos.y - shockwavePos.y;
+
+                Math_ScaledStepToS(&this->actor.focus.rot.x, Math_Atan2S(45.0f, sp2C), 800);
+                func_80836AB8(this, 1);
+
+                if ((((this->swordAnimation == 0x16) && LinkAnimation_OnFrame(&this->skelAnime, 7.0f)) ||
+                     ((this->swordAnimation == 0x13) && LinkAnimation_OnFrame(&this->skelAnime, 2.0f))) &&
+                    (sp2C > -40.0f) && (sp2C < 40.0f)) {
+                    func_80842A28(globalCtx, this);
+                    EffectSsBlast_SpawnWhiteShockwave(globalCtx, &shockwavePos, &zeroVec, &zeroVec);
+                }
+            }
+        }
+    */
     //#L10296 is hover boot special effects
     //#L10357 is damage color effect
 
@@ -246,7 +269,7 @@ static void draw(entity_t* this, GlobalContext* globalCtx)
         this->puppet.soundId = 0;
     }
 
-    if (this->puppet.blure.swordInfo[0].active)
-        EffectBlure_AddVertex(Effect_GetByIndex(this->puppet.blure.effectID), &this->puppet.blure.swordInfo[0].base, &this->puppet.blure.swordInfo[0].tip);
+    if (this->puppet.blure.swordInfo.active)
+        EffectBlure_AddVertex(Effect_GetByIndex(this->puppet.blure.effectID), &this->puppet.blure.swordInfo.base, &this->puppet.blure.swordInfo.tip);
 }
 

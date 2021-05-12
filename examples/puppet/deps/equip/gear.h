@@ -81,17 +81,6 @@ const EffectBlureInit2 sBlureInit2 = {
     0, 2, 0, { 0, 0, 0, 0 },         { 0, 0, 0, 0 }
 };
 
-enum {
-    LENGTH_KOKIRI_SWORD,
-    LENGTH_MASTER_SWORD,
-    LENGTH_BIGGORON_SWORD,
-    LENGTH_HAMMER,
-    LENGTH_DEKUSTICK,
-};
-
-const float sTipLength[] = { 3000.0f, 4000.0f, 5500.0f, 2500.0f, 5000.0f };
-const Vec3f sVecZero = { 0 };
-
 // Shields
 
 #define ITEM_DEKU_SHIELD     0x3E

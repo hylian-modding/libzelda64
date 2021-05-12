@@ -14,6 +14,7 @@
 #include "equip/deku_stick.h"
 #include "equip/boomerang.h"
 #include "equip/fishing_pole.h"
+#include "equip/hammer.h"
 
 #define ITEM_OCARINA_FAIRY 0x07
 #define ITEM_OCARINA_OF_TIME 0x08
