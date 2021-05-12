@@ -37,7 +37,7 @@ asm("Matrix_JointPosition = 0x800AB1BC");
 extern void Matrix_MultVec3f(struct Vec3f* src, struct Vec3f* dest);
 asm("Matrix_MultVec3f = 0x800AB958");
 
-extern void Matrix_SoftCv3_Load(float x, float y, float z, Vec3s* v);
+extern void Matrix_SoftCv3_Load(float x, float y, float z, struct Vec3s* v);
 asm("Matrix_SoftCv3_Load = 0x800AB510");
 
 extern Mtx* Matrix_ToMtx(Mtx* dest, char* file, int32_t line);

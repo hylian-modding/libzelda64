@@ -1,6 +1,5 @@
 #include "puppet.h"
 #include "deps/equip.h"
-#include "deps/happy_mask.h"
 #include <libzelda64/lib/GraphicsContext.h>
 
 const Vec3f footOffsets[] = {
@@ -67,7 +66,7 @@ static int32_t AnimateCallback(
     , int32_t limbIndex
     , struct Gfx** dl
     , struct Vec3f* pos
-    , Vec3s* rot
+    , struct Vec3s* rot
     , entity_t* this
 )
 {
@@ -103,18 +102,6 @@ static int32_t AnimateCallback(
 
     switch(limbIndex)
     {
-        case PLAYER_LIMB_FOOT_R: {
-            if (this->puppet.currentBoots > PLAYER_BOOTS_NORMAL && this->puppet.age == 0) {
-                bootDList = (this->puppet.currentBoots > 1) ? RESOLVE_PROXY(ADULT_LINK_LUT_DL_BOOT_RHOVER) : RESOLVE_PROXY(ADULT_LINK_LUT_DL_BOOT_RIRON);
-                DrawDlistOpa(baseToPointer(this, bootDList));
-            }
-        } break;
-        case PLAYER_LIMB_FOOT_L: {
-            if (this->puppet.currentBoots > PLAYER_BOOTS_NORMAL && this->puppet.age == 0) {
-                bootDList = (this->puppet.currentBoots > 1) ? RESOLVE_PROXY(ADULT_LINK_LUT_DL_BOOT_LHOVER) : RESOLVE_PROXY(ADULT_LINK_LUT_DL_BOOT_LIRON);
-                DrawDlistOpa(baseToPointer(this, bootDList));
-            }
-        } break;
         case PLAYER_LIMB_UPPER: {
             Matrix_RotateRPY((this->puppet).bodyAngle.x, (this->puppet).bodyAngle.y, (this->puppet).bodyAngle.z, 1);
         } break;
@@ -134,166 +121,23 @@ static int32_t AnimateCallback(
                 Matrix_Pop();
             }
         } break;
-        case PLAYER_LIMB_FOREARM_L: {
-            if ((this->puppet).age) {
-                DrawDlistOpa(baseToPointer(this, RESOLVE_PROXY(CHILD_LINK_LUT_DL_GORON_BRACELET)));
-            } else {
-                GAUNTLET(ADULT_LINK_LUT_DL_UPGRADE_LFOREARM);
-            }
-        } break;
         case PLAYER_LIMB_HAND_L: {
-            *dl = (isLFist) ? baseToPointer(this, RESOLVE_PROXY(RESOLVE_LEFT_FIST(this->puppet.age))) : baseToPointer(this, RESOLVE_PROXY(RESOLVE_LEFT_HAND(this->puppet.age)));
-
-            if (AGE_IS_ADULT((this->puppet).age))
-            {
-                if (isLFist) {
-                    GAUNTLET(ADULT_LINK_LUT_DL_UPGRADE_LFIST);
-                } else {
-                    GAUNTLET(ADULT_LINK_LUT_DL_UPGRADE_LHAND);
-                }
-            }
-
-            // Child
-            Matrix_Push();
-            {
-                // Translate Child to Base
-                Matrix_Translate(pos->x, pos->y, pos->z, 1);
-                Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
-
-                if (ACTION_IS_SWORD && this->puppet.currentSword) {
-                    *dl = baseToPointer(this, RESOLVE_PROXY(RESOLVE_LEFT_FIST(this->puppet.age)));
-                    isLFist = true;
-                    if (!IS_SWORDLESS)
-                    {
-                        DrawDlistOpa(baseToPointer(this, hilt_proxies[(this->puppet).currentSword - 0x3B]));
-                        DrawDlistOpa(baseToPointer(this, blade_proxies[(this->puppet).currentSword - 0x3B]));
-                    }
-                } else if (ACTION_IS_DEKU_STICK) {
-                    *dl = baseToPointer(this, RESOLVE_PROXY(RESOLVE_LEFT_FIST(this->puppet.age)));
-                    isLFist = true;
-                    Matrix_Push();
-                    {
-                        Matrix_Translate(-428.26f, 267.20f, -33.82f, 1);
-                        Matrix_RotateRPY(0x8000, 0, 0x4000, 1);
-                        Matrix_Scale(1.0f, (this->puppet).deku_stick.length, 1.0f, 1);
-                        DRAW_PROXY_OPA(DL_STICK);
-                    }
-                    Matrix_Pop();
-                } else if (ACTION_IS_BOTTLE) {
-                    *dl = baseToPointer(this, RESOLVE_PROXY(RESOLVE_BOTTLE_HAND(this->puppet.age)));
-                    gDPSetEnvColor(polyOpa->p++, contents[BOTTLE_INDEX].r, contents[BOTTLE_INDEX].g, contents[BOTTLE_INDEX].b, 255);
-                    DrawDlistOpa(baseToPointer(this, RESOLVE_PROXY(RESOLVE_BOTTLE(this->puppet.age))));
-                    RESET_ENV_TO_TUNIC(polyOpa);
-                } else if (ACTION_IS_BOOMERANG) {
-                    *dl = baseToPointer(this, RESOLVE_PROXY(RESOLVE_LEFT_FIST(this->puppet.age)));
-                    isLFist = true;
-                    // TODO: Make sure this isn't drawn when the boomerang is in the air.
-                    DRAW_PROXY_OPA(DL_BOOMERANG);
-                } else if (ACTION_IS_MEGATON_HAMMER) {
-                    *dl = baseToPointer(this, RESOLVE_PROXY(RESOLVE_LEFT_FIST(this->puppet.age)));
-                    isLFist = true;
-                    DRAW_PROXY_OPA(DL_HAMMER);
-                }
-            }
-            Matrix_Pop();
-
-        } break;
-        case PLAYER_LIMB_FOREARM_R: {
-            if (AGE_IS_ADULT((this->puppet).age))
-            {
-                GAUNTLET(ADULT_LINK_LUT_DL_UPGRADE_RFOREARM);
+            if (ACTION_IS_SWORD) {
+                draw_sword(globalCtx, this, pos, rot);
             }
         } break;
         case PLAYER_LIMB_HAND_R: {
-            *dl = (isRFist) ? baseToPointer(this, RESOLVE_PROXY(RESOLVE_RIGHT_FIST(this->puppet.age))) : baseToPointer(this, RESOLVE_PROXY(RESOLVE_RIGHT_HAND(this->puppet.age)));
-
-            if (AGE_IS_ADULT((this->puppet).age))
-            {
-                if (isRFist) {
-                    GAUNTLET(ADULT_LINK_LUT_DL_UPGRADE_RFIST);
-                } else {
-                    GAUNTLET(ADULT_LINK_LUT_DL_UPGRADE_RHAND);
-                }
+            if ((ACTION_IS_SWORD && !ACTION_IS_BIGGORON_SWORD) || (ACTION_IS_SHIELDING)) {
+                draw_shield(globalCtx, this, pos, rot);
             }
-
-            // Child
-            Matrix_Push();
-            {
-                // Translate Child to Base
-                Matrix_Translate(pos->x, pos->y, pos->z, 1);
-                Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
-
-                if (ACTION_IS_SHIELD || (ACTION_IS_SWORD && !ACTION_IS_BIGGORON_SWORD)) {
-                    *dl = baseToPointer(this, RESOLVE_PROXY(RESOLVE_RIGHT_FIST(this->puppet.age)));
-                    isRFist = true;
-                    DrawDlistOpa(baseToPointer(this, shield_proxies[(this->puppet).currentShield]));
-                } else if (ACTION_IS_HOOKSHOT || ACTION_IS_LONGSHOT) {
-                    *dl = baseToPointer(this, RESOLVE_PROXY(RESOLVE_RIGHT_FIST(this->puppet.age)));
-                    isRFist = true;
-                    DRAW_PROXY_OPA(DL_HOOKSHOT);
-                } else if (ACTION_IS_SLINGSHOT) {
-                    *dl = baseToPointer(this, RESOLVE_PROXY(RESOLVE_RIGHT_FIST(this->puppet.age)));
-                    isRFist = true;
-                    DRAW_PROXY_OPA(DL_SLINGSHOT);
-                } else if (ACTION_IS_BOW) {
-                    *dl = baseToPointer(this, RESOLVE_PROXY(RESOLVE_RIGHT_FIST(this->puppet.age)));
-                    isRFist = true;
-                    DRAW_PROXY_OPA(DL_BOW);
-                } else if (ACTION_IS_OCARINA) {
-                    *dl = baseToPointer(this, RESOLVE_PROXY(RESOLVE_RIGHT_HAND(this->puppet.age)));
-                    isRFist = false;
-                    if ((this->puppet).currentOcarina == ITEM_OCARINA_FAIRY) {
-                        DRAW_PROXY_OPA(DL_OCARINA0);
-                    }
-                    else {
-                        DRAW_PROXY_OPA(DL_OCARINA1_CHILD);
-                    }
-                }
-            }
-            Matrix_Pop();
         } break;
         case PLAYER_LIMB_SHEATH: {
-
-            if (!IS_SWORDLESS)
-            {
-                *dl = baseToPointer(this, sheath_proxies[(this->puppet).currentSword - 0x3B]);
-
-                if (!ACTION_IS_SWORD)
-                {
-                    // Child (Hilt)
-                    Matrix_Push();
-                    {
-                        // Translate Child to Base
-                        Matrix_Translate(pos->x, pos->y, pos->z, 1);
-                        Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
-
-                        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx, __FILE__, __LINE__), G_MTX_LOAD);
-                        gSPMatrix(polyOpa->p++, baseToPointer(this, PROXY_LINK_MTX_HILT), G_MTX_MUL);
-                        gSPDisplayList(polyOpa->p++, baseToPointer(this, hilt_proxies[(this->puppet).currentSword - 0x3B]));
-                    }
-                    Matrix_Pop();
-                }
-
-            } else {
+            if (IS_SWORDLESS) {
                 *dl = baseToPointer(this, PROXY_LINK_DL_DF);
+            } else {
+                *dl = CURRENT_SHEATH_DL;
             }
-
-            if ((!ACTION_IS_SHIELD && !ACTION_IS_SWORD) || (ACTION_IS_BIGGORON_SWORD))
-            {
-                // Child (Shield)
-                Matrix_Push();
-                {
-                    // Translate Child to Base
-                    Matrix_Translate(pos->x, pos->y, pos->z, 1);
-                    Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
-
-                    gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx, __FILE__, __LINE__), G_MTX_LOAD);
-                    gSPMatrix(polyOpa->p++, baseToPointer(this, PROXY_LINK_MTX_SHIELD), G_MTX_MUL);
-                    gSPDisplayList(polyOpa->p++, baseToPointer(this, shield_proxies[(this->puppet).currentShield]));
-                }
-                Matrix_Pop();
-            }
-
+            draw_equip_back(globalCtx, this, pos, rot);
         } break;
     }
 
@@ -332,6 +176,7 @@ static void init(entity_t* this, GlobalContext* globalCtx)
         this->skelAnime0.jointTable, this->skelAnime0.morphTable, PLAYER_LIMB_MAX
     );
 
+    Effect_Add(globalCtx, &this->puppet.blure.effectID, EFFECT_BLURE2, 0, 0, &sBlureInit2);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, shadowScales[this->puppet.age]);
 
     this->actor.shape.rot.x = 0;
@@ -400,5 +245,8 @@ static void draw(entity_t* this, GlobalContext* globalCtx)
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 25, this->puppet.soundId);
         this->puppet.soundId = 0;
     }
+
+    if (this->puppet.blure.swordInfo[0].active)
+        EffectBlure_AddVertex(Effect_GetByIndex(this->puppet.blure.effectID), &this->puppet.blure.swordInfo[0].base, &this->puppet.blure.swordInfo[0].tip);
 }
 

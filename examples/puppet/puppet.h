@@ -16,6 +16,7 @@
 #include <libzelda64/lib/types/ColliderInitType1.h>
 #include <libzelda64/lib/types/DamageTable.h>
 #include <libzelda64/lib/types/StandardLimb.h>
+#include <libzelda64/lib/Blure.h>
 #include <libzelda64/lib/Macros.h>
 #include <ultra64.h>
 #include "Helpers.h"
@@ -38,8 +39,9 @@
 #define MLDEBUG_END(this, value)
 #endif
 
+#define __FUCK__ 0x4655434B
+
 #define DEBUG_OPA(ITEM0) gDPNoOpTag(polyOpa->p++, (ITEM0));
-#define IS_SWORDLESS ((this->puppet).currentSword < 0x3B || (this->puppet).currentSword > 0x3D)
 
 typedef struct {
     Vec3s anim[PLAYER_LIMB_BUF_COUNT];
@@ -70,6 +72,10 @@ typedef struct {
     struct {
         float length;
     } deku_stick;
+    struct {
+        int32_t effectID;
+        WeaponInfo swordInfo[3];
+    } blure;
 } puppet_info_t;
 
 typedef struct {
@@ -103,8 +109,6 @@ ActorInit initVars = {
     .update = update,
     .draw = draw
 };
-
-#define __FUCK__ 0x4655434B
 
 #define GAUNTLET(DLIST) {   \
     if ((this->puppet).strength > 1) {  \
