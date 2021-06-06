@@ -1,9 +1,9 @@
 #ifndef __PUPPET_EQUIP_BOTTLE_H__
 #define __PUPPET_EQUIP_BOTTLE_H__
 
-#define ACTION_IS_BOTTLE (((this)->puppet).action.Params[1] >= PLAYER_AP_BOTTLE && ((this)->puppet).action.Params[1] <= PLAYER_AP_BOTTLE_FAIRY)
+#define ACTION_IS_BOTTLE (((this)->puppet).actionParams[1] >= PLAYER_AP_BOTTLE && ((this)->puppet).actionParams[1] <= PLAYER_AP_BOTTLE_FAIRY)
 
-#define BOTTLE_INDEX (((this)->puppet).action.Params[1] - 30)
+#define BOTTLE_INDEX (((this)->puppet).actionParams[1] - 30)
 
 const Color_RGB8 contents[13] = {
     { 0xFF, 0xFF, 0xFF },   /* Empty Bottle */

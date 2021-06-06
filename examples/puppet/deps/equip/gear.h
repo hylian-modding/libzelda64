@@ -1,6 +1,10 @@
 #ifndef __PUPPET_EQUIP_GEAR_H__
 #define __PUPPET_EQUIP_GEAR_H__
 
+#include <libzelda64/lib/types/GlobalContext.h>
+#include <libzelda64/lib/Blure.h>
+#include "../lut_offsets.h"
+
 /*
 * This is intended to contain functions and macros for setting up
 * Link's Swords and Shields, as well as handle the logic for when it should
@@ -38,10 +42,10 @@ const uint32_t shield_proxies[4] = {
 #define ITEM_MASTER_SWORD    0x3C
 #define ITEM_BIGGORON_SWORD  0x3D
 
-#define ACTION_IS_KOKIRI_SWORD ((((this)->puppet).action.params[0] == PLAYER_AP_SWORD_KOKIRI))
-#define ACTION_IS_MASTER_SWORD ((((this)->puppet).action.params[0] == PLAYER_AP_SWORD_MASTER))
-#define ACTION_IS_BIGGORON_SWORD ((((this)->puppet).action.params[0] == PLAYER_AP_SWORD_BGS))
-#define ACTION_IS_BROKEN_SWORD ((((this)->puppet).action.params[0] == PLAYER_AP_SWORD_BROKEN))
+#define ACTION_IS_KOKIRI_SWORD ((((this)->puppet).actionParams[0] == PLAYER_AP_SWORD_KOKIRI))
+#define ACTION_IS_MASTER_SWORD ((((this)->puppet).actionParams[0] == PLAYER_AP_SWORD_MASTER))
+#define ACTION_IS_BIGGORON_SWORD ((((this)->puppet).actionParams[0] == PLAYER_AP_SWORD_BGS))
+#define ACTION_IS_BROKEN_SWORD ((((this)->puppet).actionParams[0] == PLAYER_AP_SWORD_BROKEN))
 #define ACTION_IS_SWORD (ACTION_IS_KOKIRI_SWORD || ACTION_IS_MASTER_SWORD || ACTION_IS_BIGGORON_SWORD | ACTION_IS_BROKEN_SWORD)
 #define IS_SWORDLESS (((this)->puppet).currentSword < ITEM_KOKIRI_SWORD || ((this)->puppet).currentSword > ITEM_BIGGORON_SWORD)
 
@@ -49,7 +53,7 @@ const uint32_t shield_proxies[4] = {
 #define CURRENT_HILT_DL baseToPointer(this, hilt_proxies[((this)->puppet).currentSword - ITEM_KOKIRI_SWORD])
 #define CURRENT_BLADE_DL baseToPointer(this, blade_proxies[((this)->puppet).currentSword - ITEM_KOKIRI_SWORD])
 
-void draw_sword(struct GlobalContext* globalCtx, entity_t* this, struct Vec3f* pos, struct Vec3s* rot) {
+void DrawSword(GlobalContext* globalCtx, En_Puppet* this, struct Vec3f* pos, struct Vec3s* rot) {
     TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
 
     Matrix_Push();
@@ -84,11 +88,11 @@ const EffectBlureInit2 sBlureInit2 = {
 #define INDEX_HYLIAN_SHIELD  0x02
 #define INDEX_MIRROR_SHIELD  0x03
 
-#define ACTION_IS_SHIELDING (((this)->puppet).action.params[1] == 0xFF)
+#define ACTION_IS_SHIELDING (((this)->puppet).actionParams[1] == 0xFF)
 #define IS_SHIELDLESS (((this)->puppet).currentShield < INDEX_DEKU_SHIELD || ((this)->puppet).currentShield > INDEX_MIRROR_SHIELD)
 #define CURRENT_SHIELD_DL baseToPointer(this, shield_proxies[((this)->puppet).currentShield])
 
-void draw_shield(struct GlobalContext* globalCtx, entity_t* this, struct Vec3f* pos, struct Vec3s* rot) {
+void DrawShield(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s* rot) {
     TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
 
     Matrix_Push();
@@ -109,7 +113,7 @@ void draw_shield(struct GlobalContext* globalCtx, entity_t* this, struct Vec3f* 
 
 // Composite
 
-void draw_equip_back(struct GlobalContext* globalCtx, entity_t* this, struct Vec3f* pos, struct Vec3s* rot) {
+void DrawEquipBack(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s* rot) {
     TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
 
     Matrix_Push();

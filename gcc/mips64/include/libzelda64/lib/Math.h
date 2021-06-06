@@ -10,6 +10,24 @@
 #define CLAMP_MAX(x, max) ((x) > (max) ? (max) : (x))
 #define CLAMP_MIN(x, min) ((x) < (min) ? (min) : (x))
 
+#define PI 3.141592653589f
+#define TAU (PI * 2.f)
+#define HPI (PI * 0.5f)
+
+#define DEG2RAD 0.017453292f
+#define RAD2DEG 57.29578049f
+#define S2RAD (PI / 32768.f)
+#define S2DEG (180.f / 32768.f)
+#define RAD2S (32768.f / PI)
+#define DEG2S (32768.f / 180.f)
+
+#define STOR(RHS) (S2RAD * RHS)
+#define STOD(RHS) (S2DEG * RHS)
+#define RTOS(RHS) (RAD2S * RHS)
+#define DTOS(RHS) (DEG2S * RHS)
+#define DTOR(RHS) (DEG2RAD * RHS)
+#define RTOD(RHS) (RAD2DEG * RHS)
+
 extern float Rand_ZeroOne(void);
 asm("Rand_ZeroOne = 0x800CDCCC");
 

@@ -6,11 +6,6 @@
 #include <libzelda64/lib/Math.h>
 #include <inttypes.h>
 
-typedef enum {
-    false = 0
-    , true
-} bool;
-
 #define SIZEOFARRAY(ARRAY) sizeof((ARRAY)) / sizeof((ARRAY)[0])
 
 #define DrawListsOpa(ARRAY)                           \
@@ -18,21 +13,18 @@ typedef enum {
         DrawDlistOpa(baseToPointer(this, (ARRAY)[i]); \
     }                                                 \
 
-static inline uint32_t Seg2Ram(uint32_t addr)
-{
+inline uint32_t Seg2Ram(uint32_t addr) {
     return (AVAL((RAM_SEGMENT_TABLE + (addr >> 22)), uint32_t, 0) + (addr & 0x00FFFFFF)) | 0x80000000;
 }
 
-static inline bool Object_IsLoaded(GlobalContext* globalCtx, int32_t id)
-{
+inline uint32_t Object_IsLoaded(GlobalContext* globalCtx, int32_t id) {
     if (Object_GetIndex(&globalCtx->objectCtx, id) < 0)
-        return false;
+        return 0;
     else
-        return true;
+        return 1;
 }
 
-static inline unsigned char Helper_EyeBlink(int16_t* frame)
-{
+unsigned char Helper_EyeBlink(int16_t* frame) {
     if (*frame == 0) {
         *frame = Math_Rand_S16Offset(30, 30);
     }

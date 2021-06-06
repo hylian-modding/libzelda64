@@ -1,6 +1,10 @@
 #ifndef __PUPPET_EQUIP_MASK_H__
 #define __PUPPET_EQUIP_MASK_H__
 
+#include <libzelda64/lib/types/GlobalContext.h>
+#include "../lut_offsets.h"
+#include "../../puppet.h"
+
 enum {
     MASK_INDEX_NONE,
     MASK_INDEX_KEATON,
@@ -25,12 +29,11 @@ const uint32_t mask_dlists[8] = {
     CHILD_LINK_LUT_DL_MASK_TRUTH
 };
 
-static inline void BunnyHood_Mtx_Setup(entity_t* this, struct GlobalContext* globalCtx)
-{
+void BunnyHood_Mtx_Setup(En_Puppet* this, GlobalContext* globalCtx) {
     TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
 
     Mtx *ear_mtx = ((Mtx*)baseToPointer(this, PROXY_LINK_MTX_BUNNY1));    // Allocate 0x80 bytes of free space.
-    vec3s_t *r = &(this->puppet).bunny_hood.rot;
+    vec3s_t *r = &(this->puppet).bunnyHoodRot;
     vec3s_t ear;
     gSPSegment(polyOpa->p++, 0x0B, ear_mtx);
 

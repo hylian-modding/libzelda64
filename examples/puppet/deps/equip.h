@@ -4,42 +4,40 @@
 #include <libzelda64/lib/types/GlobalContext.h>
 #include <libzelda64/lib/GraphicsContext.h>
 #include <libzelda64/lib/types/Player.h>
-#define F3DEX_GBI_2 1
-#define _LANGUAGE_C 1
-#include <libultra/PR/gbi.h>
 
+#include "../gbi.h"
 #include "equip/gear.h"
 #include "equip/bottle.h"
 #include "equip/masks.h"
-#include "equip/deku_stick.h"
+#include "equip/dekustick.h"
 #include "equip/boomerang.h"
-#include "equip/fishing_pole.h"
+#include "equip/fishingpole.h"
 #include "equip/hammer.h"
 
 #define ITEM_OCARINA_FAIRY 0x07
 #define ITEM_OCARINA_OF_TIME 0x08
 
 // Left-Handed Weapons
-#define ACTION_IS_DEKU_STICK (((this)->puppet).action.params[0] == PLAYER_AP_STICK)
-#define ACTION_IS_BOOMERANG (((this)->puppet).action.params[0] == PLAYER_AP_BOOMERANG)
-#define ACTION_IS_FISHING_POLE (((this)->puppet).action.params[0] == PLAYER_AP_FISHING_POLE)
-#define ACTION_IS_MEGATON_HAMMER (((this)->puppet).action.params[0] == PLAYER_AP_HAMMER)
-#define ACTION_IS_WEAPON ((((this)->puppet).action.params[0] >= PLAYER_AP_FISHING_POLE && ((this)->puppet).action.params[0] <= PLAYER_AP_LONGSHOT) || ((this)->puppet).action.params[0] <= PLAYER_AP_BOOMERANG)
-#define ACTION_IS_OCARINA (((((this)->puppet).action.params[1] == PLAYER_AP_OCARINA_FAIRY) || (((this)->puppet).action.params[1] == PLAYER_AP_OCARINA_TIME)) || ((((this)->puppet).action.params[0] == PLAYER_AP_OCARINA_FAIRY) || (((this)->puppet).action.params[0] == PLAYER_AP_OCARINA_TIME)))
+#define ACTION_IS_DEKU_STICK (((this)->puppet).actionParams[0] == PLAYER_AP_STICK)
+#define ACTION_IS_BOOMERANG (((this)->puppet).actionParams[0] == PLAYER_AP_BOOMERANG)
+#define ACTION_IS_FISHING_POLE (((this)->puppet).actionParams[0] == PLAYER_AP_FISHING_POLE)
+#define ACTION_IS_MEGATON_HAMMER (((this)->puppet).actionParams[0] == PLAYER_AP_HAMMER)
+#define ACTION_IS_WEAPON ((((this)->puppet).actionParams[0] >= PLAYER_AP_FISHING_POLE && ((this)->puppet).actionParams[0] <= PLAYER_AP_LONGSHOT) || ((this)->puppet).actionParams[0] <= PLAYER_AP_BOOMERANG)
+#define ACTION_IS_OCARINA (((((this)->puppet).actionParams[1] == PLAYER_AP_OCARINA_FAIRY) || (((this)->puppet).actionParams[1] == PLAYER_AP_OCARINA_TIME)) || ((((this)->puppet).actionParams[0] == PLAYER_AP_OCARINA_FAIRY) || (((this)->puppet).actionParams[0] == PLAYER_AP_OCARINA_TIME)))
 
 // Right-Handed Items
 #define ACTION_IS_BOW (                                              \
-    ((this)->puppet).action.params[1] == PLAYER_AP_BOW               \
-    || ((this)->puppet).action.params[1] == PLAYER_AP_BOW_FIRE       \
-    || ((this)->puppet).action.params[1] == PLAYER_AP_BOW_ICE        \
-    || ((this)->puppet).action.params[1] == PLAYER_AP_BOW_LIGHT      \
-    || ((this)->puppet).action.params[1] == PLAYER_AP_BOW_0C         \
-    || ((this)->puppet).action.params[1] == PLAYER_AP_BOW_0D         \
-    || ((this)->puppet).action.params[1] == PLAYER_AP_BOW_0E         \
+    ((this)->puppet).actionParams[1] == PLAYER_AP_BOW               \
+    || ((this)->puppet).actionParams[1] == PLAYER_AP_BOW_FIRE       \
+    || ((this)->puppet).actionParams[1] == PLAYER_AP_BOW_ICE        \
+    || ((this)->puppet).actionParams[1] == PLAYER_AP_BOW_LIGHT      \
+    || ((this)->puppet).actionParams[1] == PLAYER_AP_BOW_0C         \
+    || ((this)->puppet).actionParams[1] == PLAYER_AP_BOW_0D         \
+    || ((this)->puppet).actionParams[1] == PLAYER_AP_BOW_0E         \
 )
-#define ACTION_IS_SLINGSHOT (((this)->puppet).action.Params[1] == PLAYER_AP_SLINGSHOT)
-#define ACTION_IS_HOOKSHOT (((this)->puppet).action.Params[1] == PLAYER_AP_HOOKSHOT)
-#define ACTION_IS_LONGSHOT (((this)->puppet).action.Params[1] == PLAYER_AP_LONGSHOT)
+#define ACTION_IS_SLINGSHOT (((this)->puppet).actionParams[1] == PLAYER_AP_SLINGSHOT)
+#define ACTION_IS_HOOKSHOT (((this)->puppet).actionParams[1] == PLAYER_AP_HOOKSHOT)
+#define ACTION_IS_LONGSHOT (((this)->puppet).actionParams[1] == PLAYER_AP_LONGSHOT)
 
 
 //#define KNIFE_IS_BROKEN
