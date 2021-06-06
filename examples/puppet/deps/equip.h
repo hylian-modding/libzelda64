@@ -20,23 +20,23 @@
 #define ITEM_OCARINA_OF_TIME 0x08
 
 // Left-Handed Weapons
-#define ACTION_IS_DEKU_STICK (((this)->puppet).action.Params[0] == PLAYER_AP_STICK)
-#define ACTION_IS_BOOMERANG (((this)->puppet).action.Params[0] == PLAYER_AP_BOOMERANG)
-#define ACTION_IS_FISHING_POLE (((this)->puppet).action.Params[0] == PLAYER_AP_FISHING_POLE)
-#define ACTION_IS_MEGATON_HAMMER (((this)->puppet).action.Params[0] == PLAYER_AP_HAMMER)
-#define ACTION_IS_WEAPON ((((this)->puppet).action.Params[0] >= PLAYER_AP_FISHING_POLE && ((this)->puppet).action.Params[0] <= PLAYER_AP_LONGSHOT) || ((this)->puppet).action.Params[0] <= PLAYER_AP_BOOMERANG)
-#define ACTION_IS_OCARINA (((((this)->puppet).action.Params[1] == PLAYER_AP_OCARINA_FAIRY) || (((this)->puppet).action.Params[1] == PLAYER_AP_OCARINA_TIME)) || ((((this)->puppet).action.Params[0] == PLAYER_AP_OCARINA_FAIRY) || (((this)->puppet).action.Params[0] == PLAYER_AP_OCARINA_TIME)))
+#define ACTION_IS_DEKU_STICK (((this)->puppet).action.params[0] == PLAYER_AP_STICK)
+#define ACTION_IS_BOOMERANG (((this)->puppet).action.params[0] == PLAYER_AP_BOOMERANG)
+#define ACTION_IS_FISHING_POLE (((this)->puppet).action.params[0] == PLAYER_AP_FISHING_POLE)
+#define ACTION_IS_MEGATON_HAMMER (((this)->puppet).action.params[0] == PLAYER_AP_HAMMER)
+#define ACTION_IS_WEAPON ((((this)->puppet).action.params[0] >= PLAYER_AP_FISHING_POLE && ((this)->puppet).action.params[0] <= PLAYER_AP_LONGSHOT) || ((this)->puppet).action.params[0] <= PLAYER_AP_BOOMERANG)
+#define ACTION_IS_OCARINA (((((this)->puppet).action.params[1] == PLAYER_AP_OCARINA_FAIRY) || (((this)->puppet).action.params[1] == PLAYER_AP_OCARINA_TIME)) || ((((this)->puppet).action.params[0] == PLAYER_AP_OCARINA_FAIRY) || (((this)->puppet).action.params[0] == PLAYER_AP_OCARINA_TIME)))
 
 // Right-Handed Items
 #define ACTION_IS_BOW (                                              \
-    ((this)->puppet).action.Params[1] == PLAYER_AP_BOW               \   
-    || ((this)->puppet).action.Params[1] == PLAYER_AP_BOW_FIRE       \
-    || ((this)->puppet).action.Params[1] == PLAYER_AP_BOW_ICE        \
-    || ((this)->puppet).action.Params[1] == PLAYER_AP_BOW_LIGHT      \
-    || ((this)->puppet).action.Params[1] == PLAYER_AP_BOW_0C         \
-    || ((this)->puppet).action.Params[1] == PLAYER_AP_BOW_0D         \
-    || ((this)->puppet).action.Params[1] == PLAYER_AP_BOW_0E         \
-)                                                                    
+    ((this)->puppet).action.params[1] == PLAYER_AP_BOW               \
+    || ((this)->puppet).action.params[1] == PLAYER_AP_BOW_FIRE       \
+    || ((this)->puppet).action.params[1] == PLAYER_AP_BOW_ICE        \
+    || ((this)->puppet).action.params[1] == PLAYER_AP_BOW_LIGHT      \
+    || ((this)->puppet).action.params[1] == PLAYER_AP_BOW_0C         \
+    || ((this)->puppet).action.params[1] == PLAYER_AP_BOW_0D         \
+    || ((this)->puppet).action.params[1] == PLAYER_AP_BOW_0E         \
+)
 #define ACTION_IS_SLINGSHOT (((this)->puppet).action.Params[1] == PLAYER_AP_SLINGSHOT)
 #define ACTION_IS_HOOKSHOT (((this)->puppet).action.Params[1] == PLAYER_AP_HOOKSHOT)
 #define ACTION_IS_LONGSHOT (((this)->puppet).action.Params[1] == PLAYER_AP_LONGSHOT)

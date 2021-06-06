@@ -13,7 +13,7 @@ const float ageProperties_38[] = {70.0f, 45.29412079f };
 const Color_RGBA8_u32 white = {.rgba = 0xFFFFFFFF};
 const uint8_t copyFlags[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 
-static void SkelAnime_InitLink_Custom(
+void SkelAnime_InitLink_Custom(
     struct GlobalContext* globalCtx
     , struct SkelAnime* skelAnime
     , struct FlexSkeletonHeader* skeletonHeaderSeg
@@ -50,7 +50,7 @@ static void SkelAnime_InitLink_Custom(
 }
 
 // TODO: Move to a more appropriate header or file.
-static void* memcpy(void* dest, const void* src, uint32_t len) {
+void* memcpy(void* dest, const void* src, uint32_t len) {
     char* d = dest;
     const char* s = src;
     while (len--) {
@@ -59,7 +59,7 @@ static void* memcpy(void* dest, const void* src, uint32_t len) {
     return dest;
 }
 
-static int32_t AnimateCallback(
+int32_t AnimateCallback(
     struct GlobalContext* globalCtx
     , int32_t limbIndex
     , struct Gfx** dl
@@ -146,7 +146,7 @@ static int32_t AnimateCallback(
     /*
     else if (this->heldItemActionParam == PLAYER_AP_HAMMER) {
             if ((this->swordAnimation == 0x16) || (this->swordAnimation == 0x13)) {
-                static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
+                Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
                 Vec3f shockwavePos;
                 f32 sp2C;
 
@@ -174,7 +174,7 @@ static int32_t AnimateCallback(
     return 0;
 }
 
-static int32_t OtherCallback(struct GlobalContext* globalCtx, int32_t limbIndex, struct Gfx** dList, struct Vec3s* rot, entity_t* this)
+int32_t OtherCallback(struct GlobalContext* globalCtx, int32_t limbIndex, struct Gfx** dList, struct Vec3s* rot, entity_t* this)
 {
     TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
     const uint32_t eyes[3] = { deref(baseToPointer(this, 0x580)) + 0, deref(baseToPointer(this, 0x580)) + 0x800, deref(baseToPointer(this, 0x580)) + 0x1000 };
@@ -231,13 +231,13 @@ void Pvp_Update(entity_t* this, GlobalContext* globalCtx) {
             dot = dotdir.x * dir.x + dotdir.y * dir.y + dotdir.z * dir.z;
             angle = Math_FAcosF(dot);
 
-            if (this->puppet.state.Flags[0] & (1 << 9)) {
+            if (this->puppet.state.flags[0] & (1 << 9)) {
                 if (this->puppet.currentShield == PLAYER_SHIELD_DEKU || this->puppet.currentShield == PLAYER_SHIELD_HYLIAN || this->puppet.currentShield == PLAYER_SHIELD_MIRROR) {
                     invulnerable = 1;
                 }
             }
 
-            if (this->puppet.state.Flags[0] & (1 << 5)) invulnerable = 1;
+            if (this->puppet.state.flags[0] & (1 << 5)) invulnerable = 1;
             if (invulnerable) return;
 
             switch(player->heldItemActionParam) {
@@ -378,7 +378,7 @@ void Pvp_Update(entity_t* this, GlobalContext* globalCtx) {
     }
 }
 
-static void init(entity_t* this, GlobalContext* globalCtx)
+void init(entity_t* this, GlobalContext* globalCtx)
 {
     Player* player = ((Player*)globalCtx->actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head);
     this->actor.room = 0xFF;
@@ -416,7 +416,7 @@ static void init(entity_t* this, GlobalContext* globalCtx)
     MLDEBUG_END(this, 0xDEADBEEF);
 }
 
-static void destroy(entity_t* this, GlobalContext* globalCtx)
+void destroy(entity_t* this, GlobalContext* globalCtx)
 {
     if (this->actor.child) {
         this->actor.child->parent = 0;
@@ -425,7 +425,7 @@ static void destroy(entity_t* this, GlobalContext* globalCtx)
     }
 }
 
-static void update(entity_t* this, GlobalContext* globalCtx)
+void update(entity_t* this, GlobalContext* globalCtx)
 {
 
     if (AGE_IS_ADULT(this->puppet.age)) this->collider.dim.height = 60;
@@ -448,7 +448,7 @@ static void update(entity_t* this, GlobalContext* globalCtx)
     this->actor.focus.rot = this->actor.world.rot;
 }
 
-static void draw(entity_t* this, GlobalContext* globalCtx)
+void draw(entity_t* this, GlobalContext* globalCtx)
 {
     gDPSetEnvColor(globalCtx->game.gfxCtx->polyOpa.p++, this->puppet.colorTunic.r, this->puppet.colorTunic.g, this->puppet.colorTunic.b, this->puppet.colorTunic.a);
 

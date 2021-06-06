@@ -39,8 +39,6 @@
 #define MLDEBUG_END(this, value)
 #endif
 
-#define __FUCK__ 0x4655434B
-
 #define DEBUG_OPA(ITEM0) gDPNoOpTag(polyOpa->p++, (ITEM0));
 
 #define PI 3.141592653589f
@@ -82,16 +80,16 @@ typedef struct {
     uint8_t currentBoots;
     uint8_t currentMask;
     uint8_t currentOcarina;
-    vec3s_t bodyAngle;
+    Vec3s bodyAngle;
     struct {
-        uint8_t Params[2];
+        uint8_t params[2];
     } action;
     struct {
-        uint32_t Flags[3];
+        uint32_t flags[3];
     } state;
     struct {
-        vec3s_t rot;
-        vec3s_t unk;
+        Vec3s rot;
+        Vec3s unk;
     } bunny_hood;
     struct {
         float length;
@@ -100,7 +98,7 @@ typedef struct {
         int32_t effectID;
         WeaponInfo swordInfo;
     } blure;
-} puppet_info_t;
+} PuppetInfo;
 
 typedef struct {
     SkelAnime skelAnime;
@@ -112,16 +110,16 @@ typedef struct {
     Actor actor;
     SkelAnimeSyncPair skelAnime0;
     ColliderCylinder collider;
-    puppet_info_t puppet;
+    PuppetInfo puppet;
     PvpContext pvpCtx;
     uint32_t DEBUG_OUT;
     uint32_t end;
 } entity_t;
 
-static void init(entity_t* this, GlobalContext* globalCtx);
-static void destroy(entity_t* this, GlobalContext* globalCtx);
-static void update(entity_t* this, GlobalContext* globalCtx);
-static void draw(entity_t* this, GlobalContext* globalCtx);
+void init(entity_t* this, GlobalContext* globalCtx);
+void destroy(entity_t* this, GlobalContext* globalCtx);
+void update(entity_t* this, GlobalContext* globalCtx);
+void draw(entity_t* this, GlobalContext* globalCtx);
 
 ActorInit initVars = {
     .id = 5,
