@@ -9,7 +9,7 @@ const Vec3f footOffsets[] = {
 
 const float shadowScales[] = { 90.0f, 60.0f };
 const float ageProperties_00[] = { 56.0f, 40.0f };
-const float ageProperties_38[] = {70.0f, 45.29412079f };
+const float ageProperties_38[] = { 70.0f, 45.29412079f };
 const Color_RGBA8_u32 white = {.rgba = 0xFFFFFFFF};
 const uint8_t copyFlags[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 
@@ -402,6 +402,7 @@ void update(entity_t* this, GlobalContext* globalCtx) {
 
     Collider_UpdateCylinder(this, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+    Pvp_Update(this, globalCtx);
 
     focusPos = this->actor.world.pos;
 
