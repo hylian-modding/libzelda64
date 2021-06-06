@@ -13,16 +13,8 @@ const float ageProperties_38[] = {70.0f, 45.29412079f };
 const Color_RGBA8_u32 white = {.rgba = 0xFFFFFFFF};
 const uint8_t copyFlags[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 
-void SkelAnime_InitLink_Custom(
-    struct GlobalContext* globalCtx
-    , struct SkelAnime* skelAnime
-    , struct FlexSkeletonHeader* skeletonHeaderSeg
-    , struct LinkAnimationHeader* animation
-    , int32_t flags
-    , struct Vec3s* jointTable
-    , struct Vec3s* morphTable
-    , int32_t limbBufCount
-) {
+void SkelAnime_InitLink_Custom(struct GlobalContext* globalCtx, struct SkelAnime* skelAnime, struct FlexSkeletonHeader* skeletonHeaderSeg,
+                            struct LinkAnimationHeader* animation, int32_t flags, struct Vec3s* jointTable, struct Vec3s* morphTable, int32_t limbBufCount) {
     struct FlexSkeletonHeader* skeletonHeader = skeletonHeaderSeg;
     int32_t headerJointCount = skeletonHeader->sh.limbCount;
     int32_t limbCount;
@@ -48,14 +40,7 @@ void SkelAnime_InitLink_Custom(
     if (animation != NULL) LinkAnimation_Change(globalCtx, skelAnime, animation, 1.0f, 0.0f, 0.0f, ANIMMODE_LOOP, 0.0f);
 }
 
-int32_t AnimateCallback(
-    struct GlobalContext* globalCtx
-    , int32_t limbIndex
-    , struct Gfx** dl
-    , struct Vec3f* pos
-    , struct Vec3s* rot
-    , entity_t* this
-) {
+int32_t AnimateCallback(struct GlobalContext* globalCtx, int32_t limbIndex, struct Gfx** dl, struct Vec3f* pos, struct Vec3s* rot, entity_t* this) {
     TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
     TwoHeadGfxArena* polyXlu = &globalCtx->game.gfxCtx->polyXlu;
 
@@ -63,8 +48,7 @@ int32_t AnimateCallback(
     memcpy(&this->skelAnime0.jointTable, &this->puppet.anim, 0x86);
     RESET_ENV_TO_TUNIC(polyOpa);
 
-    if (limbIndex == 1)
-    {
+    if (limbIndex == 1) {
         pos->y *= this->puppet.age == 0 ? 1 : 0.66f;
     }
 
@@ -75,19 +59,16 @@ int32_t AnimateCallback(
 
     // TODO: Improve Fisting Logic
 
-    if (this->actor.speedXZ >= 2.0f)
-    {
+    if (this->actor.speedXZ >= 2.0f) {
         isLFist = true;
         isRFist = true;
     }
-    else
-    {
+    else {
         isLFist = false;
         isRFist = false;
     }
 
-    switch(limbIndex)
-    {
+    switch(limbIndex) {
         case PLAYER_LIMB_UPPER: {
             Matrix_RotateRPY((this->puppet).bodyAngle.x, (this->puppet).bodyAngle.y, (this->puppet).bodyAngle.z, 1);
         } break;
