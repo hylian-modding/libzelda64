@@ -22,8 +22,7 @@ void SkelAnime_InitLink_Custom(
     , struct Vec3s* jointTable
     , struct Vec3s* morphTable
     , int32_t limbBufCount
-)
-{
+) {
     struct FlexSkeletonHeader* skeletonHeader = skeletonHeaderSeg;
     int32_t headerJointCount = skeletonHeader->sh.limbCount;
     int32_t limbCount;
@@ -49,16 +48,6 @@ void SkelAnime_InitLink_Custom(
     if (animation != NULL) LinkAnimation_Change(globalCtx, skelAnime, animation, 1.0f, 0.0f, 0.0f, ANIMMODE_LOOP, 0.0f);
 }
 
-// TODO: Move to a more appropriate header or file.
-void* memcpy(void* dest, const void* src, uint32_t len) {
-    char* d = dest;
-    const char* s = src;
-    while (len--) {
-        *d++ = *s++;
-    }
-    return dest;
-}
-
 int32_t AnimateCallback(
     struct GlobalContext* globalCtx
     , int32_t limbIndex
@@ -66,8 +55,7 @@ int32_t AnimateCallback(
     , struct Vec3f* pos
     , struct Vec3s* rot
     , entity_t* this
-)
-{
+) {
     TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
     TwoHeadGfxArena* polyXlu = &globalCtx->game.gfxCtx->polyXlu;
 
@@ -174,8 +162,7 @@ int32_t AnimateCallback(
     return 0;
 }
 
-int32_t OtherCallback(struct GlobalContext* globalCtx, int32_t limbIndex, struct Gfx** dList, struct Vec3s* rot, entity_t* this)
-{
+int32_t OtherCallback(struct GlobalContext* globalCtx, int32_t limbIndex, struct Gfx** dList, struct Vec3s* rot, entity_t* this) {
     TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
     const uint32_t eyes[3] = { deref(baseToPointer(this, 0x580)) + 0, deref(baseToPointer(this, 0x580)) + 0x800, deref(baseToPointer(this, 0x580)) + 0x1000 };
     this->puppet.eyeTexture = eyes[Helper_EyeBlink(&this->puppet.eyeIndex)];
@@ -378,8 +365,7 @@ void Pvp_Update(entity_t* this, GlobalContext* globalCtx) {
     }
 }
 
-void init(entity_t* this, GlobalContext* globalCtx)
-{
+void init(entity_t* this, GlobalContext* globalCtx) {
     Player* player = ((Player*)globalCtx->actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head);
     this->actor.room = 0xFF;
     this->puppet.age = ((uint32_t)this->actor.params);
@@ -416,8 +402,7 @@ void init(entity_t* this, GlobalContext* globalCtx)
     MLDEBUG_END(this, 0xDEADBEEF);
 }
 
-void destroy(entity_t* this, GlobalContext* globalCtx)
-{
+void destroy(entity_t* this, GlobalContext* globalCtx) {
     if (this->actor.child) {
         this->actor.child->parent = 0;
         Actor_Kill(this->actor.child);
@@ -425,9 +410,7 @@ void destroy(entity_t* this, GlobalContext* globalCtx)
     }
 }
 
-void update(entity_t* this, GlobalContext* globalCtx)
-{
-
+void update(entity_t* this, GlobalContext* globalCtx) {
     if (AGE_IS_ADULT(this->puppet.age)) this->collider.dim.height = 60;
     else this->collider.dim.height = 44;
 
@@ -448,8 +431,7 @@ void update(entity_t* this, GlobalContext* globalCtx)
     this->actor.focus.rot = this->actor.world.rot;
 }
 
-void draw(entity_t* this, GlobalContext* globalCtx)
-{
+void draw(entity_t* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(globalCtx->game.gfxCtx->polyOpa.p++, this->puppet.colorTunic.r, this->puppet.colorTunic.g, this->puppet.colorTunic.b, this->puppet.colorTunic.a);
 
     // Teardrop / feet shadow drawn by callback from ActorShape_Init, feetpos is set in AnimateCallback

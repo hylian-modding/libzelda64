@@ -11,6 +11,7 @@
 #include <libzelda64/lib/SkelAnime.h>
 #include <libzelda64/lib/BGCheck.h>
 #include <libzelda64/lib/AnimationContext.h>
+#include <libzelda64/lib/libc.h>
 #include <libzelda64/lib/types/GlobalContext.h>
 #include <libzelda64/lib/types/Player.h>
 #include <libzelda64/lib/types/ColliderInitType1.h>
