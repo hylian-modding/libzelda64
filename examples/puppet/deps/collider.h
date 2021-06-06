@@ -4,10 +4,10 @@
 // copy of Link's default ColliderCylinderInit
 const ColliderCylinderInit colliderInit = {
     {   // ColiderInit base
-        COLTYPE_HIT5,
+        COLTYPE_HIT7,
         AT_NONE,
-        AC_ON | AC_TYPE_ENEMY,
-        OC1_ON | OC1_TYPE_ALL,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
         OC2_TYPE_PLAYER,
         COLSHAPE_CYLINDER,
     },
@@ -16,49 +16,10 @@ const ColliderCylinderInit colliderInit = {
         { 0x00000000, 0x00, 0x00 }, // ColliderTouch toucher
         { 0xFFCFFFFF, 0x00, 0x00 }, // ColliderBumpInit bumper
         TOUCH_NONE,
-        BUMP_ON,
+        BUMP_ON | BUMP_HOOKABLE,
         OCELEM_ON,
     }, // Cylinder16 dim
     { 12, 60, 0, { 0, 0, 0 } },
-};
-
-// 1 damage unit = 1 / 16 heart when passed through Health_ChangeBy
-// however, the damage nibble is 0-F, so we need to use effects to apply damage correctly
-// in this case, we will store damage as 1 unit =  (1 / 16) / 4
-const DamageTable damageTable = {
-                        // first entry is amount of damage, second is effect index (0-15) which is entirely arbitrary (we have to impl)
-    /* Deku nut      */ DMG_ENTRY(0x01, 0),
-    /* Deku stick    */ DMG_ENTRY(0x08, 0),
-    /* Slingshot     */ DMG_ENTRY(0x02, 0),
-    /* Explosive     */ DMG_ENTRY(0x0A, 1),
-    /* Boomerang     */ DMG_ENTRY(0x04, 0),
-    /* Normal arrow  */ DMG_ENTRY(0x08, 2),
-    /* Hammer swing  */ DMG_ENTRY(0x08, 0),
-    /* Hookshot      */ DMG_ENTRY(0x01, 0),
-    /* Kokiri sword  */ DMG_ENTRY(0x04, 0),
-    /* Master sword  */ DMG_ENTRY(0x06, 0),
-    /* Giant's Knife */ DMG_ENTRY(0x07, 0),
-    /* Fire arrow    */ DMG_ENTRY(0x0A, 3),
-    /* Ice arrow     */ DMG_ENTRY(0x0A, 4),
-    /* Light arrow   */ DMG_ENTRY(0x0A, 5),
-    /* Unk arrow 1   */ DMG_ENTRY(0x08, 2),
-    /* Unk arrow 2   */ DMG_ENTRY(0x08, 2),
-    /* Unk arrow 3   */ DMG_ENTRY(0x08, 2),
-    /* Fire magic    */ DMG_ENTRY(0x04, 3),
-    /* Ice magic     */ DMG_ENTRY(0x04, 4),
-    /* Light magic   */ DMG_ENTRY(0x04, 5),
-    /* Shield        */ DMG_ENTRY(0x00, 0), // ??
-    /* Mirror Ray    */ DMG_ENTRY(0x00, 0), // ??
-    /* Kokiri spin   */ DMG_ENTRY(0x06, 0),
-    /* Giant spin    */ DMG_ENTRY(0x0F, 0),
-    /* Master spin   */ DMG_ENTRY(0x0F, 0),
-    /* Kokiri jump   */ DMG_ENTRY(0x08, 0),
-    /* Giant jump    */ DMG_ENTRY(0x0E, 0),
-    /* Master jump   */ DMG_ENTRY(0x06, 0),
-    /* Unknown 1     */ DMG_ENTRY(0x00, 0),
-    /* Unblockable   */ DMG_ENTRY(0x00, 0),
-    /* Hammer jump   */ DMG_ENTRY(0x0C, 0),
-    /* Unknown 2     */ DMG_ENTRY(0x00, 0)
 };
 
 /*

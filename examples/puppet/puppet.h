@@ -45,8 +45,20 @@
 #define PI 3.141592653589f
 #define TAU (PI * 2.f)
 #define HPI (PI * 0.5f)
-#define RAD2S (32768.f / PI)
+
+#define DEG2RAD 0.017453292f
+#define RAD2DEG 57.29578049f
 #define S2RAD (PI / 32768.f)
+#define S2DEG (180.f / 32768.f)
+#define RAD2S (32768.f / PI)
+#define DEG2S (32768.f / 180.f)
+
+#define STOR(RHS) (S2RAD * RHS)
+#define STOD(RHS) (S2DEG * RHS)
+#define RTOS(RHS) (RAD2S * RHS)
+#define DTOS(RHS) (DEG2S * RHS)
+#define DTOR(RHS) (DEG2RAD * RHS)
+#define RTOD(RHS) (RAD2DEG * RHS)
 
 enum {
     PVPDAMAGETYPE_NONE,
@@ -64,58 +76,60 @@ typedef struct {
     /* 0x00 */ uint8_t damageQueue;
     /* 0x02 */ uint8_t damageType;
     /* 0x02 */ int16_t damageAngle;
-} PvpContext; /* sizeof = 0x04 */
+    /* 0x04 */ uint32_t damageFlags;
+} PvpContext; /* sizeof = 0x08 */
 
 typedef struct {
-    Vec3s anim[PLAYER_LIMB_BUF_COUNT];
-    uint32_t age;
-    Color_RGBA8_u32 colorGauntlet;
-    Color_RGBA8_u32 colorBottle;
-    Color_RGBA8_u32 colorTunic;
-    uint32_t eyeTexture;
-    uint16_t eyeIndex;
-    uint16_t soundId;
-    uint8_t strength;
-    uint8_t currentSword;
-    uint8_t currentShield;
-    uint8_t currentBoots;
-    uint8_t currentMask;
-    uint8_t currentOcarina;
-    Vec3s bodyAngle;
+    /* 0x000 */ Vec3s anim[PLAYER_LIMB_BUF_COUNT];
+    /* 0x090 */ uint32_t age;
+    /* 0x094 */ Color_RGBA8_u32 colorGauntlet;
+    /* 0x098 */ Color_RGBA8_u32 colorBottle;
+    /* 0x09C */ Color_RGBA8_u32 colorTunic;
+    /* 0x0A0 */ uint32_t eyeTexture;
+    /* 0x0A4 */ uint16_t eyeIndex;
+    /* 0x0A6 */ uint16_t soundId;
+    /* 0x0A8 */ uint8_t strength;
+    /* 0x0A9 */ uint8_t currentSword;
+    /* 0x0AA */ uint8_t currentShield;
+    /* 0x0AB */ uint8_t currentBoots;
+    /* 0x0AC */ uint8_t currentMask;
+    /* 0x0AD */ uint8_t currentOcarina;
+    /* 0x0AE */ Vec3s bodyAngle;
     struct {
-        uint8_t params[2];
+        /* 0x0B4 */ uint8_t params[2];
     } action;
+    /* 0x0B6 */ uint8_t pad[2];
     struct {
-        uint32_t flags[3];
+        /* 0x0B8 */ uint32_t flags[3];
     } state;
     struct {
-        Vec3s rot;
-        Vec3s unk;
+        /* 0x0C4 */ Vec3s rot;
+        /* 0x0CA */ Vec3s unk;
     } bunny_hood;
     struct {
-        float length;
+        /* 0x0D0 */ float length;
     } deku_stick;
     struct {
-        int32_t effectID;
-        WeaponInfo swordInfo;
+        /* 0x0D4 */ int32_t effectID;
+        /* 0x0D8 */ WeaponInfo swordInfo;
     } blure;
-} PuppetInfo;
+} PuppetInfo; /* sizeof = 0x0F4 */
 
 typedef struct {
-    SkelAnime skelAnime;
-    Vec3s jointTable[PLAYER_LIMB_BUF_COUNT];
-    Vec3s morphTable[PLAYER_LIMB_BUF_COUNT];
-} SkelAnimeSyncPair;
+    /* 0x000 */ SkelAnime skelAnime;
+    /* 0x044 */ Vec3s jointTable[PLAYER_LIMB_BUF_COUNT];
+    /* 0x0D4 */ Vec3s morphTable[PLAYER_LIMB_BUF_COUNT];
+} SkelAnimeSyncPair; /* sizeof = 0x164 */
 
 typedef struct {
-    Actor actor;
-    SkelAnimeSyncPair skelAnime0;
-    ColliderCylinder collider;
-    PuppetInfo puppet;
-    PvpContext pvpCtx;
-    uint32_t DEBUG_OUT;
-    uint32_t end;
-} entity_t;
+    /* 0x000 */ Actor actor;
+    /* 0x13C */ SkelAnimeSyncPair skelAnime0;
+    /* 0x2A0 */ ColliderCylinder collider;
+    /* 0x2EC */ PuppetInfo puppet;
+    /* 0x3E0 */ PvpContext pvpCtx;
+    /* 0x3E8 */ uint32_t DEBUG_OUT;
+    /* 0x3EC */ uint32_t end;
+} entity_t; /* sizeof = 0x3F0 */
 
 void init(entity_t* this, GlobalContext* globalCtx);
 void destroy(entity_t* this, GlobalContext* globalCtx);

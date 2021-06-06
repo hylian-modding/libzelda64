@@ -16,6 +16,9 @@ asm("Rand_ZeroOne = 0x800CDCCC");
 extern int16_t Math_Rand_S16Offset(int16_t offset, int16_t range);
 asm("Math_Rand_S16Offset = 0x80063BF0");
 
+extern float Math_FTanF(float angle);
+asm("Math_FTanF = 0x800CD510");
+
 extern float Math_FAtan2F(float y, float x);
 asm("Math_FAtan2F = 0x800CD76C");
 
