@@ -37,6 +37,9 @@ asm("Math_CosF = 0x800A4650");
 extern float Math_SinF(float angle);
 asm("Math_SinF = 0x800A45FC");
 
+extern float Math_FAcosF(float angle);
+asm("Math_FAcosF = 0x800CD890");
+
 extern float Math3D_Vec3fMagnitudeSq(struct Vec3f* vec);
 asm("Math3D_Vec3fMagnitudeSq = 0x800A54E4");
 

@@ -43,6 +43,30 @@
 
 #define DEBUG_OPA(ITEM0) gDPNoOpTag(polyOpa->p++, (ITEM0));
 
+#define PI 3.141592653589f
+#define TAU (PI * 2.f)
+#define HPI (PI * 0.5f)
+#define RAD2S (32768.f / PI)
+#define S2RAD (PI / 32768.f)
+
+enum {
+    PVPDAMAGETYPE_NONE,
+    PVPDAMAGETYPE_KNOCKBACK_WEAK,
+    PVPDAMAGETYPE_KNOCKBACK_STRONG,
+    PVPDAMAGETYPE_FIRE,
+    PVPDAMAGETYPE_ICE,
+    PVPDAMAGETYPE_LIGHT,
+    PVPDAMAGETYPE_STUN,
+    PVPDAMAGETYPE_BOTTLE,
+    PVPDAMAGETYPE_COUNT
+};
+
+typedef struct {
+    /* 0x00 */ uint8_t damageQueue;
+    /* 0x02 */ uint8_t damageType;
+    /* 0x02 */ int16_t damageAngle;
+} PvpContext; /* sizeof = 0x04 */
+
 typedef struct {
     Vec3s anim[PLAYER_LIMB_BUF_COUNT];
     uint32_t age;
@@ -89,6 +113,7 @@ typedef struct {
     SkelAnimeSyncPair skelAnime0;
     ColliderCylinder collider;
     puppet_info_t puppet;
+    PvpContext pvpCtx;
     uint32_t DEBUG_OUT;
     uint32_t end;
 } entity_t;

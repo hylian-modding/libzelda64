@@ -10,9 +10,7 @@ const Vec3f footOffsets[] = {
 const float shadowScales[] = { 90.0f, 60.0f };
 const float ageProperties_00[] = { 56.0f, 40.0f };
 const float ageProperties_38[] = {70.0f, 45.29412079f };
-
 const Color_RGBA8_u32 white = {.rgba = 0xFFFFFFFF};
-
 const uint8_t copyFlags[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 
 static void SkelAnime_InitLink_Custom(
@@ -81,12 +79,12 @@ static int32_t AnimateCallback(
     {
         pos->y *= this->puppet.age == 0 ? 1 : 0.66f;
     }
-    
+
     // Limb Logic
     uint32_t bootDList = 0;
     bool isLFist = false;
     bool isRFist = false;
-    
+
     // TODO: Improve Fisting Logic
 
     if (this->actor.speedXZ >= 2.0f)
@@ -115,7 +113,7 @@ static int32_t AnimateCallback(
 
                     if (this->puppet.currentMask == MASK_INDEX_BUNNY_HOOD)
                         BunnyHood_Mtx_Setup(this, globalCtx);
-                    
+
                     gSPDisplayList(polyOpa->p++, baseToPointer(this, RESOLVE_PROXY(mask_dlists[this->puppet.currentMask - 1])));
                 }
                 Matrix_Pop();
@@ -171,7 +169,7 @@ static int32_t AnimateCallback(
     //#L10357 is damage color effect
 
     // Someday I'd like to implement the fishing pole.
-    
+
 
     return 0;
 }
@@ -184,6 +182,200 @@ static int32_t OtherCallback(struct GlobalContext* globalCtx, int32_t limbIndex,
     gSPSegment(polyOpa->p++, 8, this->puppet.eyeTexture);
     gSPSegment(polyOpa->p++, 9, deref(baseToPointer(this, 0x584)));
     return 1;
+}
+
+void Pvp_Update(entity_t* this, GlobalContext* globalCtx) {
+    Player* player = ((Player*)globalCtx->actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head);
+    int32_t invulnerable = 0;
+    float length;
+    float dot;
+    float angle;
+    Vec3f dir;
+    Vec3f dotdir;
+
+    this->collider.base.acFlags |= AC_TYPE_ALL;
+    this->collider.base.atFlags |= AT_TYPE_ALL;
+    this->collider.base.colType = COLTYPE_HIT7;
+
+    // hitbox touched by hitbox
+    if (this->collider.base.acFlags & AC_HIT) {
+        if (this->collider.base.ac == player) {
+            dir.x = this->actor.world.pos.x - player->actor.world.pos.x;
+            dir.y = this->actor.world.pos.y - player->actor.world.pos.y;
+            dir.z = this->actor.world.pos.z - player->actor.world.pos.z;
+
+            // normalize
+            length = sqrtf(dir.x * dir.x + dir.y * dir.y + dir.z * dir.z);
+            if (length != 0) {
+                dir.x /= length;
+                dir.y /= length;
+                dir.z /= length;
+            }
+
+            // FIXME?: If this isn't right, it's going to look hilarious. Might be backwards
+            this->pvpCtx.damageAngle = (int16_t)(Math_FAtan2F(dir.x, dir.z) * RAD2S);
+
+            // TODO: Check shielding
+            dotdir.x = Math_SinF(((float)player->actor.world.rot.y) * S2RAD);
+            dotdir.z = 0;
+            dotdir.z = Math_CosF(((float)player->actor.world.rot.y) * S2RAD);
+
+            // normalize
+            length = sqrtf(dotdir.x * dotdir.x + dotdir.y * dotdir.y + dotdir.z * dotdir.z);
+            if (length != 0) {
+                dotdir.x /= length;
+                dotdir.y /= length;
+                dotdir.z /= length;
+            }
+
+            dot = dotdir.x * dir.x + dotdir.y * dir.y + dotdir.z * dir.z;
+            angle = Math_FAcosF(dot);
+
+            if (this->puppet.state.Flags[0] & (1 << 9)) {
+                if (this->puppet.currentShield == PLAYER_SHIELD_DEKU || this->puppet.currentShield == PLAYER_SHIELD_HYLIAN || this->puppet.currentShield == PLAYER_SHIELD_MIRROR) {
+                    invulnerable = 1;
+                }
+            }
+
+            if (this->puppet.state.Flags[0] & (1 << 5)) invulnerable = 1;
+            if (invulnerable) return;
+
+            switch(player->heldItemActionParam) {
+                case PLAYER_AP_FISHING_POLE: {
+                    this->pvpCtx.damageQueue += 1;
+                    this->pvpCtx.damageType = PVPDAMAGETYPE_NONE;
+                    break;
+                }
+
+                case PLAYER_AP_SWORD_MASTER: {
+                    this->pvpCtx.damageQueue += 16;
+                    this->pvpCtx.damageType = PVPDAMAGETYPE_KNOCKBACK_WEAK;
+                    break;
+                }
+
+                case PLAYER_AP_SWORD_KOKIRI: {
+                    this->pvpCtx.damageQueue += 8;
+                    this->pvpCtx.damageType = PVPDAMAGETYPE_KNOCKBACK_WEAK;
+                    break;
+                }
+
+                case PLAYER_AP_SWORD_BGS: {
+                    this->pvpCtx.damageQueue += 20;
+                    this->pvpCtx.damageType = PVPDAMAGETYPE_KNOCKBACK_STRONG;
+                    break;
+                }
+
+                case PLAYER_AP_STICK: {
+                    this->pvpCtx.damageQueue += 12;
+                    this->pvpCtx.damageType = PVPDAMAGETYPE_KNOCKBACK_STRONG;
+                    break;
+                }
+
+                case PLAYER_AP_HAMMER: {
+                    this->pvpCtx.damageQueue += 18;
+                    this->pvpCtx.damageType = PVPDAMAGETYPE_KNOCKBACK_STRONG;
+                    break;
+                }
+
+                case PLAYER_AP_BOW: {
+                    this->pvpCtx.damageQueue += 12;
+                    this->pvpCtx.damageType = PVPDAMAGETYPE_NONE;
+                    break;
+                }
+
+                case PLAYER_AP_BOW_FIRE: {
+                    this->pvpCtx.damageQueue += 16;
+                    this->pvpCtx.damageType = PVPDAMAGETYPE_FIRE;
+                    break;
+                }
+
+                case PLAYER_AP_BOW_ICE: {
+                    this->pvpCtx.damageQueue += 16;
+                    this->pvpCtx.damageType = PVPDAMAGETYPE_ICE;
+                    break;
+                }
+
+                case PLAYER_AP_BOW_LIGHT: {
+                    this->pvpCtx.damageQueue += 20;
+                    this->pvpCtx.damageType = PVPDAMAGETYPE_LIGHT;
+                    break;
+                }
+
+                // removed arrows from early dev, if users somehow do this, light damage!
+                case PLAYER_AP_BOW_0C: {
+                    this->pvpCtx.damageQueue += 20;
+                    this->pvpCtx.damageType = PVPDAMAGETYPE_LIGHT;
+                    break;
+                }
+
+                case PLAYER_AP_BOW_0D: {
+                    this->pvpCtx.damageQueue += 20;
+                    this->pvpCtx.damageType = PVPDAMAGETYPE_LIGHT;
+                    break;
+                }
+
+                case PLAYER_AP_BOW_0E: {
+                    this->pvpCtx.damageQueue += 20;
+                    this->pvpCtx.damageType = PVPDAMAGETYPE_LIGHT;
+                    break;
+                }
+
+                case PLAYER_AP_SLINGSHOT: {
+                    this->pvpCtx.damageQueue += 8;
+                    this->pvpCtx.damageType = PVPDAMAGETYPE_NONE;
+                    break;
+                }
+
+                case PLAYER_AP_HOOKSHOT: {
+                    this->pvpCtx.damageQueue += 4;
+                    this->pvpCtx.damageType = PVPDAMAGETYPE_STUN;
+                    break;
+                }
+
+                case PLAYER_AP_LONGSHOT: {
+                    this->pvpCtx.damageQueue += 8;
+                    this->pvpCtx.damageType = PVPDAMAGETYPE_STUN;
+                    break;
+                }
+
+                case PLAYER_AP_BOMB: {
+                    this->pvpCtx.damageQueue += 28;
+                    this->pvpCtx.damageType = PVPDAMAGETYPE_KNOCKBACK_STRONG;
+                    break;
+                }
+
+                case PLAYER_AP_BOMBCHU: {
+                    this->pvpCtx.damageQueue += 28;
+                    this->pvpCtx.damageType = PVPDAMAGETYPE_KNOCKBACK_STRONG;
+                    break;
+                }
+
+                case PLAYER_AP_BOOMERANG: {
+                    this->pvpCtx.damageQueue += 8;
+                    this->pvpCtx.damageType = PVPDAMAGETYPE_STUN;
+                    break;
+                }
+
+                case PLAYER_AP_DINS_FIRE: {
+                    this->pvpCtx.damageQueue += 28;
+                    this->pvpCtx.damageType = PVPDAMAGETYPE_FIRE;
+                    break;
+                }
+
+                case PLAYER_AP_NUT: {
+                    this->pvpCtx.damageQueue += 1;
+                    this->pvpCtx.damageType = PVPDAMAGETYPE_STUN;
+                    break;
+                }
+
+                case PLAYER_AP_BOTTLE: {
+                    this->pvpCtx.damageQueue = 16;
+                    this->pvpCtx.damageType = PVPDAMAGETYPE_STUN;
+                    break;
+                }
+            }
+        }
+    }
 }
 
 static void init(entity_t* this, GlobalContext* globalCtx)
@@ -237,7 +429,7 @@ static void update(entity_t* this, GlobalContext* globalCtx)
 {
 
     if (AGE_IS_ADULT(this->puppet.age)) this->collider.dim.height = 60;
-    else this->collider.dim.height = 44; 
+    else this->collider.dim.height = 44;
 
     Vec3f focusPos;
     Player* player = ((Player*)globalCtx->actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head);
