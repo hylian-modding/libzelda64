@@ -69,6 +69,7 @@ void Pvp_Update(En_Puppet* this, GlobalContext* globalCtx) {
     // if player is 60 deg in front while shielding, or 60 deg behind while not, no damage
     // also if shield is better than deku, remove hookshotability
     // FIXME: When the sword is in hand (causing the shield to be on the arm) the back is still gaurded, when it should be the side!
+    // FIXME: Wooden shield blocks fire arrows
     if (((shielding && angle >= 0) || (behind && !shielding)) && (angle > DTOR(30) || angle < -DTOR(30))) {
         invulnerable = 1;
         if (this->puppet.currentShield > PLAYER_SHIELD_DEKU) {
@@ -95,7 +96,10 @@ void Pvp_Update(En_Puppet* this, GlobalContext* globalCtx) {
     if (this->puppet.stateFlags[0] & (1 << 26) || this->pvpCtx.iframes) {
         invulnerable = 1;
         this->pvpCtx.iframes--;
-        if(this->pvpCtx.iframes < 0) this->pvpCtx.iframes = 0;
+        if(this->pvpCtx.iframes < 0) {
+            this->pvpCtx.iframes = 0;
+            this->actor.colorFilterParams = 0;
+        }
     }
     if (invulnerable) return;
 
@@ -104,6 +108,8 @@ void Pvp_Update(En_Puppet* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         this->pvpCtx.iframes = 15; // FIXME: Do this right
+        this->actor.colorFilterTimer = 15;
+        this->actor.colorFilterParams = 0x5FF1;
 
         // FIXME?: If this isn't right, it's going to look hilarious. Might be backwards
         this->pvpCtx.damageAngle = (int16_t)(Math_FAtan2F(dir.x, dir.z) * RAD2S);

@@ -33,8 +33,8 @@ void BunnyHood_Mtx_Setup(En_Puppet* this, GlobalContext* globalCtx) {
     TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
 
     Mtx *ear_mtx = ((Mtx*)baseToPointer(this, PROXY_LINK_MTX_BUNNY1));    // Allocate 0x80 bytes of free space.
-    vec3s_t *r = &(this->puppet).bunny_hood.rot;
-    vec3s_t ear;
+    Vec3s *r = &(this->puppet).bunny_hood.rot;
+    Vec3s ear;
     gSPSegment(polyOpa->p++, 0x0B, ear_mtx);
 
     // Right Ear

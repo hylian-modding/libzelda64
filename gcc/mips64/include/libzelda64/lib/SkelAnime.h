@@ -33,6 +33,9 @@ asm("SkelAnime_DrawOpa = 0x8008993C");
 void SkelAnime_DrawFlexOpa(struct GlobalContext* globalCtx, void** skeleton, struct Vec3s* jointTable, int32_t dListCount, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* instance);
 asm("SkelAnime_DrawFlexOpa = 0x80089D8C");
 
+void SkelAnime_DrawFlexLod(struct GlobalContext* globalCtx, void** skeleton, struct Vec3s* jointTable, int32_t dListCount, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* arg, int32_t dListIndex);
+asm("SkelAnime_DrawFlexLod = 0x800894A4");
+
 int16_t Animation_GetLength(void* animation);
 asm("Animation_GetLength = 0x8008A158");
 

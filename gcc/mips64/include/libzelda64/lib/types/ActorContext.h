@@ -7,6 +7,21 @@
 #include "TitleCardContext.h"
 #include <inttypes.h>
 
+typedef enum {
+    /* 0x00 */ ACTORCAT_SWITCH,
+    /* 0x01 */ ACTORCAT_BG,
+    /* 0x02 */ ACTORCAT_PLAYER,
+    /* 0x03 */ ACTORCAT_EXPLOSIVE,
+    /* 0x04 */ ACTORCAT_NPC,
+    /* 0x05 */ ACTORCAT_ENEMY,
+    /* 0x06 */ ACTORCAT_PROP,
+    /* 0x07 */ ACTORCAT_ITEMACTION,
+    /* 0x08 */ ACTORCAT_MISC,
+    /* 0x09 */ ACTORCAT_BOSS,
+    /* 0x0A */ ACTORCAT_DOOR,
+    /* 0x0B */ ACTORCAT_CHEST
+} ActorCategory;
+
 typedef struct ActorContext {
     /* 0x000 */ uint8_t damageFlashTimer; // Screen flashes white when this reaches 0
     /* 0x001 */ uint8_t flashType; // Type of flash for the flash timer

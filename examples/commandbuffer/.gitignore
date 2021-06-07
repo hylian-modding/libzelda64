@@ -1,0 +1,11 @@
+*.o
+*.elf
+entry.ld
+*.idb
+*.id0
+*.id1
+*.id2
+*.nam
+*.til
+Sfx_Hook.c
+SkelAnime_DrawFlexLodHook.c
