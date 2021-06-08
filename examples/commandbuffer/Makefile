@@ -6,7 +6,7 @@ ADDRESS = 0x80800000
 CC   = @mips64-gcc
 LD   = @mips64-ld
 
-CFLAGS = -I$(LIBZ64_PATH) -D_LANGUAGE_C -DF3DEX_GBI_2 -D_MLDEBUG -G 0 -Ofast	\
+CFLAGS = -I$(LIBZ64_PATH) -D_LANGUAGE_C -DF3DEX_GBI_2 -D_MLDEBUG -G 0 -g		\
 -std=gnu11 -mtune=vr4300 -march=vr4300 -mabi=32 -mips3							\
 -mno-shared -mdivide-breaks -mno-explicit-relocs -mno-memcpy					\
 -mno-check-zero-division -ffreestanding -fno-reorder-blocks -w

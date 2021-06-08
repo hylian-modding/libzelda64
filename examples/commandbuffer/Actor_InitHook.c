@@ -1,5 +1,6 @@
 #include <libzelda64/lib/Actor.h>
 #include "commandbuffer.h"
+#include "Actor_HookHelpers.h"
 
 void Actor_InitHook(struct Actor* actor, struct GlobalContext* globalCtx) {
     CommandActor* commandActor = CommandBuffer_CommandActor_GetNextCollision(actor, COMMANDACTORTYPE_INIT, COMMANDACTORTYPE_INIT);

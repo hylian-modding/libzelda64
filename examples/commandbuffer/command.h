@@ -9,13 +9,13 @@ enum {
     COMMANDTYPE_NONE,
     COMMANDTYPE_ACTORSPAWN,
     COMMANDTYPE_ACTORDESTROY,
-    COMMANDTYPE_LOADOBJECT,
     COMMANDTYPE_RELOCATE,
     COMMANDTYPE_UPDATEBUTTON,
     COMMANDTYPE_PLAYSOUND,
     COMMANDTYPE_PLAYMUSIC,
     COMMANDTYPE_WARP,
     COMMANDTYPE_MOVEPLAYERTOADDRESS,
+    COMMANDTYPE_ARBITRARYFUNCTIONCALL,
     COMMANDTYPE_SFX
 };
 
@@ -29,10 +29,6 @@ typedef struct {
 } CommandParams_ActorSpawn; /* sizeof = 0x1C */
 
 typedef struct {
-
-} CommandParams_LoadObject;
-
-typedef struct {
     /* 0x00 */ void* allocatedVRamAddress;
     /* 0x04 */ struct OverlayRelocationSection* overlayInfo;
     /* 0x08 */ void* vRamAddress;
@@ -43,13 +39,14 @@ typedef struct {
 } CommandParams_UpdateButton; /* sizeof = 0x02 */
 
 typedef struct {
-    uint16_t sfxId;
-    Vec3f a1;
-    uint8_t a2;
-    float a3;
-    float a4;
-    float a5;
-} CommandParams_PlaySound;
+    /* 0x00 */ uint16_t sfxId;
+    /* 0x02 */ uint16_t pad;
+    /* 0x04 */ Vec3f a1;
+    /* 0x10 */ uint8_t a2;
+    /* 0x14 */ float a3;
+    /* 0x18 */ float a4;
+    /* 0x1C */ float a5;
+} CommandParams_PlaySound; /* sizeof = 0x20 */
 
 typedef struct {
 
@@ -60,25 +57,32 @@ typedef struct {
 } CommandParams_Warp;
 
 typedef struct {
-    struct Player* address;
-} CommandParams_MovePlayerTooAddress;
+    /* 0x00 */ struct Player* address;
+} CommandParams_MovePlayerTooAddress; /* sizeof = 0x04 */
+
+typedef uint64_t(*ArbitraryFunction)(uint64_t a0, uint64_t a1, uint64_t a2, uint64_t a3);
+
+typedef struct {
+    /* 0x00 */ ArbitraryFunction fn;
+    /* 0x04 */ uint64_t* args[4];
+} CommandParams_ArbitraryFunctionCall; /* sizeof = 0x08 */
 
 typedef union {
     CommandParams_ActorSpawn actorSpawn;
-    CommandParams_LoadObject loadObject;
     CommandParams_Relocate relocate;
     CommandParams_UpdateButton updateButton;
     CommandParams_PlaySound playSound;
     CommandParams_PlayMusic playMusic;
     CommandParams_Warp warp;
     CommandParams_MovePlayerTooAddress movePlayerToAddr;
-} CommandParams; /* sizeof = 0x1C */
+    CommandParams_ArbitraryFunctionCall arbFn;
+} CommandParams; /* sizeof = 0x20 */
 
 typedef struct {
     /* 0x00 */ uint32_t type;
     /* 0x04 */ uint32_t uuid;
     /* 0x08 */ CommandParams params;
-} Command; /* sizeof = 0x24 */
+} Command; /* sizeof = 0x28 */
 
 #endif
 

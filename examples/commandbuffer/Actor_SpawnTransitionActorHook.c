@@ -1,5 +1,6 @@
 #include <libzelda64/lib/Actor.h>
 #include "commandbuffer.h"
+#include "Actor_HookHelpers.h"
 
 struct Actor* Actor_SpawnTransitionActorHook(struct ActorContext* actorCtx, struct GlobalContext* globalCtx, int16_t actorId, float posX, float posY, float posZ, int16_t rotX, int16_t rotY, int16_t rotZ, int16_t params) {
     CommandActor* commandActor = 0;

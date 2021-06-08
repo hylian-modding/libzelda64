@@ -5,8 +5,12 @@
 #include "command.h"
 
 typedef struct {
-    /* 0x00 */ Actor* actor;
+    /* 0x00 */ struct Actor* actor;
 } CommandReturnData_ActorSpawn; /* sizeof = 0x04 */
+
+typedef struct {
+    /* 0x00 */ uint32_t value;
+} CommandReturnData_ArbitraryFunction; /* sizeof = 0x04 */
 
 typedef struct {
     /* 0x00 */ uint16_t sfxId;
@@ -15,6 +19,7 @@ typedef struct {
 typedef union {
     CommandReturnData_ActorSpawn actorSpawn;
     CommandReturnData_Sfx sfx;
+    CommandReturnData_ArbitraryFunction arbFn;
 } CommandReturnData; /* sizeof = 0x04 */
 
 typedef struct {

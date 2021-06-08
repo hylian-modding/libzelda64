@@ -28,7 +28,7 @@ extern void Actor_AddToCategory(struct ActorContext* actorCtx, struct Actor* act
 asm("Actor_AddToCategory = 0x80024F98");
 
 extern Actor* Actor_RemoveFromCategory(struct GlobalContext* globalCtx, struct ActorContext* actorCtx, struct Actor* actorToRemove);
-asm("Actor_AddToCategory = 0x80024FE0");
+asm("Actor_RemoveFromCategory = 0x80024FE0");
 
 extern void Actor_FreeOverlay(struct ActorOverlay* actorOverlay);
 asm("Actor_FreeOverlay = 0x800250AC");
