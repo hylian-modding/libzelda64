@@ -1,12 +1,12 @@
 PROGRAM = commandbuffer
-SOURCES = Actor_DestroyHook.c Actor_SpawnEntryHook.c Actor_SpawnTransitionActorHook.c Actor_UpdateHook.c Actor_InitHook.c Actor_SpawnHook.c Actor_SpawnWithAddress.c Sfx_Hook.c
+SOURCES = Actor_DestroyCave.c Actor_SpawnCave.c Actor_SpawnTransitionActorCave.c Actor_UpdateCave.c SkelAnime_DrawFlexLodCave.c Actor_InitCave.c Actor_SpawnEntryCave.c Actor_SpawnWithAddress.c Sfx_Cave.c
 OBJECTS = $(SOURCES:.c=.o)
 ADDRESS = 0x80800000
 
 CC   = @mips64-gcc
 LD   = @mips64-ld
 
-CFLAGS = -I$(LIBZ64_PATH) -D_LANGUAGE_C -DF3DEX_GBI_2 -D_MLDEBUG -G 0 -g		\
+CFLAGS = -I$(LIBZ64_PATH) -D_LANGUAGE_C -DF3DEX_GBI_2 -D_MLDEBUG -G 0 -Ofast	\
 -std=gnu11 -mtune=vr4300 -march=vr4300 -mabi=32 -mips3							\
 -mno-shared -mdivide-breaks -mno-explicit-relocs -mno-memcpy					\
 -mno-check-zero-division -ffreestanding -fno-reorder-blocks -w
@@ -32,3 +32,4 @@ entry:
 
 clean:
 	@rm -f *.elf *.o entry.ld
+	@rm -f bin/*.bin bin/*.ts

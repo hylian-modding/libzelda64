@@ -1,8 +1,8 @@
 #include <libzelda64/lib/Actor.h>
 #include "commandbuffer.h"
-#include "Actor_HookHelpers.h"
+#include "Actor_CaveHelpers.h"
 
-struct Actor* Actor_SpawnEntryHook(struct ActorContext* actorCtx, struct ActorEntry* actorEntry, struct GlobalContext* globalCtx) {
+struct Actor* Actor_SpawnEntryCave(struct ActorContext* actorCtx, struct ActorEntry* actorEntry, struct GlobalContext* globalCtx) {
     CommandActor* commandActor = 0;
     struct Actor* actor = Actor_SpawnEntry(actorCtx, actorEntry, globalCtx);
 

@@ -6,7 +6,7 @@
 #include <libzelda64/lib/Flags.h>
 #include <libzelda64/lib/ZeldaArena.h>
 #include <libzelda64/lib/libc.h>
-#include "Actor_HookHelpers.h"
+#include "Actor_CaveHelpers.h"
 
 void Actor_SpawnWithAddress(GlobalContext* globalCtx, int16_t actorId, int16_t params, Vec3f* pos, Vec3s* rot, Actor* actor) {
     ActorInit* actorInit;

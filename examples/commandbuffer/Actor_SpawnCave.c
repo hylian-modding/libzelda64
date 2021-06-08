@@ -6,9 +6,9 @@
 #include <libzelda64/lib/Flags.h>
 #include <libzelda64/lib/ZeldaArena.h>
 #include <libzelda64/lib/libc.h>
-#include "Actor_HookHelpers.h"
+#include "Actor_CaveHelpers.h"
 
-Actor* Actor_SpawnHook(struct ActorContext* actorCtx, struct GlobalContext* globalCtx, int16_t actorId, float posX, float posY, float posZ, int16_t rotX, int16_t rotY, int16_t rotZ, int16_t params) {
+Actor* Actor_SpawnCave(struct ActorContext* actorCtx, struct GlobalContext* globalCtx, int16_t actorId, float posX, float posY, float posZ, int16_t rotX, int16_t rotY, int16_t rotZ, int16_t params) {
     Actor* actor = 0;
     ActorInit* actorInit;
     ActorOverlay* overlayEntry;

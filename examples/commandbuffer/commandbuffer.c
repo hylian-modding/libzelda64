@@ -65,11 +65,25 @@ void CommandBuffer_Update(GameState* gameState) {
             Audio_PlaySoundGeneral(command->params.playSound.sfxId, &command->params.playSound.a1, command->params.playSound.a2,
                             &command->params.playSound.a3, &command->params.playSound.a4, &command->params.playSound.a5);
         }
-        else if (command->type == COMMANDTYPE_MOVEPLAYERTOADDRESS) {
+        else if (command->type == COMMANDTYPE_MOVEPLAYERTOADDRESS && commandReturn) {
             if (player != command->params.movePlayerToAddr.address) {
+                // murk lonk
+                player->actor.update = 0;
+                player->actor.draw = 0;
+                // murk novi
+                player->naviActor->update = 0;
+                player->naviActor->draw = 0;
                 Actor_SpawnWithAddress(&globalCtx, player->actor.id, player->actor.params, &player->actor.world.pos, &player->actor.world.rot, command->params.movePlayerToAddr.address);
-                Actor_Destroy(player, &globalCtx);
+                Actor_RemoveFromCategory(&globalCtx, &globalCtx.actorCtx, player->naviActor);
+                Actor_RemoveFromCategory(&globalCtx, &globalCtx.actorCtx, player);
+                ZeldaArena_Free(player->naviActor);
+                ZeldaArena_Free(player);
                 player = command->params.movePlayerToAddr.address;
+                commandReturn->type = command->type;
+                commandReturn->uuid = command->uuid;
+                commandReturn->data.actorSpawn.actor = player;
+                globalCtx.mainCamera.player = player;
+                globalCtx.mainCamera.target = player;
             }
         }
         else if (command->type == COMMANDTYPE_ARBITRARYFUNCTIONCALL && commandReturn) {
