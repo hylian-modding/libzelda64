@@ -323,9 +323,10 @@ int32_t AnimateCallback(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dl, V
                     this->actor.focus.pos.y = pos->y;
                     this->actor.focus.pos.z = pos->z;
 
-                    if (this->puppet.currentMask == MASK_INDEX_BUNNY_HOOD)
+                    if (this->puppet.currentMask == MASK_INDEX_BUNNY_HOOD){
                         BunnyHood_Mtx_Setup(this, globalCtx);
-
+                    }
+                        
                     gSPDisplayList(polyOpa->p++, baseToPointer(this, RESOLVE_PROXY(mask_dlists[this->puppet.currentMask - 1])));
                 }
                 Matrix_Pop();
@@ -336,11 +337,23 @@ int32_t AnimateCallback(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dl, V
                 DrawSword(globalCtx, this, pos, rot);
             } else if (ACTION_IS_MEGATON_HAMMER) {
                 draw_hammer(globalCtx, this, pos, rot);
+            }else if (ACTION_IS_BOOMERANG){
+                DrawBoomerang(globalCtx, this, pos, rot);
+            }else if (ACTION_IS_BOTTLE){
+                DrawBottle(globalCtx, this, pos, rot);
             }
         } break;
         case PLAYER_LIMB_HAND_R: {
             if ((ACTION_IS_SWORD && !ACTION_IS_BIGGORON_SWORD) || (ACTION_IS_SHIELDING)) {
                 DrawShield(globalCtx, this, pos, rot);
+            }else if (ACTION_IS_BOW){
+                DrawBow(globalCtx, this, pos, rot);
+            }else if (ACTION_IS_OCARINA){
+                DrawOcarina(globalCtx, this, pos, rot);
+            }else if (ACTION_IS_HOOKSHOT){
+                DrawHookshot(globalCtx, this, pos, rot);
+            }else if (ACTION_IS_SLINGSHOT){
+                DrawSlingshot(globalCtx, this, pos, rot);
             }
         } break;
         case PLAYER_LIMB_SHEATH: {
@@ -449,7 +462,9 @@ void update(En_Puppet* this, GlobalContext* globalCtx) {
 
     this->actor.shape.shadowAlpha = player->actor.shape.shadowAlpha;
 
-    Pvp_Update(this, globalCtx);
+    #ifdef IS_PVP
+        Pvp_Update(this, globalCtx);
+    #endif
     Collider_UpdateCylinder(this, &this->collider);
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

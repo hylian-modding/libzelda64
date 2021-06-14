@@ -24,5 +24,7 @@ typedef struct {
     /* 0x08 */ int32_t iframes;
 } PvpContext; /* sizeof = 0x0C */
 
+//#define IS_PVP
+
 #endif
 

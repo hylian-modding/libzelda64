@@ -111,6 +111,84 @@ void DrawShield(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s* ro
     Matrix_Pop();
 }
 
+void DrawBow(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s* rot){
+    TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
+    Matrix_Push();
+    {
+        Matrix_Translate(pos->x, pos->y, pos->z, 1);
+        Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
+        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx, __FILE__, __LINE__), G_MTX_LOAD);
+
+        gSPDisplayList(polyOpa->p++, baseToPointer(this, PROXY_LINK_DL_BOW));
+    }
+    Matrix_Pop();
+}
+
+void DrawOcarina(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s* rot){
+    TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
+    Matrix_Push();
+    {
+        Matrix_Translate(pos->x, pos->y, pos->z, 1);
+        Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
+        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx, __FILE__, __LINE__), G_MTX_LOAD);
+
+        switch(this->puppet.currentOcarina){
+            case 0:
+                break;
+            case 1:
+                gSPDisplayList(polyOpa->p++, baseToPointer(this, PROXY_LINK_DL_OCARINA0));
+                break;
+            case 2:
+                if (this->puppet.age == 0){
+                    gSPDisplayList(polyOpa->p++, baseToPointer(this, PROXY_LINK_DL_OCARINA1_ADULT));
+                }else{
+                    gSPDisplayList(polyOpa->p++, baseToPointer(this, PROXY_LINK_DL_OCARINA1_CHILD));
+                }
+                break;
+        }
+    }
+    Matrix_Pop();
+}
+
+void DrawHookshot(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s* rot){
+    TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
+    Matrix_Push();
+    {
+        Matrix_Translate(pos->x, pos->y, pos->z, 1);
+        Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
+        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx, __FILE__, __LINE__), G_MTX_LOAD);
+
+        gSPDisplayList(polyOpa->p++, baseToPointer(this, PROXY_LINK_DL_HOOKSHOT));
+    }
+    Matrix_Pop();
+}
+
+void DrawSlingshot(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s* rot){
+    TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
+    Matrix_Push();
+    {
+        Matrix_Translate(pos->x, pos->y, pos->z, 1);
+        Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
+        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx, __FILE__, __LINE__), G_MTX_LOAD);
+
+        gSPDisplayList(polyOpa->p++, baseToPointer(this, PROXY_LINK_DL_SLINGSHOT));
+    }
+    Matrix_Pop();
+}
+
+void DrawBoomerang(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s* rot){
+    TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
+    Matrix_Push();
+    {
+        Matrix_Translate(pos->x, pos->y, pos->z, 1);
+        Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
+        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx, __FILE__, __LINE__), G_MTX_LOAD);
+
+        gSPDisplayList(polyOpa->p++, baseToPointer(this, PROXY_LINK_DL_BOOMERANG));
+    }
+    Matrix_Pop();
+}
+
 // Composite
 
 void DrawEquipBack(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s* rot) {

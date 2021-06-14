@@ -61,7 +61,7 @@ volatile ooto_sync_object_t sync_entries[] = {
     SYNC_RAW("state3", OFFSETOF(Player, stateFlags3), OFFSETOF(En_Puppet, puppet.stateFlags[2]), sizeof(uint32_t)),
     SYNC_RAW_NO_LINK("deku_stick_length", (LINK + 0x84c), OFFSETOF(En_Puppet, puppet.dekuStickLength), sizeof(float)),
     SYNC_RAW("body_angle", OFFSETOF(Player, bodyAngle), OFFSETOF(En_Puppet, puppet.bodyAngle), sizeof(Vec3s)),
-    SYNC_RAW_NO_LINK("anim", 0x80600000, OFFSETOF(En_Puppet, puppet.anim), 0x86),
+    SYNC_RAW_NO_LINK("anim", (LINK + 0x01F0), OFFSETOF(En_Puppet, puppet.anim), 0x86),
     SYNC_RAW_NO_LINK("str", 0x806FFF00, OFFSETOF(En_Puppet, puppet.strength), sizeof(uint8_t)),
     SYNC_RAW_NO_LINK("ears", 0x803AF180, OFFSETOF(En_Puppet, puppet.bunnyHoodRot), (sizeof(Vec3s) * 2)),
     SYNC_RAW_NO_LINK("age", 0x8011A5D4, OFFSETOF(En_Puppet, puppet.age), sizeof(uint32_t)),
