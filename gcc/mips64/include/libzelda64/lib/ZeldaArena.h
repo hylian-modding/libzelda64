@@ -15,6 +15,9 @@ asm("ZeldaArena_Malloc = 0x80066C10");
 extern void* ZeldaArena_MallocR(uint32_t size);
 asm("ZeldaArena_MallocR = 0x80066C38");
 
+extern void* ZeldaArena_Free(void* addr);
+asm("ZeldaArena_Free = 0x80066C90");
+
 extern void Overlay_Relocate(void* allocatedVRamAddress, struct OverlayRelocationSection* overlayInfo, void* vRamAddress);
 asm("Overlay_Relocate = 0x800CC8F0");
 

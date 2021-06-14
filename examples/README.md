@@ -4,11 +4,14 @@ Example projects using libzelda64.
 ## [boat](boat)
 A boat actor that can be driven.
 
+### Contributors
+[Drahsid](https://github.com/Drahsid), [Psi-Hate](https://github.com/Psi-Hate)
+
 ## [commandbuffer](commandbuffer)
 The upcoming commandbuffer that will be used in OOTO and MMO.
 
 ### Contributors
-[Drahsid](https://github.com/Drahsid), [Psi-Hate](https://github.com/Psi-Hate)
+[Drahsid](https://github.com/Drahsid)
 
 ## [puppet](puppet)
 The upcoming puppet actor that will be used in OOTO and MMO.

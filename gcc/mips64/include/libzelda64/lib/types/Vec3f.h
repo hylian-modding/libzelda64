@@ -17,6 +17,7 @@ typedef struct Vec3f {
 #define Vec3f_New(x, y, z) ((Vec3f){x, y, z})
 
 // Don't these exist in-game??
+#ifdef USE_CUSTOM_VEC3F_MATH
 static void Math3D_Vec3f_MulF(Vec3f* lhs, float rhs, Vec3f* ret) {
     ret->x = lhs->x * rhs;
     ret->y = lhs->y * rhs;
@@ -53,6 +54,7 @@ static void Math3D_Vec3f_SubV(Vec3f* lhs, Vec3f* rhs, Vec3f* ret) {
     ret->y = lhs->y - rhs->y;
     ret->z = lhs->z - rhs->z;
 }
+#endif
 
 #endif
 

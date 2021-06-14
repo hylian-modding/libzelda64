@@ -9,3 +9,4 @@ entry.ld
 *.til
 Sfx_Hook.c
 SkelAnime_DrawFlexLodHook.c
+bin

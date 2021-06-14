@@ -1,6 +1,7 @@
 #include <inttypes.h>
 #include <libzelda64/lib/types/GlobalContext.h>
 #include "commandbuffer.h"
+#include "Actor_CaveHelpers.h"
 
 extern void func_8002F7DC(struct Actor* actor, uint16_t sfxId);
 asm("func_8002F7DC = 0x80022F84");
@@ -11,12 +12,12 @@ asm("globalCtx = 0x801C84A0");
 /* 80022FB8?
     I don't really know the purpose of this
     glank sets up like this in 1.0:
-    JAL $Sfx_Hook
+    JAL $Sfx_Cave
     SW  $a1, 0x0024($sp)
 
     Do we need this?
 */
-void Sfx_Hook(struct Actor* actor, uint16_t sfxId) {
+void Sfx_Cave(struct Actor* actor, uint16_t sfxId) {
     struct Player* player = ((struct Player*)globalCtx.actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head);
     CommandReturn* commandReturn = 0;
     uint32_t index;
@@ -28,8 +29,8 @@ void Sfx_Hook(struct Actor* actor, uint16_t sfxId) {
         temp2 = 0x6800;
 
         for (index = 0; index < COMMAND_MAX; index++) {
-            if (cmdBuffer->commandReturns[index].type == COMMANDTYPE_SFX) {
-                commandReturn = &cmdBuffer->commandReturns[index];
+            if (gCmdBuffer->commandReturns[index].type == COMMANDTYPE_SFX) {
+                commandReturn = &gCmdBuffer->commandReturns[index];
             }
         }
 

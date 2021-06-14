@@ -5,7 +5,7 @@
 #include "commandbuffer.h"
 
 extern uint32_t gSegments[];
-asm("gSegments = 0x80120C38"); // may be wrong
+asm("gSegments = 0x80120C38");
 
 extern ActorOverlay gActorOverlayTable[];
 asm("gActorOverlayTable = 0x800E8530");
@@ -17,8 +17,8 @@ __attribute__((always_inline)) inline CommandActor* CommandBuffer_CommandActor_G
     CommandActor* commandActor = 0;
 
     for (index = 0; index < COMMANDACTOR_MAX; index++) {
-        if (cmdBuffer->commandActors[index].type == COMMANDACTORTYPE_NONE) {
-            commandActor = &cmdBuffer->commandActors[index];
+        if (gCmdBuffer->commandActors[index].type == COMMANDACTORTYPE_NONE) {
+            commandActor = &gCmdBuffer->commandActors[index];
         }
     }
 
@@ -30,8 +30,8 @@ __attribute__((always_inline)) inline CommandActor* CommandBuffer_CommandActor_G
     CommandActor* commandActor = 0;
 
     for (index = 0; index < COMMANDACTOR_MAX; index++) {
-        if (cmdBuffer->commandActors[index].type >= minType && cmdBuffer->commandActors[index].type <= maxType) {
-            if (cmdBuffer->commandActors[index].actor == actor) commandActor = &cmdBuffer->commandActors[index];
+        if (gCmdBuffer->commandActors[index].type >= minType && gCmdBuffer->commandActors[index].type <= maxType) {
+            if (gCmdBuffer->commandActors[index].actor == actor) commandActor = &gCmdBuffer->commandActors[index];
         }
     }
 

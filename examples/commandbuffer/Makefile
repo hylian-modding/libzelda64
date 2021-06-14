@@ -1,5 +1,5 @@
 PROGRAM = commandbuffer
-SOURCES = Actor_DestroyHook.c Actor_SpawnEntryHook.c Actor_SpawnTransitionActorHook.c Actor_UpdateHook.c Actor_InitHook.c Actor_SpawnHook.c Actor_SpawnWithAddress.c Sfx_Hook.c
+SOURCES = Actor_DestroyCave.c Actor_SpawnCave.c Actor_SpawnTransitionActorCave.c Actor_UpdateCave.c SkelAnime_DrawFlexLodCave.c Actor_InitCave.c Actor_SpawnEntryCave.c Actor_SpawnWithAddress.c Sfx_Cave.c
 OBJECTS = $(SOURCES:.c=.o)
 ADDRESS = 0x80800000
 
@@ -32,3 +32,4 @@ entry:
 
 clean:
 	@rm -f *.elf *.o entry.ld
+	@rm -f bin/*.bin bin/*.ts
