@@ -3,3 +3,4 @@
 *.ovl
 .vscode
 node_modules
+examples/bin

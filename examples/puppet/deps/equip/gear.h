@@ -36,6 +36,13 @@ const uint32_t shield_proxies[4] = {
     PROXY_LINK_DL_SHIELD2
 };
 
+const uint32_t gauntlet_hands[4] = {
+    ADULT_LINK_LUT_DL_UPGRADE_LHAND,
+    ADULT_LINK_LUT_DL_UPGRADE_LFIST,
+    ADULT_LINK_LUT_DL_UPGRADE_RHAND,
+    ADULT_LINK_LUT_DL_UPGRADE_RFIST
+};
+
 // Swords
 
 #define ITEM_KOKIRI_SWORD    0x3B

@@ -23,8 +23,8 @@ $(PROGRAM).ovl: $(PARTS)
 	@$(NOVL) $(NOVLFLAGS) $(PROGRAM).elf
 	@echo "Generated $(PROGRAM).elf"
 	@echo "Compiling..."
-	@mv $(OVLOUT) bin/$(OVLOUT)
-	@echo bin/$(OVLOUT) written successfully!
+	@mv $(OVLOUT) ../bin/$(OVLOUT)
+	@echo ../bin/$(OVLOUT) written successfully!
 	@rm *.elf *.o *.ld
 
 entry:
@@ -38,14 +38,14 @@ symbols:
 sync:
 	@echo Generating Instance Sync Data...
 	@$(MAKE) -s -C puppet_sync
-	@mv PuppetData.json bin/PuppetData.json
-	@echo bin/PuppetData.ts written successfully!
+	@mv PuppetData.json ../bin/PuppetData.json
+	@echo ../bin/PuppetData.ts written successfully!
 
 move:
 	@echo Moving to payload folder...
-	@cp bin/$(OVLOUT) /mnt/c/ModLoader64/OcarinaOfTimeOnline/src/OotOnline/payloads/E0/$(OVLOUT)
+	@cp ../bin/$(OVLOUT) /mnt/c/ModLoader64/OcarinaOfTimeOnline/src/OotOnline/payloads/E0/$(OVLOUT)
 	@echo Moved $(OVLOUT)!
-	@cp bin/PuppetData.json /mnt/c/ModLoader64/OcarinaOfTimeOnline/src/OotOnline/data/linkPuppet/PuppetData.json
+	@cp ../bin/PuppetData.json /mnt/c/ModLoader64/OcarinaOfTimeOnline/src/OotOnline/data/linkPuppet/PuppetData.json
 	@echo Moved PuppetData.json!
 
 clean:

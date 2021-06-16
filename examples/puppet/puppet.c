@@ -296,6 +296,7 @@ int32_t AnimateCallback(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dl, V
     uint16_t isRFist = 0;
 
     // TODO: Improve Fisting Logic
+    // TODO: Strength Upgrade Drawing Crashes (Why?)
 
     if (this->actor.speedXZ >= 2.0f) {
         isLFist = 1;
@@ -332,6 +333,13 @@ int32_t AnimateCallback(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dl, V
                 Matrix_Pop();
             }
         } break;
+        case PLAYER_LIMB_FOREARM_L: {
+            /*if (this->puppet.strength) {
+                gDPSetEnvColor(polyOpa->p++, this->puppet.colorGauntlet.r, this->puppet.colorGauntlet.g, this->puppet.colorGauntlet.b, this->puppet.colorGauntlet.a);
+                Gfx_DrawDListOpa(globalCtx, baseToPointer(this, AGE_IS_ADULT(this->puppet.age) ? ADULT_LINK_LUT_DL_UPGRADE_LFOREARM : CHILD_LINK_LUT_DL_GORON_BRACELET));
+                gDPSetEnvColor(polyOpa->p++, this->puppet.colorTunic.r, this->puppet.colorTunic.g, this->puppet.colorTunic.b, this->puppet.colorTunic.a);
+            }*/
+        } break;
         case PLAYER_LIMB_HAND_L: {
             if (ACTION_IS_SWORD) {
                 DrawSword(globalCtx, this, pos, rot);
@@ -342,6 +350,25 @@ int32_t AnimateCallback(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dl, V
             }else if (ACTION_IS_BOTTLE){
                 DrawBottle(globalCtx, this, pos, rot);
             }
+            /*if (this->puppet.strength) {
+                Matrix_Translate(pos->x, pos->y, pos->z, 1);
+                Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
+                Matrix_Push();
+                {
+                    gDPSetEnvColor(polyOpa->p++, this->puppet.colorGauntlet.r, this->puppet.colorGauntlet.g, this->puppet.colorGauntlet.b, this->puppet.colorGauntlet.a);
+                    gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx, __FILE__, __LINE__), G_MTX_LOAD);
+                    gSPDisplayList(polyOpa->p++, baseToPointer(this, gauntlet_hands[isLFist]));
+                    gDPSetEnvColor(polyOpa->p++, this->puppet.colorTunic.r, this->puppet.colorTunic.g, this->puppet.colorTunic.b, this->puppet.colorTunic.a);
+                }
+                Matrix_Pop();
+            }*/
+        } break;
+        case PLAYER_LIMB_FOREARM_R: {
+            /*if (this->puppet.strength) {
+                gDPSetEnvColor(polyOpa->p++, this->puppet.colorGauntlet.r, this->puppet.colorGauntlet.g, this->puppet.colorGauntlet.b, this->puppet.colorGauntlet.a);
+                Gfx_DrawDListOpa(globalCtx, baseToPointer(this, ADULT_LINK_LUT_DL_UPGRADE_RFOREARM));
+                gDPSetEnvColor(polyOpa->p++, this->puppet.colorTunic.r, this->puppet.colorTunic.g, this->puppet.colorTunic.b, this->puppet.colorTunic.a);
+            }*/
         } break;
         case PLAYER_LIMB_HAND_R: {
             if ((ACTION_IS_SWORD && !ACTION_IS_BIGGORON_SWORD) || (ACTION_IS_SHIELDING)) {
@@ -355,6 +382,18 @@ int32_t AnimateCallback(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dl, V
             }else if (ACTION_IS_SLINGSHOT){
                 DrawSlingshot(globalCtx, this, pos, rot);
             }
+            /*if (this->puppet.strength) {
+                Matrix_Translate(pos->x, pos->y, pos->z, 1);
+                Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
+                Matrix_Push();
+                {
+                    gDPSetEnvColor(polyOpa->p++, this->puppet.colorGauntlet.r, this->puppet.colorGauntlet.g, this->puppet.colorGauntlet.b, this->puppet.colorGauntlet.a);
+                    gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx, __FILE__, __LINE__), G_MTX_LOAD);
+                    gSPDisplayList(polyOpa->p++, baseToPointer(this, gauntlet_hands[isRFist + 2]));
+                    gDPSetEnvColor(polyOpa->p++, this->puppet.colorTunic.r, this->puppet.colorTunic.g, this->puppet.colorTunic.b, this->puppet.colorTunic.a);
+                }
+                Matrix_Pop();
+            }*/
         } break;
         case PLAYER_LIMB_SHEATH: {
             if (IS_SWORDLESS) {
