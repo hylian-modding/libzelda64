@@ -23,4 +23,7 @@ const Color_RGB8 contents[13] = {
 
 #define RESOLVE_BOTTLE_COLOR(action)(bottle_colors[action - 30])
 
+void DrawBottle(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s* rot){
+}
+
 #endif /* __PUPPET_EQUIP_BOTTLE_H__ */

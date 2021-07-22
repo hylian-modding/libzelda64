@@ -26,5 +26,7 @@ typedef struct {
     /* 0x0B */ int8_t pad;
 } PvpContext; /* sizeof = 0x0C */
 
+//#define IS_PVP
+
 #endif
 

@@ -1,0 +1,4 @@
+#ifndef __PUPPET_EQUIP_FISHING_POLE_H__
+#define __PUPPET_EQUIP_FISHING_POLE_H__
+
+#endif /* __PUPPET_EQUIP_FISHING_POLE_H__ */
