@@ -4,11 +4,12 @@
 #include "Input.h"
 #include "TwoHeadArena.h"
 #include "GameAlloc.h"
+#include "GraphicsContext.h"
 
 typedef void (*GameStateFunc)(struct GameState* gameState);
 
 typedef struct GameState {
-    /* 0x00 */ struct GraphicsContext* gfxCtx;
+    /* 0x00 */ GraphicsContext* gfxCtx;
     /* 0x04 */ GameStateFunc main;
     /* 0x08 */ GameStateFunc destroy;
     /* 0x0C */ GameStateFunc init;

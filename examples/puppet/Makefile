@@ -25,7 +25,7 @@ $(PROGRAM).ovl: $(PARTS)
 	@echo "Compiling..."
 	@mv $(OVLOUT) bin/$(OVLOUT)
 	@echo bin/$(OVLOUT) written successfully!
-	@rm *.elf *.o *.ld
+	@rm *.elf *.ld
 
 entry:
 	@echo -n "ENTRY_POINT = "$(ADDRESS) > entry.ld
@@ -49,5 +49,5 @@ move:
 	@echo Moved PuppetData.json!
 
 clean:
-	@rm -f $(PROGRAM).elf $(OVLOUT) $(PARTS) entry.ld
+	@rm -f $(PROGRAM).elf $(OVLOUT) $(PARTS) *.o entry.ld
 

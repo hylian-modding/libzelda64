@@ -428,6 +428,7 @@ void init(En_Puppet* this, GlobalContext* globalCtx) {
 
     memcpy(&this->puppet.anim, __tpose_anim, __tpose_anim_size);
     this->puppet.colorTunic.a = 0xFF;
+    this->pvpCtx.enabled = 1;
 
     MLDEBUG_END(this, 0xDEADBEEF);
 }
@@ -449,7 +450,10 @@ void update(En_Puppet* this, GlobalContext* globalCtx) {
 
     this->actor.shape.shadowAlpha = player->actor.shape.shadowAlpha;
 
-    Pvp_Update(this, globalCtx);
+    if (this->pvpCtx.enabled != 0) {
+        Pvp_Update(this, globalCtx);
+    }
+
     Collider_UpdateCylinder(this, &this->collider);
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -478,4 +482,5 @@ void draw(En_Puppet* this, GlobalContext* globalCtx) {
         EffectBlure_AddVertex(Effect_GetByIndex(this->puppet.blureEffectID), &this->puppet.blureSwordInfo.base, &this->puppet.blureSwordInfo.tip);
     }
 }
+
 

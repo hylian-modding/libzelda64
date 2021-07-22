@@ -1,5 +1,5 @@
 PROGRAM = commandbuffer
-SOURCES = Actor_DestroyCave.c Actor_SpawnCave.c Actor_SpawnTransitionActorCave.c Actor_UpdateCave.c SkelAnime_DrawFlexLodCave.c Actor_InitCave.c Actor_SpawnEntryCave.c Actor_SpawnWithAddress.c Sfx_Cave.c
+SOURCES = Actor_DestroyCave.c Actor_SpawnCave.c Actor_SpawnTransitionActorCave.c Actor_UpdateCave.c Actor_InitCave.c Actor_SpawnEntryCave.c Actor_SpawnWithAddress.c Object_SpawnCave.c
 OBJECTS = $(SOURCES:.c=.o)
 ADDRESS = 0x80800000
 

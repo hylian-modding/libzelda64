@@ -43,7 +43,24 @@ asm("Matrix_SoftCv3_Load = 0x800AB510");
 extern Mtx* Matrix_ToMtx(Mtx* dest, char* file, int32_t line);
 asm("Matrix_ToMtx = 0x800AB8D8");
 
-extern Mtx* Matrix_NewMtx(struct GraphicsContext* gfxCtx, char* file, int32_t line);
+extern Mtx* Matrix_NewMtx(struct GraphicsContext* gfxCtx);
 asm("Matrix_NewMtx = 0x800AB900");
+
+// TODO: Move
+extern void EffectSsDtBubble_SpawnCustomColor(struct GlobalContext* globalCtx, struct Vec3f* pos, struct Vec3f* velocity, struct Vec3f* accel,
+                                       struct Color_RGBA8* primColor, struct Color_RGBA8* envColor, int16_t scale, int16_t life, int16_t randXZ);
+asm("EffectSsDtBubble_SpawnCustomColor = 0x8001D18C");
+
+extern void Item_DropCollectibleRandom(struct GlobalContext* globalCtx, struct Actor* fromActor, struct Vec3f* spawnPos, int16_t params);
+asm("Item_DropCollectibleRandom = 0x80013A84");
+
+extern void func_800D1FD4(MtxF* mf);
+asm("func_800D1FD4 = 0x800ABE54");
+
+extern void Matrix_RotateZ(float z, uint8_t mode);
+asm("Matrix_RotateZ = 0x800AAD4C");
+
+extern void func_80093D84(struct GraphicsContext* gfxCtx);
+asm("func_80093D84 = 0x8007E2C0");
 
 #endif

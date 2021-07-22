@@ -3,6 +3,10 @@
 
 #include <inttypes.h>
 
+typedef struct {
+    uint8_t r, g, b, a;
+} Color_RGBA8;
+
 typedef union {
     struct {
         /* 0x00 */ uint8_t r;

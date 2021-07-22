@@ -9,5 +9,9 @@ asm("BgCheck_EntityRaycastFloor4 = 0x8002F4B8");
 extern void Actor_UpdateBgCheckInfo(struct GlobalContext* globalCtx, struct Actor* actor, float arg2, float arg3, float arg4, int32_t arg5);
 asm("Actor_UpdateBgCheckInfo = 0x80021E6C");
 
+extern int32_t BgCheck_EntityLineTest1(struct CollisionContext* colCtx, struct Vec3f* posA, struct Vec3f* posB, struct Vec3f* posResult,
+                            struct CollisionPoly** outPoly, int32_t chkWall, int32_t chkFloor, int32_t chkCeil, int32_t chkOneFace, int32_t* bgId);
+asm("BgCheck_EntityLineTest1 = 0x800308B4");
+
 #endif
 

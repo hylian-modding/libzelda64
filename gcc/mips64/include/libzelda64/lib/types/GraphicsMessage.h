@@ -2,6 +2,7 @@
 #define GRAPHICSMESSAGE_TYPE_H
 
 #include <libultra/ultra64.h>
+#include <libultra/PR/sptask.h>
 #include <libultra/PR/sched.h>
 #include <inttypes.h>
 

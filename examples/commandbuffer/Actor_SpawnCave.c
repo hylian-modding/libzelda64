@@ -12,7 +12,7 @@ Actor* Actor_SpawnCave(struct ActorContext* actorCtx, struct GlobalContext* glob
     Actor* actor = 0;
     ActorInit* actorInit;
     ActorOverlay* overlayEntry;
-    CommandActor* commandActor;
+    CommandEvent* commandEvent;
     int32_t objBankIndex;
     uint32_t temp;
     uint32_t overlaySize;
@@ -85,10 +85,11 @@ Actor* Actor_SpawnCave(struct ActorContext* actorCtx, struct GlobalContext* glob
 
     Actor_AddToCategory(&globalCtx->actorCtx, actor, actorInit->category);
 
-    commandActor = CommandBuffer_CommandActor_GetNextCollision(actor, COMMANDACTORTYPE_SPAWN, COMMANDACTORTYPE_SPAWNTRANSITION);
-    if (commandActor) {
-        commandActor->type = COMMANDACTORTYPE_SPAWN;
-        commandActor->actor = actor;
+    commandEvent = CommandBuffer_CommandEvent_GetNextCollision(actor, COMMANDEVENTTYPE_SPAWN, COMMANDEVENTTYPE_SPAWNTRANSITION);
+    if (commandEvent) {
+        commandEvent->type = COMMANDEVENTTYPE_SPAWN;
+        commandEvent->params.actor = actor;
+        gCmdBuffer->eventCount++;
     }
 
     temp = gSegments[6];

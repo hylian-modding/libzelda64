@@ -42,4 +42,19 @@ asm("CollisionCheck_SetOC = 0x8004C130");
 extern void CollisionHeader_GetVirtual(void* colHeader, struct CollisionHeader** dest);
 asm("CollisionHeader_GetVirtual = 0x80033EF4");
 
+extern int32_t Collider_InitJntSph(struct GlobalContext* globalCtx, struct ColliderJntSph* collider);
+asm("Collider_InitJntSph = 0x8004A484");
+
+extern int32_t Collider_SetJntSph(struct GlobalContext* globalCtx, struct ColliderJntSph* dest, struct Actor* actor, struct ColliderJntSphInit* src, struct ColliderJntSphElement* elements);
+asm("Collider_SetJntSph = 0x8004A874");
+
+extern struct DamageTable* DamageTable_Get(int32_t index);
+asm("DamageTable_Get = 0x80049E10");
+
+extern void CollisionCheck_SetInfo2(struct CollisionCheckInfo* info, struct DamageTable* damageTable, struct CollisionCheckInfoInit2* init);
+asm("CollisionCheck_SetInfo2 = 0x80050370");
+
+extern int32_t Collider_DestroyJntSph(struct GlobalContext* globalCtx, struct ColliderJntSph* collider);
+asm("Collider_DestroyJntSph = 0x8004A550");
+
 #endif

@@ -7,6 +7,9 @@
 #include "types/ActorInit.h"
 #include <inttypes.h>
 
+extern void ActorShadow_DrawCircle(struct Actor* actor, struct Lights* lights, struct GlobalContext* globalCtx);
+asm("ActorShadow_DrawCircle = 0x8001EFF4");
+
 // z_actor_shadow_teardrop / ActorShadow_DrawFunc_Teardrop / Actor_shadow_foot on Poe's sheet (Decomp renamed it)
 extern void ActorShadow_DrawFeet(struct Actor* actor, struct Lights* lights, struct GlobalContext* globalCtx);
 asm("ActorShadow_DrawFeet = 0x8001F280");
@@ -50,5 +53,14 @@ asm("Actor_Destroy = 0x800210F0");
 
 extern void Actor_UpdateAll(struct GlobalContext* globalCtx, struct ActorContext* actorCtx);
 asm("Actor_UpdateAll = 0x80023D70");
+
+extern void Actor_SetFocus(struct Actor* actor, float offset);
+asm("Actor_SetFocus = 0x80020F04");
+
+extern void func_8002F7A0(struct GlobalContext* globalCtx, struct Actor* actor, float arg2, int16_t arg3, float arg4);
+asm("func_8002F7A0 = 0x80022F48");
+
+extern int16_t func_8002D7EC(struct Actor* actor);
+asm("func_8002D7EC = 0x80021124");
 
 #endif

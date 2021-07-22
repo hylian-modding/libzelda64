@@ -31,6 +31,9 @@
 extern float Rand_ZeroOne(void);
 asm("Rand_ZeroOne = 0x800CDCCC");
 
+extern int16_t Rand_S16Offset(int16_t offset, int16_t range);
+asm("Rand_S16Offset = 0x80063BF0");
+
 extern int16_t Math_Rand_S16Offset(int16_t offset, int16_t range);
 asm("Math_Rand_S16Offset = 0x80063BF0");
 
@@ -69,5 +72,17 @@ asm("Math3D_Vec3fMagnitude = 0x800A5510");
 
 extern void Math3D_Vec3f_Cross(struct Vec3f* a, struct Vec3f* b, struct Vec3f* ret);
 asm("Math3D_Vec3f_Cross = 0x800A56B8");
+
+extern double sqrt(double d);
+asm("sqrt = 0x800D5DD0");
+
+extern float Math_SmoothStepToF(float* pValue, float target, float fraction, float step, float minStep);
+asm("Math_SmoothStepToF = 0x80064178");
+
+extern void Math3D_Vec3fReflect(struct Vec3f* vec, struct Vec3f* normal, struct Vec3f* reflVec);
+asm("Math3D_Vec3fReflect = 0x800A4F98");
+
+extern void Math_ApproachF(float* pValue, float target, float fraction, float step);
+asm("Math_ApproachF = 0x80064280");
 
 #endif

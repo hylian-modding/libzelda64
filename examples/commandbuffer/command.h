@@ -4,11 +4,12 @@
 #include <inttypes.h>
 #include <libzelda64/lib/types/Vec3f.h>
 #include <libzelda64/lib/types/Vec3s.h>
+#include "../puppet/pvp.h"
 
 enum {
     COMMANDTYPE_NONE,
     COMMANDTYPE_ACTORSPAWN,
-    COMMANDTYPE_ACTORDESTROY,
+    COMMANDTYPE_ACTORADDREMCAT,
     COMMANDTYPE_RELOCATE,
     COMMANDTYPE_UPDATEBUTTON,
     COMMANDTYPE_PLAYSOUND,
@@ -16,7 +17,14 @@ enum {
     COMMANDTYPE_WARP,
     COMMANDTYPE_MOVEPLAYERTOADDRESS,
     COMMANDTYPE_ARBITRARYFUNCTIONCALL,
-    COMMANDTYPE_SFX
+    COMMANDTYPE_SFX,
+    COMMANDTYPE_PVPDAMAGE
+};
+
+enum {
+    ACTORADDREMCAT_REMOVE,
+    ACTORADDREMCAT_ADD,
+    ACTORADDREMCAT_DELETE
 };
 
 typedef struct {
@@ -27,6 +35,12 @@ typedef struct {
     /* 0x0C */ Vec3f pos;
     /* 0x18 */ struct Actor* address; // 0 to spawn on game heap, otherwise actor will spawn at this address
 } CommandParams_ActorSpawn; /* sizeof = 0x1C */
+
+typedef struct {
+    struct Actor* address;
+    uint16_t type;
+    uint16_t category;
+} CommandParams_ActorAddRemCat; /* sizeof = 0x08 */
 
 typedef struct {
     /* 0x00 */ void* allocatedVRamAddress;
@@ -49,12 +63,9 @@ typedef struct {
 } CommandParams_PlaySound; /* sizeof = 0x20 */
 
 typedef struct {
-
-} CommandParams_PlayMusic;
-
-typedef struct {
-
-} CommandParams_Warp;
+    /* 0x00 */ int32_t entranceIndex;
+    /* 0x04 */ int32_t cutsceneIndex;
+} CommandParams_Warp; /* sizeof = 0x08 */
 
 typedef struct {
     /* 0x00 */ struct Player* address;
@@ -67,15 +78,21 @@ typedef struct {
     /* 0x04 */ uint64_t* args[4];
 } CommandParams_ArbitraryFunctionCall; /* sizeof = 0x08 */
 
+typedef struct {
+    /* 0x00 */ PvpContext ctx;
+    /* 0x0C */ struct Actor* source;
+} CommandParams_PvpDamage; /* sizeof = 0x10 */
+
 typedef union {
     CommandParams_ActorSpawn actorSpawn;
+    CommandParams_ActorAddRemCat actorCat;
     CommandParams_Relocate relocate;
     CommandParams_UpdateButton updateButton;
     CommandParams_PlaySound playSound;
-    CommandParams_PlayMusic playMusic;
     CommandParams_Warp warp;
     CommandParams_MovePlayerTooAddress movePlayerToAddr;
     CommandParams_ArbitraryFunctionCall arbFn;
+    CommandParams_PvpDamage pvp;
 } CommandParams; /* sizeof = 0x20 */
 
 typedef struct {

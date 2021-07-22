@@ -3,13 +3,14 @@
 #include "Actor_CaveHelpers.h"
 
 struct Actor* Actor_SpawnEntryCave(struct ActorContext* actorCtx, struct ActorEntry* actorEntry, struct GlobalContext* globalCtx) {
-    CommandActor* commandActor = 0;
+    CommandEvent* commandEvent = 0;
     struct Actor* actor = Actor_SpawnEntry(actorCtx, actorEntry, globalCtx);
 
-    commandActor = CommandBuffer_CommandActor_GetNextCollision(actor, COMMANDACTORTYPE_SPAWN, COMMANDACTORTYPE_SPAWNTRANSITION);
-    if (commandActor) {
-        commandActor->type = COMMANDACTORTYPE_SPAWNENTRY;
-        commandActor->actor = actor;
+    commandEvent = CommandBuffer_CommandEvent_GetNextCollision(actor, COMMANDEVENTTYPE_SPAWN, COMMANDEVENTTYPE_SPAWNTRANSITION);
+    if (commandEvent) {
+        commandEvent->type = COMMANDEVENTTYPE_SPAWNENTRY;
+        commandEvent->params.actor = actor;
+        gCmdBuffer->eventCount++;
     }
 
     return actor;

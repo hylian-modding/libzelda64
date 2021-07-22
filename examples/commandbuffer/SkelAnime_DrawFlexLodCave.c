@@ -8,7 +8,5 @@
     Glank hooks into this at the point that the stack resets at the end of SkelAnime_DrawFlexLod
     Do we need this??
 */
-void SkelAnime_DrawFlexLodHook(void) {
-
-}
+void SkelAnime_DrawFlexLodHook(void) {}
 
