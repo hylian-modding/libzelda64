@@ -16,10 +16,20 @@ typedef struct {
     /* 0x00 */ uint16_t sfxId;
 } CommandReturnData_Sfx; /* sizeof = 0x02 */
 
+typedef struct {
+    uint32_t result;
+} CommandReturnData_MallocFree;
+
+typedef struct {
+    int32_t index;
+} CommandReturnData_ObjectLoad;
+
 typedef union {
     CommandReturnData_ActorSpawn actorSpawn;
     CommandReturnData_Sfx sfx;
     CommandReturnData_ArbitraryFunction arbFn;
+    CommandReturnData_MallocFree mallocFree;
+    CommandReturnData_ObjectLoad objLoad;
 } CommandReturnData; /* sizeof = 0x04 */
 
 typedef struct {

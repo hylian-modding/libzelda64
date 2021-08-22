@@ -1,24 +1,25 @@
 ## Commandbuffer
-An easier to maintain and more managable remake of Glank's command buffer for OOTO and MMO.
+An easier to maintain and more managable remake of Glank's command buffer made for OOTO and MMO. Can be implemented on any frontend with access to game memory.
+
+### Building
+Just run `make`.
+
+### Defines
+
+#### GAMESTATE_CAVE
+When GAMESTATE_CAVE is defined, the command buffer will use the original method of caving the call to gamestate->main to run the command buffer. The default method was implemented to support Pvp, however may be more difficult to implement.
+Append `-DGAMESTATE_CAVE` to make to enable this.
+
+#### OLD_CE_GETNEXTCOLLISION
+When OLD_CE_GETNEXTCOLLISION is defined, the CommandBuffer_CommandEvent_GetCollision will use a safer, but slower method to find the collision.
+Append `-OLD_CE_GETNEXTCOLLISION` to make to enable this.
 
 ### How to install
-Actor_SpawnWithAddress, Actor_DestroyHook, Actor_InitHook, Actor_SpawnEntryHook, Actor_SpawnHook, Actor_SpawnTransitionActorHook, Actor_UpdateHook, and CommandBuffer_Update should be allocated and written into memory
+For refernce code on how to implement this, check out [ModLoader64](https://github.com/hylian-modding/ModLoader64/blob/master/src/modloader/cores/OOT/CommandBuffer/CommandBuffer.ts).
+The functions built from each file should be allocated and written into memory
+Additionally, depending on the GAMESTATE_CAVE define, you either have to replace the call to `gameState->main`, or `Actor_UpdateAll` with a call to CommandBuffer_Update.
+Finally, you have to do relocation on certain symbols (the addresses of allocated functions, the address of the command buffer, etc.)
 
-Call to Actor_SpawnWithAddress should be patched in CommandBuffer_Update to use its new address
-
-The call to actor->destroy call in Actor_Destroy should be replaced with a call to Actor_DestroyHook (0x80021104 in 1.0)
-
-The call to Actor_Init call in Actor_Spawn should be replaced with a call to Actor_InitHook (0x800210D0 in 1.0)
-
-The call to Actor_SpawnEntry in Actor_UpdateAll should be replaced with a call to Actor_SpawnEntryHook (0x80023DE8 in 1.0)
-
-The call to Actor_Spawn in Actor_SpawnTransitionActors should be replaced with a call to Actor_SpawnTransitionActorHook (0x8002557C in 1.0)
-
-The call to actor->update Actor_UpdateAll should be replaced with a call to Actor_UpdateHook (0x800240D8 in 1.0)
-
-Actor_Spawn should be hijacked to call Actor_SpawnHook (0x80025110 in 1.0)
-
-The call to gameState->main(gameState) in GameState_Update should be replaced with a call to CommandBuffer_Update (0x800A0BF8 in 1.0)
 
 
 

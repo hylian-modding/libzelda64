@@ -3,12 +3,20 @@
 #include "Actor_CaveHelpers.h"
 
 void Actor_UpdateCave(struct Actor* actor, struct GlobalContext* globalCtx) {
-    CommandEvent* commandEvent = CommandBuffer_CommandEvent_GetNextCollision(actor, COMMANDEVENTTYPE_UPDATE, COMMANDEVENTTYPE_UPDATE);
+    register CommandEvent* commandEvent = CommandBuffer_CommandEvent_GetCollision(actor, COMMANDEVENTTYPE_UPDATE, COMMANDEVENTTYPE_UPDATE);
 
     if (commandEvent) {
         commandEvent->type = COMMANDEVENTTYPE_UPDATE;
         commandEvent->params.actor = actor;
-        gCmdBuffer->eventCount++;
+    }
+    else {
+        commandEvent = CommandBuffer_CommandEvent_GetNext();
+
+        if (commandEvent) {
+            commandEvent->type = COMMANDEVENTTYPE_UPDATE;
+            commandEvent->params.actor = actor;
+            gCmdBuffer->eventCount++;
+        }
     }
 
     actor->update(actor, globalCtx);

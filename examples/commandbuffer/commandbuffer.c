@@ -1,12 +1,15 @@
 #include "commandbuffer.h"
 #include "command.h"
 #include "commandreturn.h"
+#include "utility.h"
 #include <inttypes.h>
 #include <libzelda64/lib/Actor.h>
 #include <libzelda64/lib/Audio.h>
 #include <libzelda64/lib/Interface.h>
+#include <libzelda64/lib/ObjectContext.h>
 #include <libzelda64/lib/Player.h>
 #include <libzelda64/lib/ZeldaArena.h>
+#include <libzelda64/lib/libc.h>
 #include <libzelda64/lib/types/GlobalContext.h>
 #include <libzelda64/lib/types/SaveContext.h>
 
@@ -23,34 +26,38 @@ typedef enum {
     /* 0x02 */ RESPAWN_MODE_TOP     /* Farore's Wind */
 } RespawnMode;
 
-extern GlobalContext global;
-asm("global = 0x801C84A0");
-
-extern SaveContext gSaveContext;
-asm("gSaveContext = 0x8011A5D0");
-
 extern void Actor_SpawnWithAddress(GlobalContext* globalCtx, int16_t actorId,
                                    int16_t params, Vec3f* pos, Vec3s* rot,
                                    Actor* actor);
 asm("Actor_SpawnWithAddress = 0x03211234"); // Fill in using heap
 
-extern uint32_t debug;
-asm("debug = 0x806C0000");
-
+#ifdef GAMESTATE_CAVE
+void CommandBuffer_Update(GameState* gameState);
+void CommandBuffer_Update(GameState* gameState)
+#else
 void CommandBuffer_Update(GlobalContext* globalCtx, struct ActorContext* actorCtx);
-void CommandBuffer_Update(GlobalContext* globalCtx, struct ActorContext* actorCtx) {
+void CommandBuffer_Update(GlobalContext* globalCtx, struct ActorContext* actorCtx)
+#endif
+{
     uint32_t index;
     uint32_t qndex;
     volatile Command* command;
     volatile CommandReturn* commandReturn;
-    //GlobalContext* globalCtx = &global;
-    //ActorContext* actorCtx = &globalCtx->actorCtx;
+#ifdef GAMESTATE_CAVE
+    GlobalContext* globalCtx = &global;
+    ActorContext* actorCtx = &globalCtx->actorCtx;
+#endif
     Player* player = ((Player*)globalCtx->actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head);
+
+#ifdef GAMESTATE_CAVE
+    gameState->main(gameState);
+#endif
 
     for (index = 0; index < gCmdBuffer->commandCount; index++) {
         command = &gCmdBuffer->commands[index];
         commandReturn = 0;
 
+        // get next command return, if a slot is available
         for (qndex = 0; qndex < COMMAND_MAX; qndex++) {
             if (gCmdBuffer->commandReturns[qndex].type == COMMANDTYPE_NONE) {
                 commandReturn = &gCmdBuffer->commandReturns[qndex];
@@ -72,7 +79,7 @@ void CommandBuffer_Update(GlobalContext* globalCtx, struct ActorContext* actorCt
                     commandReturn->data.actorSpawn.actor = Actor_Spawn(actorCtx, globalCtx, command->params.actorSpawn.actorId, command->params.actorSpawn.pos.x, command->params.actorSpawn.pos.y, command->params.actorSpawn.pos.z, command->params.actorSpawn.rot.x, command->params.actorSpawn.rot.y, command->params.actorSpawn.rot.z, command->params.actorSpawn.params);
                 }
             }
-            if (command->type == COMMANDTYPE_ACTORADDREMCAT) {
+            else if (command->type == COMMANDTYPE_ACTORADDREMCAT) {
                 if (command->params.actorCat.type == ACTORADDREMCAT_REMOVE) {
                     Actor_RemoveFromCategory(globalCtx, actorCtx, command->params.actorCat.address);
                 }
@@ -83,35 +90,49 @@ void CommandBuffer_Update(GlobalContext* globalCtx, struct ActorContext* actorCt
                     Actor_Delete(actorCtx, command->params.actorCat.address, globalCtx);
                 }
             }
-            if (command->type == COMMANDTYPE_RELOCATE) {
+            else if (command->type == COMMANDTYPE_RELOCATE) {
                 Overlay_Relocate(command->params.relocate.allocatedVRamAddress, command->params.relocate.overlayInfo, command->params.relocate.vRamAddress);
             }
-            if (command->type == COMMANDTYPE_UPDATEBUTTON) {
+            else if (command->type == COMMANDTYPE_UPDATEBUTTON) {
                 Interface_LoadItemIcon1(globalCtx, command->params.updateButton.button);
             }
-            if (command->type == COMMANDTYPE_PLAYSOUND) {
+            else if (command->type == COMMANDTYPE_PLAYSOUND) {
                 Audio_PlaySoundGeneral(
                     command->params.playSound.sfxId, &command->params.playSound.a1,
                     command->params.playSound.a2, &command->params.playSound.a3,
                     &command->params.playSound.a4, &command->params.playSound.a5);
             }
-            if (command->type == COMMANDTYPE_WARP) {
-                gSaveContext.buttonStatus[4] = BTN_ENABLED;
-                gSaveContext.buttonStatus[3] = BTN_ENABLED;
-                gSaveContext.buttonStatus[2] = BTN_ENABLED;
-                gSaveContext.buttonStatus[1] = BTN_ENABLED;
-                gSaveContext.buttonStatus[0] = BTN_ENABLED;
-                gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC = 0;
-                Audio_SetBGM(NA_BGM_STOP);
-                gSaveContext.entranceIndex = command->params.warp.entranceIndex;
-                gSaveContext.respawnFlag = 0;
-                gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = -1;
-                gSaveContext.seqIndex = 0xFF;
-                gSaveContext.nightSeqIndex = 0xFF;
-                gSaveContext.showTitleCard = 0;
-                gSaveContext.cutsceneIndex = command->params.warp.cutsceneIndex;
+            else if (command->type == COMMANDTYPE_WARP) {
+                // Thanks, Fig!
+                gSaveContext.nextCutsceneIndex = command->params.warp.cutsceneIndex;
+                globalCtx->nextEntranceIndex = command->params.warp.entranceIndex;
+                globalCtx->sceneLoadFlag = 0x14;
+
+                debug = Rand_S16Offset(0, 5);
+                if (debug == 0) {
+                    globalCtx->fadeTransition = 0;
+                }
+                else if (debug == 1) {
+                    globalCtx->fadeTransition = 1;
+                }
+                else if (debug == 2) {
+                    globalCtx->fadeTransition = 4;
+                }
+                else if (debug == 3) {
+                    globalCtx->fadeTransition = 5;
+                }
+                else if (debug == 4) {
+                    globalCtx->fadeTransition = 32;
+                }
+                else if (debug == 5) {
+                    globalCtx->fadeTransition = 44;
+                }
+
+                if (command->params.warp.age >= 0) {
+                    globalCtx->linkAgeOnLoad = command->params.warp.age;
+                }
             }
-            if (command->type == COMMANDTYPE_MOVEPLAYERTOADDRESS && commandReturn) {
+            else if (command->type == COMMANDTYPE_MOVEPLAYERTOADDRESS && commandReturn) {
                 if (player != command->params.movePlayerToAddr.address) {
                     // murk lonk
                     player->actor.update = 0;
@@ -132,12 +153,38 @@ void CommandBuffer_Update(GlobalContext* globalCtx, struct ActorContext* actorCt
                     globalCtx->mainCamera.target = player;
                 }
             }
-            if (command->type == COMMANDTYPE_ARBITRARYFUNCTIONCALL && commandReturn) {
+            else if (command->type == COMMANDTYPE_ARBITRARYFUNCTIONCALL && commandReturn) {
                 commandReturn->type = command->type;
                 commandReturn->uuid = command->uuid;
-                commandReturn->data.arbFn.value = command->params.arbFn.fn(command->params.arbFn.args[0], command->params.arbFn.args[1], command->params.arbFn.args[2], command->params.arbFn.args[3]);
+                if (command->params.arbFn.argc == 0) {
+                    commandReturn->data.arbFn.value = command->params.arbFn.fn();
+                }
+                else if (command->params.arbFn.argc == 1) {
+                    commandReturn->data.arbFn.value = command->params.arbFn.fn(command->params.arbFn.args[0]);
+                }
+                else if (command->params.arbFn.argc == 2) {
+                    commandReturn->data.arbFn.value = command->params.arbFn.fn(command->params.arbFn.args[0], command->params.arbFn.args[1]);
+                }
+                else if (command->params.arbFn.argc == 3) {
+                    commandReturn->data.arbFn.value = command->params.arbFn.fn(command->params.arbFn.args[0], command->params.arbFn.args[1], command->params.arbFn.args[2]);
+                }
+                else if (command->params.arbFn.argc == 4) {
+                    commandReturn->data.arbFn.value = command->params.arbFn.fn(command->params.arbFn.args[0], command->params.arbFn.args[1], command->params.arbFn.args[2], command->params.arbFn.args[3]);
+                }
+                else if (command->params.arbFn.argc == 5) {
+                    commandReturn->data.arbFn.value = command->params.arbFn.fn(command->params.arbFn.args[0], command->params.arbFn.args[1], command->params.arbFn.args[2], command->params.arbFn.args[3], command->params.arbFn.args[4]);
+                }
+                else if (command->params.arbFn.argc == 6) {
+                    commandReturn->data.arbFn.value = command->params.arbFn.fn(command->params.arbFn.args[0], command->params.arbFn.args[1], command->params.arbFn.args[2], command->params.arbFn.args[3], command->params.arbFn.args[4], command->params.arbFn.args[5]);
+                }
+                else if (command->params.arbFn.argc == 7) {
+                    commandReturn->data.arbFn.value = command->params.arbFn.fn(command->params.arbFn.args[0], command->params.arbFn.args[1], command->params.arbFn.args[2], command->params.arbFn.args[3], command->params.arbFn.args[4], command->params.arbFn.args[5], command->params.arbFn.args[6]);
+                }
+                else if (command->params.arbFn.argc == 8) {
+                    commandReturn->data.arbFn.value = command->params.arbFn.fn(command->params.arbFn.args[0], command->params.arbFn.args[1], command->params.arbFn.args[2], command->params.arbFn.args[3], command->params.arbFn.args[4], command->params.arbFn.args[5], command->params.arbFn.args[6], command->params.arbFn.args[7]);
+                }
             }
-            if (command->type == COMMANDTYPE_PVPDAMAGE) {
+            else if (command->type == COMMANDTYPE_PVPDAMAGE) {
                 //Health_ChangeBy(globalCtx, command->params.pvp.ctx.damageQueue);
                 //if (gSaveContext.doubleDefense) {
                 //    gSaveContext.health -= command->params.pvp.ctx.damageQueue / 2;
@@ -153,6 +200,27 @@ void CommandBuffer_Update(GlobalContext* globalCtx, struct ActorContext* actorCt
                 player->cylinder.base.acFlags |= AC_HIT;
                 player->cylinder.base.ac = command->params.pvp.source;
             }
+            else if (command->type == COMMANDTYPE_MALLOCFREE && commandReturn) {
+                if (command->params.mallocFree.malloc) {
+                    commandReturn->type = command->type;
+                    commandReturn->uuid = command->uuid;
+
+                    if (command->params.mallocFree.malloc == 2) {
+                        commandReturn->data.mallocFree.result = ZeldaArena_MallocR(command->params.mallocFree.data);
+                    }
+                    else {
+                        commandReturn->data.mallocFree.result = ZeldaArena_Malloc(command->params.mallocFree.data);
+                    }
+                }
+                else {
+                    ZeldaArena_Free(command->params.mallocFree.data);
+                }
+            }
+            else if (command->type == COMMANDTYPE_OBJECTLOAD && commandReturn) {
+                commandReturn->type = command->type;
+                commandReturn->uuid = command->uuid;
+                commandReturn->data.objLoad.index = Object_Spawn(&globalCtx->objectCtx, command->params.objLoad.objectId);
+            }
 
             command->type = COMMANDTYPE_NONE;
         }
@@ -160,9 +228,14 @@ void CommandBuffer_Update(GlobalContext* globalCtx, struct ActorContext* actorCt
 
     gCmdBuffer->commandCount = 0;
 
-#ifdef GAMESTATE_CAVE
-    gameState->main(gameState);
-#else
+    if (gCmdBuffer->eventCount == COMMANDEVENT_MAX) {
+        gCmdBuffer->eventCount = 0;
+        Lib_MemSet(gCmdBuffer->commandEvents, sizeof(gCmdBuffer->commandEvents), 0);
+
+        gCmdBuffer->commandEvents[0].type = COMMANDEVENTTYPE_ERROR_FILLED;
+    }
+
+#ifndef GAMESTATE_CAVE
     Actor_UpdateAll(globalCtx, actorCtx);
 #endif
 }

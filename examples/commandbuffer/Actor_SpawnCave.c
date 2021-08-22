@@ -9,10 +9,10 @@
 #include "Actor_CaveHelpers.h"
 
 Actor* Actor_SpawnCave(struct ActorContext* actorCtx, struct GlobalContext* globalCtx, int16_t actorId, float posX, float posY, float posZ, int16_t rotX, int16_t rotY, int16_t rotZ, int16_t params) {
+    register CommandEvent* commandEvent;
     Actor* actor = 0;
     ActorInit* actorInit;
     ActorOverlay* overlayEntry;
-    CommandEvent* commandEvent;
     int32_t objBankIndex;
     uint32_t temp;
     uint32_t overlaySize;
@@ -85,11 +85,19 @@ Actor* Actor_SpawnCave(struct ActorContext* actorCtx, struct GlobalContext* glob
 
     Actor_AddToCategory(&globalCtx->actorCtx, actor, actorInit->category);
 
-    commandEvent = CommandBuffer_CommandEvent_GetNextCollision(actor, COMMANDEVENTTYPE_SPAWN, COMMANDEVENTTYPE_SPAWNTRANSITION);
+    commandEvent = CommandBuffer_CommandEvent_GetCollision(actor, COMMANDEVENTTYPE_SPAWN, COMMANDEVENTTYPE_SPAWNTRANSITION);
     if (commandEvent) {
         commandEvent->type = COMMANDEVENTTYPE_SPAWN;
         commandEvent->params.actor = actor;
-        gCmdBuffer->eventCount++;
+    }
+    else {
+        commandEvent = CommandBuffer_CommandEvent_GetNext();
+
+        if (commandEvent) {
+            commandEvent->type = COMMANDEVENTTYPE_SPAWN;
+            commandEvent->params.actor = actor;
+            gCmdBuffer->eventCount++;
+        }
     }
 
     temp = gSegments[6];

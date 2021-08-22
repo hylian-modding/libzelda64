@@ -45,5 +45,10 @@ typedef struct GraphicsContext {
     /* 0x02F8 */ float yScale;
 } GraphicsContext; /* sizeof = 0x300 */
 
+typedef enum {
+    MTXMODE_NEW,  // generates a new matrix
+    MTXMODE_APPLY // applies transformation to the current matrix
+} MatrixMode;
+
 #endif
 

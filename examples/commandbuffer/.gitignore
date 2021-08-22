@@ -10,3 +10,4 @@ entry.ld
 Sfx_Hook.c
 SkelAnime_DrawFlexLodHook.c
 bin
+bad_idea

@@ -4,11 +4,6 @@
 #include "types/GraphicsContext.h"
 #include <inttypes.h>
 
-typedef enum {
-    MTXMODE_NEW,  // generates a new matrix
-    MTXMODE_APPLY // applies transformation to the current matrix
-} MatrixMode;
-
 #define DrawDlistOpa(DLIST) (Gfx_DrawDListOpa)(globalCtx, (DLIST));
 extern void (Gfx_DrawDListOpa)(struct GlobalContext* globalCtx, struct Gfx* dlist);
 asm("Gfx_DrawDListOpa = 0x80028048");

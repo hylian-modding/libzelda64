@@ -18,7 +18,9 @@ enum {
     COMMANDTYPE_MOVEPLAYERTOADDRESS,
     COMMANDTYPE_ARBITRARYFUNCTIONCALL,
     COMMANDTYPE_SFX,
-    COMMANDTYPE_PVPDAMAGE
+    COMMANDTYPE_PVPDAMAGE,
+    COMMANDTYPE_MALLOCFREE,
+    COMMANDTYPE_OBJECTLOAD
 };
 
 enum {
@@ -65,23 +67,34 @@ typedef struct {
 typedef struct {
     /* 0x00 */ int32_t entranceIndex;
     /* 0x04 */ int32_t cutsceneIndex;
-} CommandParams_Warp; /* sizeof = 0x08 */
+    /* 0x08 */ int32_t age;
+} CommandParams_Warp; /* sizeof = 0x0C */
 
 typedef struct {
     /* 0x00 */ struct Player* address;
 } CommandParams_MovePlayerTooAddress; /* sizeof = 0x04 */
 
-typedef uint64_t(*ArbitraryFunction)(uint64_t a0, uint64_t a1, uint64_t a2, uint64_t a3);
+typedef uint64_t(*ArbitraryFunction)();
 
 typedef struct {
     /* 0x00 */ ArbitraryFunction fn;
-    /* 0x04 */ uint64_t* args[4];
-} CommandParams_ArbitraryFunctionCall; /* sizeof = 0x08 */
+    /* 0x04 */ uint64_t* args;
+    /* 0x08 */ uint32_t argc;
+} CommandParams_ArbitraryFunctionCall; /* sizeof = 0x0C */
 
 typedef struct {
     /* 0x00 */ PvpContext ctx;
     /* 0x0C */ struct Actor* source;
 } CommandParams_PvpDamage; /* sizeof = 0x10 */
+
+typedef struct {
+    /* 0x00 */ uint32_t malloc;
+    /* 0x04 */ uint32_t data;
+} CommandParams_MallocFree;
+
+typedef struct {
+    /* 0x02 */ int16_t objectId;
+} CommandParams_ObjectLoad; /* sizeof = 0x02 */
 
 typedef union {
     CommandParams_ActorSpawn actorSpawn;
@@ -93,6 +106,8 @@ typedef union {
     CommandParams_MovePlayerTooAddress movePlayerToAddr;
     CommandParams_ArbitraryFunctionCall arbFn;
     CommandParams_PvpDamage pvp;
+    CommandParams_MallocFree mallocFree;
+    CommandParams_ObjectLoad objLoad;
 } CommandParams; /* sizeof = 0x20 */
 
 typedef struct {

@@ -2,46 +2,44 @@
 #define ACTOR_HOOKHELPERS_H
 
 #include <libzelda64/lib/Actor.h>
+#include "utility.h"
 #include "commandbuffer.h"
-
-extern uint32_t gSegments[];
-asm("gSegments = 0x80120C38");
-
-extern ActorOverlay gActorOverlayTable[];
-asm("gActorOverlayTable = 0x800E8530");
 
 #define AM_FIELD_SIZE 0x27A0
 
 __attribute__((always_inline)) inline CommandEvent* CommandBuffer_CommandEvent_GetNext() {
     uint32_t index;
-    CommandEvent* commandEvent = 0;
+    register CommandEvent* commandEvent = 0;
+    register CommandBuffer* cmdBuffer = gCmdBuffer;
 
-    //for (index = 0; index < gCmdBuffer->eventCount; index++) {
-    //    if (gCmdBuffer->commandEvents[index].type == COMMANDEVENTTYPE_NONE) {
-    //        commandEvent = &gCmdBuffer->commandEvents[index];
-    //        break;
-    //    }
-    //}
-
-    if (gCmdBuffer->eventCount < COMMANDEVENT_MAX) commandEvent = &gCmdBuffer->commandEvents[gCmdBuffer->eventCount];
+    if (cmdBuffer->eventCount < COMMANDEVENT_MAX) commandEvent = &cmdBuffer->commandEvents[cmdBuffer->eventCount];
 
     return commandEvent;
 }
 
-__attribute__((always_inline)) inline CommandEvent* CommandBuffer_CommandEvent_GetNextCollision(struct Actor* actor, uint32_t minType, uint32_t maxType) {
+__attribute__((always_inline)) inline CommandEvent* CommandBuffer_CommandEvent_GetCollision(struct Actor* actor, uint32_t minType, uint32_t maxType) {
     uint32_t index;
-    CommandEvent* commandEvent = 0;
+    register CommandEvent* commandEvent = 0;
+    register CommandBuffer* cmdBuffer = gCmdBuffer;
 
-    for (index = 0; index < gCmdBuffer->eventCount; index++) {
-        if (gCmdBuffer->commandEvents[index].type >= minType && gCmdBuffer->commandEvents[index].type <= maxType) {
-            if (gCmdBuffer->commandEvents[index].params.actor == actor) {
-                commandEvent = &gCmdBuffer->commandEvents[index];
+    // old method, slow, causes lag
+#ifdef OLD_CE_GETNEXTCOLLISION
+    for (index = 0; index < cmdBuffer->eventCount; index++) {
+        if (cmdBuffer->commandEvents[index].type >= minType && cmdBuffer->commandEvents[index].type <= maxType) {
+            if (cmdBuffer->commandEvents[index].params.actor == actor) {
+                commandEvent = &cmdBuffer->commandEvents[index];
                 break;
             }
         }
     }
+#endif
 
-    if (commandEvent == 0) commandEvent = CommandBuffer_CommandEvent_GetNext();
+    // new method, faster, assumes prior command would have been the command we are hijacking
+    if (cmdBuffer->commandEvents[cmdBuffer->eventCount - 1].type >= minType && cmdBuffer->commandEvents[cmdBuffer->eventCount - 1].type <= maxType) {
+        if (cmdBuffer->commandEvents[index].params.actor == actor) {
+            commandEvent = &cmdBuffer->commandEvents[index];
+        }
+    }
 
     return commandEvent;
 }
