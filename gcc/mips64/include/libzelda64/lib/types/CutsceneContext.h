@@ -1,12 +1,10 @@
 #ifndef CUTSCENECONTEXT_TYPE_H
 #define CUTSCENECONTEXT_TYPE_H
 
-#include "../zelda64_version.h"
 #include <inttypes.h>
 
 #ifdef GAME_OOT
 #ifdef GAME_VERSION_1_0
-
 typedef struct CutsceneContext {
     /* 0x00 */ uint8_t num;
     /* 0x04 */ void* segment;
@@ -26,11 +24,9 @@ typedef struct CutsceneContext {
 
 #else /* GAME_VERSION_1_0 */
 #warning "CutsceneContext is not defined for this game version!"
-
 #endif
 #elif defined GAME_MM /* GAME_OOT */
-
-typedef struct {
+typedef struct CutsceneContext {
     /* 0x00 */ uint8_t num;
     /* 0x04 */ void* segment;
     /* 0x08 */ uint8_t state;
@@ -46,9 +42,8 @@ typedef struct {
     /* 0x24 */ struct CsCmdActorAction* linkAction;
     /* 0x28 */ struct CsCmdActorAction* npcActions[10]; // "npcdemopnt"
     /* 0x50 */ struct CutsceneEntry* sceneCsList;
-} CutsceneContext; // size = 0x54
-
-#endif /* GAME_MM */
+} CutsceneContext; /* sizeof = 0x54 */
+#endif                /* GAME_MM */
 
 typedef enum { CS_STATE_IDLE, CS_STATE_SKIPPABLE_INIT, CS_STATE_SKIPPABLE_EXEC, CS_STATE_UNSKIPPABLE_INIT, CS_STATE_UNSKIPPABLE_EXEC } CutsceneState;
 

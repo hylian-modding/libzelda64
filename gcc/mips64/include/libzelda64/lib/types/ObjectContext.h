@@ -21,5 +21,4 @@ typedef struct ObjectContext {
     /* 0x00C */ ObjectStatus status[OBJECT_EXCHANGE_BANK_MAX];
 } ObjectContext; /* sizeof = 0x518, 0x958 */
 
-
 #endif

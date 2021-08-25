@@ -1,13 +1,12 @@
 #ifndef PLAYERAGEPROPERTIES_TYPE_H
 #define PLAYERAGEPROPERTIES_TYPE_H
 
-#include "../zelda64_version.h"
 #include "Vec3s.h"
 #include <inttypes.h>
 
 #ifdef GAME_OOT
 #ifdef GAME_VERSION_1_0
-typedef struct {
+typedef struct PlayerAgeProperties {
     /* 0x00 */ float unk_00;
     /* 0x04 */ float unk_04;
     /* 0x08 */ float unk_08;
@@ -46,7 +45,7 @@ typedef struct {
 #warning "Actor is not defined for this game version!"
 #endif
 #elif defined GAME_MM /* GAME_OOT */
-typedef struct {
+typedef struct PlayerAgeProperties {
     /* 0x00 */ float unk_00;
     /* 0x04 */ float unk_04;
     /* 0x08 */ float unk_08;

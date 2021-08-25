@@ -40,9 +40,9 @@ typedef struct {
     /* 0x98 */ char pad98[0x3];
     /* 0x9B */ uint8_t running; // If 0, switch to next game state
     /* 0x9C */ uint32_t frames;
-    /* 0xA0 */ uint16_t padA0[0x2];
-    /* 0xA2 */ uint16_t framerateDivisor; // game speed?
-    /* 0xA3 */ uint16_t unkA3;
+    /* 0xA0 */ char padA0[0x2];
+    /* 0xA2 */ uint8_t framerateDivisor; // game speed?
+    /* 0xA3 */ uint8_t unkA3;
 } GameState; /* sizeof = 0xA4 */
-#endif /* GAME_MM */
+#endif                /* GAME_MM */
 #endif

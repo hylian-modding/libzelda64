@@ -1,7 +1,6 @@
 #ifndef ITEMEQUIPS_TYPE_H
 #define ITEMEQUIPS_TYPE_H
 
-#include "../zelda64_version.h"
 #include <inttypes.h>
 
 #ifdef GAME_OOT

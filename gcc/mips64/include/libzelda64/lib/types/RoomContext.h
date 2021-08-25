@@ -1,7 +1,6 @@
 #ifndef ROOMCONTEXT_TYPE_H
 #define ROOMCONTEXT_TYPE_H
 
-#include "../zelda64_version.h"
 #include "DmaRequest.h"
 #include "Room.h"
 #include <inttypes.h>
@@ -24,7 +23,7 @@ typedef struct RoomContext {
 } RoomContext; /* sizeof = 0x74 */
 
 #else /* GAME_VERSION_1_0 */
-#warning "Actor is not defined for this game version!"
+#warning "RoomContext is not defined for this game version!"
 #endif
 #elif defined GAME_MM /* GAME_OOT */
 typedef struct RoomContext {

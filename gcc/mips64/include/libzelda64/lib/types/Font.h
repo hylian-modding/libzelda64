@@ -7,7 +7,6 @@
 
 #ifdef GAME_OOT
 #ifdef GAME_VERSION_1_0
-
 typedef struct Font {
     /* 0x0000 */ uint32_t msgOffset;
     /* 0x0004 */ uint32_t msgLength;
@@ -25,11 +24,10 @@ typedef struct Font {
 
 #else /* GAME_VERSION_1_0 */
 #warning "Font is not defined for this game version!"
-
 #endif
 #elif defined GAME_MM /* GAME_OOT */
 // Font textures are loaded into here
-typedef struct {
+typedef struct Font {
     /* 0x00000 */ uint8_t charBuf[2][FONT_CHAR_TEX_SIZE * 120];
     /* 0x07800 */ uint8_t iconBuf[FONT_CHAR_TEX_SIZE];
     /* 0x07880 */ uint8_t fontBuf[FONT_CHAR_TEX_SIZE * 320];
@@ -40,7 +38,7 @@ typedef struct {
     /* 0x11D80 */ uint8_t* messageStart;
     /* 0x11D84 */ uint8_t* messageEnd;
     /* 0x11D88 */ uint8_t unk_11D88;
-} Font; /* size = 0x11D8C */
+} Font; /* sizeof = 0x11D8C */
 
 #endif
 #endif

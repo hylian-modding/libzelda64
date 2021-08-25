@@ -12,7 +12,7 @@
 
 #ifdef GAME_OOT
 #ifdef GAME_VERSION_1_0
-typedef struct {
+typedef struct SaveContext {
     /* 0x0000 */ int32_t entranceIndex; // start of `save` substruct, originally called "memory"
     /* 0x0004 */ int32_t linkAge;       // 0: Adult; 1: Child
     /* 0x0008 */ int32_t cutsceneIndex;
@@ -125,13 +125,13 @@ typedef struct {
     /* 0x1420 */ int16_t worldMapArea;
     /* 0x1422 */ int16_t unk_1422; // day time related
     /* 0x1424 */ int16_t healthAccumulator;
-} SaveContext; /* size = 0x1428 */
+} SaveContext; /* sizeof = 0x1428 */
 
 #else /* GAME_VERSION_1_0 */
 #warning "SaveContext is not defined for this game version!"
 #endif
 #elif defined GAME_MM /* GAME_OOT */
-typedef struct {
+typedef struct SaveContext {
     /* 0x0000 */ uint32_t entranceIndex; // "scene_no"
     /* 0x0004 */ uint8_t equippedMask;   // "player_mask"
     /* 0x0005 */ uint8_t unk_05;         // "opening_flag"

@@ -1,7 +1,6 @@
 #ifndef PAUSECONTEXT_TYPE_H
 #define PAUSECONTEXT_TYPE_H
 
-#include "../zelda64_version.h"
 #include "DmaRequest.h"
 #include "OcarinaMessageInfo.h"
 #include "SkelAnime.h"
@@ -11,7 +10,6 @@
 
 #ifdef GAME_OOT
 #ifdef GAME_VERSION_1_0
-
 typedef struct PauseContext {
     /* 0x000 */ View view;
     /* 0x128 */ char* iconItemSegment;
@@ -84,11 +82,10 @@ typedef struct PauseContext {
 } PauseContext, KaleidoscopeContext; /* sizeof = 0x2C0 */
 
 #else /* GAME_VERSION_1_0 */
-#warning "STRUCT is not defined for this game version!"
-
+#warning "PauseContext is not defined for this game version!"
 #endif
 #elif defined GAME_MM /* GAME_OOT */
-typedef struct {
+typedef struct PauseContext {
     /* 0x000 */ View view;
     /* 0x168 */ char* iconItemSegment;
     /* 0x16C */ char* iconItem24Segment;
@@ -170,8 +167,7 @@ typedef struct {
     /* 0x2BE */ int16_t unk_2BE[5];
     /* 0x2C8 */ uint16_t unk_2C8;
     /* 0x2CA */ int16_t unk_2CA;
-} PauseContext; /* size = 0x2D0 */
-
-#endif /* GAME_MM */
+} PauseContext, KaleidoscopeContext; /* size = 0x2D0 */
+#endif                /* GAME_MM */
 
 #endif

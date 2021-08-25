@@ -5,7 +5,6 @@
 #include <inttypes.h>
 #include <libultra/PR/os.h>
 
-
 typedef struct AnimEntryLoadFrame {
     /* 0x00 */ DmaRequest req;
     /* 0x20 */ OSMesgQueue msgQueue;

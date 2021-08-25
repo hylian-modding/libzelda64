@@ -10,7 +10,6 @@
 
 #ifdef GAME_OOT
 #ifdef GAME_VERSION_1_0
-
 typedef struct InterfaceContext {
     /* 0x0000 */ View view;
     /* 0x0128 */ struct Vtx_t* interfaceFrameVtx;
@@ -76,10 +75,8 @@ typedef struct InterfaceContext {
 
 #else /* GAME_VERSION_1_0 */
 #warning "InterfaceContext is not defined for this game version!"
-
 #endif
 #elif defined GAME_MM /* GAME_OOT */
-
 typedef struct {
     /* 0x000 */ View view;
     /* 0x168 */ struct Vtx_t* interfaceFrameVtx;
@@ -180,6 +177,5 @@ typedef struct {
     /* 0x344 */ uint32_t unk_344;
 } InterfaceContext; /* sizeof = 0x348 */
 #endif
-
 
 #endif

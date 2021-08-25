@@ -11,5 +11,4 @@ typedef struct ActorEntry {
     /* 0x0E */ int16_t params;
 }; /* sizeof = 0x10 */
 
-
 #endif

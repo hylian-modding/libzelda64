@@ -9,6 +9,8 @@
 #include "CollisionCheckContext.h"
 #include "CollisionContext.h"
 #include "CutsceneContext.h"
+#include "DoorContext.h"
+#include "EffFootmark.h"
 #include "EnvironmentContext.h"
 #include "GameState.h"
 #include "InterfaceContext.h"
@@ -28,7 +30,6 @@
 #include "TransitionContext.h"
 #include "TransitionType.h" // For TransitionFade
 #include "View.h"
-#include "DoorContext.h"
 #include <libultra/PR/gbi.h>
 
 #ifdef GAME_OOT
@@ -43,7 +44,10 @@ typedef int32_t (*StartPlayerCutsceneFunc)(struct GlobalContext* globalCtx, stru
 typedef int32_t (*DamagePlayerFunc)(struct GlobalContext* globalCtx, int32_t damage);
 
 typedef struct GlobalContext {
-    /* 0x00000 */ GameState game;
+    union {
+        /* 0x00000 */ GameState game;
+        /* 0x00000 */ GameState state;
+    };
     /* 0x000A4 */ int16_t sceneNum;
     /* 0x000A6 */ uint8_t sceneConfig;
     /* 0x000A7 */ uint8_t _pad0;
@@ -142,7 +146,10 @@ typedef int32_t (*StartPlayerCutsceneFunc)(struct GlobalContext* globalCtx, stru
 typedef int32_t (*DamagePlayerFunc)(struct GlobalContext* globalCtx, int32_t damage);
 
 typedef struct GlobalContext {
-    /* 0x00000 */ GameState game;
+    union {
+        /* 0x00000 */ GameState game;
+        /* 0x00000 */ GameState state;
+    };
     /* 0x000A4 */ int16_t sceneNum;
     /* 0x000A6 */ uint8_t sceneConfig;
     /* 0x000A7 */ char unk_A7[0x9];
@@ -161,7 +168,7 @@ typedef struct GlobalContext {
     /* 0x01CA0 */ ActorContext actorCtx;
     /* 0x01F24 */ CutsceneContext csCtx;
     /* 0x01F78 */ SoundSource soundSources[16];
-    /* 0x02138 */ char footprintInfo[0x2580];
+    /* 0x02138 */ EffFootmark footprintInfo[100];
     /* 0x046B8 */ SramContext sramCtx;
     /* 0x046E0 */ SkyboxContext skyboxCtx;
     /* 0x04908 */ MessageContext msgCtx;
@@ -175,13 +182,13 @@ typedef struct GlobalContext {
     /* 0x18760 */ DoorContext doorCtx;
     /* 0x18768 */ PlayerInitFunc playerInit;
     /* 0x1876C */ PlayerUpdateFunc playerUpdate;
-    /* 0x18770 */ GenericFunc* isPlayerDroppingFish; //! @TODO: Determine function prototype
+    /* 0x18770 */ GenericFunc isPlayerDroppingFish;
     /* 0x18774 */ GenericFunc startPlayerFishing;
     /* 0x18778 */ PlayerFunc grabPlayer;
     /* 0x1877C */ StartPlayerCutsceneFunc startPlayerCutscene;
     /* 0x18780 */ PlayerFunc2 func_18780;
     /* 0x18784 */ DamagePlayerFunc damagePlayer;
-    /* 0x18788 */ ActorFunc talkWithPlayer;
+    /* 0x18788 */ ActorFunc2 talkWithPlayer;
     /* 0x1878C */ void* unk_1878C; //! @TODO: Determine function prototype
     /* 0x18790 */ void* unk_18790; //! @TODO: Determine function prototype
     /* 0x18794 */ void* unk_18794; //! @TODO: Determine function prototype
@@ -204,7 +211,7 @@ typedef struct GlobalContext {
     /* 0x18860 */ uint16_t* setupExitList;
     /* 0x18864 */ struct Path* setupPathList;
     /* 0x18868 */ void* unk_18868;
-    /* 0x1886C */ uint16_t sceneMaterialAnims;
+    /* 0x1886C */ struct AnimatedMaterial* sceneMaterialAnims;
     /* 0x18870 */ void* specialEffects;
     /* 0x18874 */ uint8_t skyboxId;
     /* 0x18875 */ int8_t sceneLoadFlag; // "fade_direction"
@@ -222,12 +229,11 @@ typedef struct GlobalContext {
     /* 0x18B49 */ uint8_t unk_18B49;
     /* 0x18B4A */ uint8_t unk_18B4A;
     /* 0x18B4C */ PreRenderContext preRenderCtx;
-    /* 0x18B9C */ PreRenderContext preRender7kPolygon;
+    /* 0x18B9C */ char unk_18B9C[0x2B8];
     /* 0x18E54 */ struct Scene* loadedScene;
     /* 0x18E58 */ char unk_18E58[0x400];
-} GlobalContext; /* size = 0x19258 */
-
-#endif /* GAME_MM */
+} GlobalContext; /* sizeof = 0x19258 */
+#endif                /* GAME_MM */
 
 extern GlobalContext gGlobalCtx;
 SYMBOL_VERSION_CONFIG(gGlobalCtx, 0x801C84A0, 0x803E6B20);

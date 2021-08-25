@@ -4,8 +4,8 @@
 #include "DmaRequest.h"
 #include "EnvironmentLightData.h"
 #include "LightAdd.h"
-#include "LightSettings.h"
 #include "LightInfo.h"
+#include "LightSettings.h"
 #include "Vec3f.h"
 #include "Vec3s.h"
 #include <inttypes.h>
@@ -114,12 +114,12 @@ typedef struct {
     /* 0x80 */ OSMesg m;
     /* 0x84 */ float lensFade;
     /* 0x88 */ float innerLensFade;
-    /* 0x8C */ LightAdd addLight;
+    /* 0x8C */ LightSettings2 addLight;
     /* 0xA8 */ float addLightRate;
     /* 0xAC */ Vec3s windDirection;
     /* 0xB4 */ float windSpeed;
     /* 0xB8 */ uint8_t numSettings;
-    /* 0xBC */ struct LightSettings* data;
+    /* 0xBC */ LightSettings* data;
     /* 0xC0 */ uint8_t colorInitialFlag;
     /* 0xC1 */ uint8_t polygonColor;
     /* 0xC2 */ uint8_t polygonColorBefore;
@@ -141,6 +141,6 @@ typedef struct {
     /* 0xEE */ uint8_t skyRectColor[4];
     /* 0xF2 */ uint8_t fadeWork[8];
     /* 0xFA */ uint8_t _pad5[4];
-} EnvironmentContext; // size = 0x100
+} EnvironmentContext; /* sizeof = 0x100 */
 #endif
 #endif

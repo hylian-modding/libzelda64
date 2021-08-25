@@ -11,7 +11,6 @@ typedef void (*GraphicsContextCallback)(struct GraphicsContext* graphicsContext,
 
 #ifdef GAME_OOT
 #ifdef GAME_VERSION_1_0
-
 typedef struct GraphicsContext {
     /* 0x0000 */ struct Gfx* polyOpaBuffer;
     /* 0x0004 */ struct Gfx* polyXluBuffer;
@@ -50,10 +49,8 @@ typedef struct GraphicsContext {
 
 #else /* GAME_VERSION_1_0 */
 #warning "GraphicsContext is not defined for this game version!"
-
 #endif
 #elif defined GAME_MM /* GAME_OOT */
-
 typedef struct GraphicsContext {
     /* 0x000 */ struct Gfx* polyOpaBuffer;
     /* 0x004 */ struct Gfx* polyXluBuffer;
@@ -85,7 +82,7 @@ typedef struct GraphicsContext {
     /* 0x2E4 */ float xScale;
     /* 0x2E8 */ float yScale;
     /* 0x2EC */ char pad2EC[0x4];
-} GraphicsContext; // size = 0x2F0
+} GraphicsContext; /* sizeof = 0x2F0 */
 #endif
 
 typedef enum {

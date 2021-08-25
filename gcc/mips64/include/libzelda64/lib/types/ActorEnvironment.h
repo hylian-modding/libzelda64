@@ -15,5 +15,4 @@ typedef struct ActorEnvironment {
     /* 0x20 */ uint32_t tempCollect;
 } ActorEnvironment; /* sizeof = 0x24 */
 
-
 #endif

@@ -9,7 +9,6 @@
 
 #ifdef GAME_OOT
 #ifdef GAME_VERSION_1_0
-
 typedef struct DynaCollisionContext {
     /* 0x0000 */ uint8_t bitFlag;
     /* 0x0004 */ BgActor bgActors[BG_ACTOR_MAX];
@@ -23,10 +22,10 @@ typedef struct DynaCollisionContext {
 } DynaCollisionContext; /* sizeof = 0x1410 */
 
 #else /* GAME_VERSION_1_0 */
-#warning "STRUCT is not defined for this game version!"
+#warning "DynaCollisionContext is not defined for this game version!"
 #endif
 #elif defined GAME_MM /* GAME_OOT */
-typedef struct {
+typedef struct DynaCollisionContext {
     /* 0x0000 */ uint8_t bitFlag;
     /* 0x0004 */ BgActor bgActors[BG_ACTOR_MAX];
     /* 0x138C */ uint16_t bgActorFlags[BG_ACTOR_MAX];
@@ -37,7 +36,7 @@ typedef struct {
     /* 0x1404 */ int32_t polyNodesMax;
     /* 0x1408 */ int32_t polyListMax;
     /* 0x140C */ int32_t vtxListMax;
-} DynaCollisionContext; // size = 0x1418
+} DynaCollisionContext; /* sizeof = 0x1418 */
 #endif                /* GAME_MM */
 
 #endif

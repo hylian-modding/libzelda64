@@ -1,12 +1,10 @@
 #ifndef INVENTORY_TYPE_H
 #define INVENTORY_TYPE_H
 
-#include "../zelda64_version.h"
 #include <inttypes.h>
 
 #ifdef GAME_OOT
 #ifdef GAME_VERSION_1_0
-
 typedef struct {
     /* 0x00 */ uint8_t items[24];
     /* 0x18 */ int8_t ammo[16];
@@ -34,6 +32,6 @@ typedef struct {
     /* 0x64 */ int8_t strayFairies[10]; // "orange_fairy"
     /* 0x6E */ uint8_t unk_6E[8][3];    // "degnuts_memory_name"
 } Inventory;                            /* sizeof = 0x88 */
-#endif
+#endif                /* GAME_MM */
 
 #endif

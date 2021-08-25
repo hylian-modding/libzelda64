@@ -4,7 +4,7 @@
 #include "Vec3i.h"
 #include <inttypes.h>
 
-typedef struct {
+typedef struct FaroresWindData {
     /* 0x00 */ Vec3i pos;
     /* 0x0C */ int32_t yaw;
     /* 0x10 */ int32_t playerParams;

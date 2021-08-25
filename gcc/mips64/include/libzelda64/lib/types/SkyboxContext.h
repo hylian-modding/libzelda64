@@ -6,7 +6,6 @@
 #include "View.h"
 #include <inttypes.h>
 #include <libultra/ultra64.h>
-#include "../zelda64_version.h"
 
 #ifdef GAME_OOT
 #ifdef GAME_VERSION_1_0
@@ -27,7 +26,7 @@ typedef struct SkyboxContext {
 #warning "SkyboxContext is not defined for this game version!"
 #endif
 #elif defined GAME_MM
-typedef struct {
+typedef struct SkyboxContext {
     /* 0x000 */ View view;
     /* 0x168 */ void* staticSegments[2];
     /* 0x170 */ char unk170[8]; // more static segments?

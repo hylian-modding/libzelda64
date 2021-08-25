@@ -4,7 +4,7 @@
 #include "Vec3s.h"
 #include <inttypes.h>
 
-typedef struct {
+typedef struct HorseData {
     /* 0x00 */ int16_t scene;
     /* 0x02 */ Vec3s pos;
     /* 0x08 */ int16_t angle;

@@ -1,7 +1,6 @@
 #ifndef ACTORCONTEXT_TYPE_H
 #define ACTORCONTEXT_TYPE_H
 
-#include "../zelda64_version.h"
 #include "ActorEnvironment.h"
 #include "ActorListEntry.h"
 #include "TargetContext.h"
@@ -46,7 +45,7 @@ typedef struct ActorContext {
 #warning "ActorContext is not defined for this game version!"
 #endif
 #elif defined GAME_MM /* GAME_OOT */
-typedef struct {
+typedef struct ActorContext {
     /* 0x000 */ char pad0[0x2];
     /* 0x002 */ uint8_t unk2;
     /* 0x003 */ uint8_t unk3;
@@ -81,6 +80,6 @@ typedef struct {
     /* 0x27A */ char pad27A[0x2];
     /* 0x27C */ char pad27C[0x8];
 } ActorContext; /* sizeof = 0x284 */
-#endif /* GAME_MM */
+#endif                /* GAME_MM */
 
 #endif

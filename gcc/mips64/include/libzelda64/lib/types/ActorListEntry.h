@@ -1,43 +1,41 @@
 #ifndef ACTORLISTENTRY_TYPE_H
 #define ACTORLISTENTRY_TYPE_H
 
-#include "../zelda64_version.h"
 #include <inttypes.h>
-
-typedef enum {
-    ACTORLIST_CATEGORY_SWITCH,
-    ACTORLIST_CATEGORY_BG,
-    ACTORLIST_CATEGORY_PLAYER,
-    ACTORLIST_CATEGORY_EXPLOSIVE,
-    ACTORLIST_CATEGORY_NPC,
-    ACTORLIST_CATEGORY_ENEMY,
-    ACTORLIST_CATEGORY_PROP,
-    ACTORLIST_CATEGORY_ITEM,
-    ACTORLIST_CATEGORY_MISC,
-    ACTORLIST_CATEGORY_BOSS,
-    ACTORLIST_CATEGORY_DOOR,
-    ACTORLIST_CATEGORY_CHEST,
-    ACTORLIST_CATEGORY_COUNT
-} ACTORLIST_CATEGORY;
 
 #ifdef GAME_OOT
 #ifdef GAME_VERSION_1_0
-typedef struct {
+typedef struct ActorListEntry {
     /* 0x00 */ int32_t length;
     /* 0x04 */ struct Actor* head;
 } ActorListEntry; /* 0x08 */
 
 #else /* GAME_VERSION_1_0 */
-#warning "ACTORLIST_CATEGORY is not defined for this game version!"
+#warning "ActorListEntry is not defined for this game version!"
 #endif
 #elif defined GAME_MM /* GAME_OOT */
-typedef struct {
-    /* 0x0 */ int32_t length; // number of actors loaded of this type
+typedef struct ActorListEntry {
+    /* 0x0 */ int32_t length;     // number of actors loaded of this type
     /* 0x4 */ struct Actor* head; // pointer to first actor of this type
-    /* 0x8 */ uint8_t pad8[0x4];
-} ActorListEntry; /* sizeof = 0x0C */
-#endif /* GAME_MM */
+    /* 0x8 */ uint8_t pad8[0x4];  //
+} ActorListEntry;                 /* sizeof = 0x0C */
+#endif                /* GAME_MM */
 
+typedef enum {
+    /* 0x00 */ ACTORLIST_CATEGORY_SWITCH,
+    /* 0x01 */ ACTORLIST_CATEGORY_BG,
+    /* 0x02 */ ACTORLIST_CATEGORY_PLAYER,
+    /* 0x03 */ ACTORLIST_CATEGORY_EXPLOSIVE,
+    /* 0x04 */ ACTORLIST_CATEGORY_NPC,
+    /* 0x05 */ ACTORLIST_CATEGORY_ENEMY,
+    /* 0x06 */ ACTORLIST_CATEGORY_PROP,
+    /* 0x07 */ ACTORLIST_CATEGORY_ITEM,
+    /* 0x08 */ ACTORLIST_CATEGORY_MISC,
+    /* 0x09 */ ACTORLIST_CATEGORY_BOSS,
+    /* 0x0A */ ACTORLIST_CATEGORY_DOOR,
+    /* 0x0B */ ACTORLIST_CATEGORY_CHEST,
+    /* 0x0C */ ACTORLIST_CATEGORY_COUNT
+} ACTORLIST_CATEGORY;
 
 /* Special Actor Flags */
 #define ACTORFLAG_NOP               (0)                            /* No operations. */

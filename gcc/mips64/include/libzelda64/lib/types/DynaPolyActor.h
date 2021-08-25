@@ -4,11 +4,8 @@
 #include "Actor.h"
 #include <inttypes.h>
 
-typedef enum { DPM_UNK = 0, DPM_PLAYER = 1, DPM_ENEMY = 2, DPM_UNK3 = 3 } DynaPolyMoveFlag;
-
 #ifdef GAME_OOT
 #ifdef GAME_VERSION_1_0
-
 typedef struct DynaPolyActor {
     /* 0x000 */ Actor actor;
     /* 0x13C */ int32_t bgId;
@@ -23,10 +20,8 @@ typedef struct DynaPolyActor {
 
 #else /* GAME_VERSION_1_0 */
 #warning "DynaPolyActor is not defined for this game version!"
-
 #endif
 #elif defined GAME_MM /* GAME_OOT */
-
 typedef struct {
     /* 0x000 */ Actor actor;
     /* 0x144 */ int32_t bgId;
@@ -37,7 +32,9 @@ typedef struct {
     /* 0x154 */ uint32_t unk154;
     /* 0x158 */ uint8_t unk_158;
     /* 0x15A */ int16_t pad15A;
-} DynaPolyActor; // size = 0x15C
+} DynaPolyActor; /* sizeof = 0x15C */
 #endif                /* GAME_MM */
+
+typedef enum { DPM_UNK = 0, DPM_PLAYER = 1, DPM_ENEMY = 2, DPM_UNK3 = 3 } DynaPolyMoveFlag;
 
 #endif

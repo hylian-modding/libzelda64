@@ -1,7 +1,6 @@
 #ifndef PLAYER_TYPE_H
 #define PLAYER_TYPE_H
 
-#include "../zelda64_version.h"
 #include "Actor.h"
 #include "ColliderCylinder.h"
 #include "ColliderQuad.h"
@@ -444,7 +443,7 @@ typedef struct Player {
     /* 0x0A78 */ Vec3f unk_A78; // previous body part 0 position
 } Player;                       /* sizeof = 0xA84 */
 #else                           /* GAME_VERSION_1_0 */
-#warning "Actor is not defined for this game version!"
+#warning "Player is not defined for this game version!"
 #endif
 #elif defined GAME_MM /* GAME_OOT */
 typedef enum {

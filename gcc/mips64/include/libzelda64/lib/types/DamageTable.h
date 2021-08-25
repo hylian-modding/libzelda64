@@ -9,6 +9,7 @@ typedef struct DamageTable {
 
 #define DMG_ENTRY(damage, effect) ((damage) | ((effect) << 4))
 
+#ifdef GAME_OOT
 // These flags are not to be used in code until we figure out how we want to format them. They are only here for reference
 #define DMG_DEKU_NUT     (1 << 0x00)
 #define DMG_DEKU_STICK   (1 << 0x01)
@@ -52,5 +53,6 @@ typedef struct DamageTable {
 #define DMG_ARROW       (DMG_ARROW_NORMAL | DMG_ARROW_FIRE | DMG_ARROW_ICE | DMG_ARROW_LIGHT | DMG_UNK_ARROW_1 | DMG_UNK_ARROW_2 | DMG_UNK_ARROW_3)
 #define DMG_RANGED      (DMG_ARROW | DMG_HOOKSHOT | DMG_SLINGSHOT)
 #define DMG_DEFAULT     ~(DMG_SHIELD | DMG_MIR_RAY)
+#endif
 
 #endif

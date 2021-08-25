@@ -6,7 +6,7 @@
 
 typedef int32_t (*SkelAnimeFunc)(void);
 
-typedef struct {
+typedef struct SkelAnime {
     /* 0x00 */ uint8_t limbCount;    // Number of limbs in the skeleton
     /* 0x01 */ uint8_t mode;         // 0: loop, 2: play once, 4: partial loop. +1 to interpolate between frames.
     /* 0x02 */ uint8_t dListCount;   // Number of display lists in a flexible skeleton

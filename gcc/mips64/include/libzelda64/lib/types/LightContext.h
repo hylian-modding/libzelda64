@@ -1,13 +1,11 @@
 #ifndef LIGHTCONTEXT_TYPE_H
 #define LIGHTCONTEXT_TYPE_H
 
-#include "../zelda64_version.h"
 #include "Color_RGB8.h"
 #include <inttypes.h>
 
 #ifdef GAME_OOT
 #ifdef GAME_VERSION_1_0
-
 typedef struct LightContext {
     /* 0x00 */ struct LightNode* listHead;
     /* 0x04 */ Color_RGB8 ambient;

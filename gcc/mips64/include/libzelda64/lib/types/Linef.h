@@ -8,5 +8,4 @@ typedef struct Linef {
     /* 0x0C */ Vec3f b;
 } Linef; /* sizeof = 0x18 */
 
-
 #endif

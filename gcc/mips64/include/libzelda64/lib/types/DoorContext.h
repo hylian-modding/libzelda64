@@ -3,10 +3,9 @@
 
 #include <inttypes.h>
 
-typedef struct {
+typedef struct DoorContext {
     /* 0x00 */ uint8_t numTransitionActors;
     /* 0x04 */ struct TransitionActorEntry* transitionActorList;
 } DoorContext;
 
 #endif
-

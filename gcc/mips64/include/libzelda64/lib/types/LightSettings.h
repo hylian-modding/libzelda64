@@ -26,4 +26,13 @@ typedef struct LightSettings {
     /* 0x14 */ uint16_t drawDistance;
 } LightSettings; /* 0x16 */
 
+typedef struct {
+    /* 0x00 */ int16_t ambientColor[3];
+    /* 0x06 */ int16_t diffuseColor1[3];
+    /* 0x0C */ int16_t diffuseColor2[3];
+    /* 0x12 */ int16_t fogColor[3];
+    /* 0x18 */ int16_t fogNear;
+    /* 0x1A */ int16_t fogFar;
+} LightSettings2; /* sizeof = 0x1C */
+
 #endif

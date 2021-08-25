@@ -1,7 +1,6 @@
 #ifndef VIEW_TYPE_H
 #define VIEW_TYPE_H
 
-#include "../zelda64_version.h"
 #include "Vec3f.h"
 #include "Viewport.h"
 #include <inttypes.h>
@@ -9,7 +8,6 @@
 
 #ifdef GAME_OOT
 #ifdef GAME_VERSION_1_0
-
 typedef struct View {
     /* 0x000 */ int32_t magic;
     /* 0x004 */ struct GraphicsContext* gfxCtx;
@@ -37,12 +35,10 @@ typedef struct View {
 } View; /* sizeof = 0x128 */
 
 #else /* GAME_VERSION_1_0 */
-#warning "STRUCT is not defined for this game version!"
-
+#warning "View is not defined for this game version!"
 #endif
 #elif defined GAME_MM /* GAME_OOT */
-
-typedef struct {
+typedef struct View {
     /* 0x000 */ int32_t magic;
     /* 0x004 */ struct GraphicsContext* gfxCtx;
     /* 0x008 */ Viewport viewport;
@@ -70,7 +66,6 @@ typedef struct {
     /* 0x160 */ int32_t flags; // bit 3: Render to an orthographic perspective
     /* 0x164 */ int32_t flags_repeat;
 } View; /* sizeof = 0x168 */
-
-#endif /* GAME_MM */
+#endif                /* GAME_MM */
 
 #endif

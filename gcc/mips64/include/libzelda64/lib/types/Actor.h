@@ -1,7 +1,6 @@
 #ifndef ACTOR_TYPE_H
 #define ACTOR_TYPE_H
 
-#include "../zelda64_version.h"
 #include "ActorFunc.h"
 #include "ActorShape.h"
 #include "CollisionCheckInfo.h"
@@ -70,26 +69,23 @@ typedef struct Actor {
     /* 0x138 */ struct ActorOverlay* overlayEntry; // Pointer to the overlay table entry for this actor
 } Actor;                                           /* sizeof = 0x13C */
 
-
 #else /* GAME_VERSION_1_0 */
 #warning "Actor is not defined for this game version!"
-
 #endif
 #elif defined GAME_MM /* GAME_OOT */
-
 typedef struct Actor {
-    /* 0x000 */ int16_t id;          // Actor ID
-    /* 0x002 */ uint8_t category;    // Actor category. Refer to the corresponding enum for values
-    /* 0x003 */ int8_t room;         // Room number the actor is in. -1 denotes that the actor won't despawn on a room change
-    /* 0x004 */ uint32_t flags;      // Flags used for various purposes
-    /* 0x008 */ PosRot home;         // Initial position/rotation when spawned. Can be used for other purposes
-    /* 0x01C */ int16_t params;      // Configurable variable set by the actor's spawn data; original name: "args_data"
-    /* 0x01E */ int8_t objBankIndex; // Object bank index of the actor's object dependency; original name: "bank"
-    /* 0x01F */ int8_t targetMode;   // Controls how far the actor can be targeted from and how far it can stay locked on
-    /* 0x020 */ int16_t unk20;
-    /* 0x024 */ PosRot world; // Position/rotation in the world
-    /* 0x038 */ int8_t cutscene;
-    /* 0x039 */ int8_t unk39;
+    /* 0x000 */ int16_t id;                        // Actor ID
+    /* 0x002 */ uint8_t category;                  // Actor category. Refer to the corresponding enum for values
+    /* 0x003 */ int8_t room;                       // Room number the actor is in. -1 denotes that the actor won't despawn on a room change
+    /* 0x004 */ uint32_t flags;                    // Flags used for various purposes
+    /* 0x008 */ PosRot home;                       // Initial position/rotation when spawned. Can be used for other purposes
+    /* 0x01C */ int16_t params;                    // Configurable variable set by the actor's spawn data; original name: "args_data"
+    /* 0x01E */ int8_t objBankIndex;               // Object bank index of the actor's object dependency; original name: "bank"
+    /* 0x01F */ int8_t targetMode;                 // Controls how far the actor can be targeted from and how far it can stay locked on
+    /* 0x020 */ int16_t unk20;                     //
+    /* 0x024 */ PosRot world;                      // Position/rotation in the world
+    /* 0x038 */ int8_t cutscene;                   //
+    /* 0x039 */ int8_t unk39;                      //
     /* 0x03C */ PosRot focus;                      // Target reticle focuses on this position. For player this represents head pos and rot
     /* 0x050 */ uint16_t sfx;                      // SFX ID to play. Sound plays when value is set, then is cleared the following update cycle
     /* 0x054 */ float targetArrowOffset;           // Height offset of the target arrow relative to `focus` position
@@ -137,7 +133,6 @@ typedef struct Actor {
     /* 0x13C */ ActorFunc draw;                    // Draw Routine. Called by `Actor_Draw`
     /* 0x140 */ struct ActorOverlay* overlayEntry; // Pointer to the overlay table entry for this actor
 } Actor;                                           /* sizeof = 0x144 */
-
-#endif /* GAME_MM */
+#endif                /* GAME_MM */
 
 #endif

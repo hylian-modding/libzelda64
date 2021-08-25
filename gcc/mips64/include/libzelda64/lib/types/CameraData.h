@@ -8,5 +8,4 @@ typedef struct CameraData {
     /* 0x04 */ int16_t data[7];
 } CameraData; /* sizeof = 0x10 */
 
-
 #endif

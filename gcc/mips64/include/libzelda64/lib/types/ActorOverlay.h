@@ -4,7 +4,7 @@
 #include "../zelda64_version.h"
 #include <inttypes.h>
 
-typedef struct {
+typedef struct ActorOverlay {
     /* 0x00 */ uint32_t vromStart;
     /* 0x04 */ uint32_t vromEnd;
     /* 0x08 */ void* vramStart;

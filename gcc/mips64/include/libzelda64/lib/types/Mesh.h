@@ -48,5 +48,4 @@ typedef union Mesh {
     /* 0x00 */ PolygonType2 polygon2;
 } Mesh, RoomMesh; /* sizeof = 0x1C */
 
-
 #endif

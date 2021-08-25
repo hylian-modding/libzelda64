@@ -37,10 +37,13 @@ SYMBOL_VERSION_CONFIG(Actor_RemoveFromCategory, 0x80024FE0, 0x800BAB24);
 extern void Actor_FreeOverlay(struct ActorOverlay* actorOverlay);
 SYMBOL_VERSION_CONFIG(Actor_FreeOverlay, 0x800250AC, 0x800BABFC);
 
-extern Actor* Actor_SpawnWithParentAndCutscene(struct ActorContext* actorCtx, struct GlobalContext* globalCtx, int16_t index, float x, float y, float z, int16_t rotX, int16_t rotY, int16_t rotZ, int32_t params, uint32_t cutscene, int32_t param_12, Actor* parent);
+extern Actor* Actor_SpawnWithParentAndCutscene(
+    struct ActorContext* actorCtx, struct GlobalContext* globalCtx, int16_t index, float x, float y, float z, int16_t rotX, int16_t rotY, int16_t rotZ, int32_t params, uint32_t cutscene,
+    int32_t param_12, Actor* parent);
 SYMBOL_VERSION_CONFIG(Actor_SpawnWithParentAndCutscene, 0x80000180, 0x800BAE14);
 
-extern Actor* Actor_Spawn(struct ActorContext* actorCtx, struct GlobalContext* globalCtx, int16_t actorId, float posX, float posY, float posZ, int16_t rotX, int16_t rotY, int16_t rotZ, int16_t params);
+extern Actor*
+Actor_Spawn(struct ActorContext* actorCtx, struct GlobalContext* globalCtx, int16_t actorId, float posX, float posY, float posZ, int16_t rotX, int16_t rotY, int16_t rotZ, int16_t params);
 SYMBOL_VERSION_CONFIG(Actor_Spawn, 0x80025110, 0x800BAC60);
 
 extern Actor* Actor_SpawnEntry(struct ActorContext* actorCtx, struct ActorEntry* actorEntry, struct GlobalContext* globalCtx);

@@ -1,7 +1,6 @@
 #ifndef RESPAWNDATA_TYPE_H
 #define RESPAWNDATA_TYPE_H
 
-#include "../zelda64_version.h"
 #include "Vec3f.h"
 #include <inttypes.h>
 

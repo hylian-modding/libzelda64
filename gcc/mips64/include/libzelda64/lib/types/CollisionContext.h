@@ -1,7 +1,6 @@
 #ifndef COLLISIONCONTEXT_TYPE_H
 #define COLLISIONCONTEXT_TYPE_H
 
-#include "../zelda64_version.h"
 #include "DynaCollisionContext.h"
 #include "SSNodeList.h"
 #include "Vec3f.h"
@@ -25,10 +24,8 @@ typedef struct CollisionContext {
 
 #else /* GAME_VERSION_1_0 */
 #warning "CollisionContext is not defined for this game version!"
-
 #endif
 #elif defined GAME_MM /* GAME_OOT */
-
 typedef struct CollisionContext {
     /* 0x00 */ struct CollisionHeader* colHeader; // scene's static collision
     /* 0x04 */ Vec3f minBounds;                   // minimum coordinates of collision bounding box

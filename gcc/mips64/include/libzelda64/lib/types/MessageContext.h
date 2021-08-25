@@ -70,7 +70,7 @@ typedef struct MessageContext {
 } MessageContext; /* sizeof = 0xE418 */
 
 #else /* GAME_VERSION_1_0 */
-#warning "Actor is not defined for this game version!"
+#warning "MessageContext is not defined for this game version!"
 #endif
 #elif defined GAME_MM /* GAME_OOT */
 typedef struct {
@@ -109,6 +109,5 @@ typedef struct {
     /* 0x120D8 */ uint8_t pad120D8[0x8];
 } MessageContext; /* sizeof = 0x120E0 */
 #endif                /* GAME_MM */
-
 
 #endif

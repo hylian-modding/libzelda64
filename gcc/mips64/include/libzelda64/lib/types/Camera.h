@@ -1,15 +1,14 @@
 #ifndef CAMERA_TYPE_H
 #define CAMERA_TYPE_H
 
-#include "../zelda64_version.h"
 #include "PosRot.h"
 #include "Vec3f.h"
 #include "Vec3s.h"
 #include <inttypes.h>
+
 // TODO: Add camera params (as union) from decomp!
 #ifdef GAME_OOT
 #ifdef GAME_VERSION_1_0
-
 typedef struct Camera {
     /* 0x000 */ char paramData[0x50];
     /* 0x050 */ Vec3f at;
@@ -75,10 +74,8 @@ typedef struct Camera {
 
 #else /* GAME_VERSION_1_0 */
 #warning "Camera is not defined for this game version!"
-
 #endif
 #elif defined GAME_MM /* GAME_OOT */
-
 typedef struct Camera {
     /* 0x000 */ char paramData[0x50];
     /* 0x050 */ Vec3f at;
@@ -142,11 +139,10 @@ typedef struct Camera {
     /* 0x168 */ int16_t prevId;
     /* 0x16A */ int16_t opDemo;
     /* 0x16C */ Vec3f meshActorPos;
-} Camera; // size = 0x178
+} Camera; /* sizeof = 0x178 */
 #endif                /* GAME_MM */
 
 // Defines and enums
-
 #define CAM_STAT_CUT    0
 #define CAM_STAT_WAIT   1
 #define CAM_STAT_UNK3   3
@@ -322,6 +318,5 @@ typedef enum {
     /* 0x46 */ CAM_FUNC_SPEC9,
     /* 0x47 */ CAM_FUNC_MAX
 } CameraFuncType;
-
 
 #endif
