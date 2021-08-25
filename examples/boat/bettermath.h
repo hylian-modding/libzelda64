@@ -1,7 +1,7 @@
 #ifndef BETTERMATH_H
 #define BETTERMATH_H
 
-#include <libzelda64/lib/Math.h>
+#include <libzelda64/Math.h>
 
 #define abs(value) value < 0 ? -(value) : (value)
 float Math_PowF(float a, float b) {

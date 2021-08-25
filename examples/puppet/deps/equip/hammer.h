@@ -1,7 +1,7 @@
 #ifndef __PUPPET_EQUIP_HAMMER_H__
 #define __PUPPET_EQUIP_HAMMER_H__
 
-#include <libzelda64/lib/types/GlobalContext.h>
+#include <libzelda64/types/GlobalContext.h>
 
 void draw_hammer(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s* rot) {
     TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;

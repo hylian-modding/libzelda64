@@ -1,9 +1,9 @@
 #ifndef __PUPPET_EQUIP_H__
 #define __PUPPET_EQUIP_H__
 
-#include <libzelda64/lib/types/GlobalContext.h>
-#include <libzelda64/lib/GraphicsContext.h>
-#include <libzelda64/lib/types/Player.h>
+#include <libzelda64/types/GlobalContext.h>
+#include <libzelda64/GraphicsContext.h>
+#include <libzelda64/types/Player.h>
 
 #include "../gbi.h"
 #include "equip/gear.h"

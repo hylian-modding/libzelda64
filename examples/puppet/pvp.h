@@ -2,7 +2,7 @@
 #define PVP_H
 
 #include <inttypes.h>
-#include <libzelda64/lib/Math.h>
+#include <libzelda64/Math.h>
 
 enum {
     PVPDAMAGETYPE_NONE,

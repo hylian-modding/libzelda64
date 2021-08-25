@@ -1,12 +1,4 @@
-#include <inttypes.h>
-#include <libzelda64/lib/types/ActorContext.h>
-#include <libzelda64/lib/types/GlobalContext.h>
-#include <libzelda64/lib/Actor.h>
-#include <libzelda64/lib/ObjectContext.h>
-#include <libzelda64/lib/Flags.h>
-#include <libzelda64/lib/ZeldaArena.h>
-#include <libzelda64/lib/libc.h>
-#include <libzelda64/lib/types/ActorId.h>
+#include <libzelda64.h>
 #include "Actor_CaveHelpers.h"
 
 #ifdef GAME_OOT

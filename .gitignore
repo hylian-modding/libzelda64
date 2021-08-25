@@ -1,5 +1,7 @@
 *.elf
 *.o
+*.o.oot
+*.o.mm
 *.ovl
 .vscode
 node_modules

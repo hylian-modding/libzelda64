@@ -5,13 +5,13 @@ LD   = mips64-ld
 OBJCOPY = mips64-objcopy
 OBJDUMP = mips64-objdump
 
-CFLAGS = -I$(LIBZ64_PATH) -G 0 -Os 						\
+CFLAGS = -I$(LIBZ64_PATH) -I$(LIBZ64_PATH)/libultra -G 0 -Os 						\
 --std=gnu99 -mtune=vr4300 -mabi=32 -mips3 			\
 -mno-explicit-relocs -mno-memcpy -ffreestanding		\
 -Wno-main -mno-gpopt -Wno-unused-function 			\
 -fomit-frame-pointer -mno-check-zero-division
 
-LDFLAGS = -L$(LIBZ64_PATH) -T $(LIBZ64_LD) --emit-relocs
+LDFLAGS = -L$(LIBZ64_PATH) -T libzelda64.ld --emit-relocs
 NOVLFLAGS = -s -c -A $(ADDRESS) -o $(OVLOUT)
 
 default: clean sync_data

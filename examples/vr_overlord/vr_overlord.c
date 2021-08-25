@@ -1,7 +1,7 @@
 #include "vr_overlord.h"
-#include <libzelda64/lib/GraphicsContext.h>
-#include <libzelda64/lib/Math.h>
-#include <libzelda64/lib/Collider.h>
+#include <libzelda64/GraphicsContext.h>
+#include <libzelda64/Math.h>
+#include <libzelda64/Collider.h>
 
 //TODO: Add to the right file
 extern void Matrix_Get(MtxF* dest);

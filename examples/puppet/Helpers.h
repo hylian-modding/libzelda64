@@ -2,8 +2,8 @@
 #define HELPERS_FUNCS_H
 
 #include "MagicNumbers.h"
-#include <libzelda64/lib/Macros.h>
-#include <libzelda64/lib/Math.h>
+#include <libzelda64/Macros.h>
+#include <libzelda64/Math.h>
 #include <inttypes.h>
 
 #define SIZEOFARRAY(ARRAY) sizeof((ARRAY)) / sizeof((ARRAY)[0])

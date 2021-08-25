@@ -1,16 +1,7 @@
+#include <libzelda64.h>
 #include "commandbuffer.h"
 #include "command.h"
 #include "commandreturn.h"
-#include <inttypes.h>
-#include <libzelda64/lib/Actor.h>
-#include <libzelda64/lib/Audio.h>
-#include <libzelda64/lib/Interface.h>
-#include <libzelda64/lib/ObjectContext.h>
-#include <libzelda64/lib/Player.h>
-#include <libzelda64/lib/ZeldaArena.h>
-#include <libzelda64/lib/libc.h>
-#include <libzelda64/lib/types/GlobalContext.h>
-#include <libzelda64/lib/types/SaveContext.h>
 
 typedef enum {
     /* 0x00 */ BTN_ENABLED,

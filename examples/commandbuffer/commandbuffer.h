@@ -1,9 +1,7 @@
 #ifndef COMMANDBUFFER_H
 #define COMMANDBUFFER_H
 
-#include <inttypes.h>
-#include <libzelda64/lib/types/DmaRequest.h>
-#include <libultra/PR/os.h>
+#include <libzelda64.h>
 #include "command.h"
 #include "commandreturn.h"
 #include "commandevent.h"

@@ -1,11 +1,11 @@
 #ifndef SKYSPHERE_H
 #define SKYSPHERE_H
 
-#include <libzelda64/lib/Actor.h>
-#include <libzelda64/lib/Math.h>
-#include <libzelda64/lib/GraphicsContext.h>
-#include <libzelda64/lib/types/GlobalContext.h>
-#include <libzelda64/lib/types/Player.h>
+#include <libzelda64/Actor.h>
+#include <libzelda64/Math.h>
+#include <libzelda64/GraphicsContext.h>
+#include <libzelda64/types/GlobalContext.h>
+#include <libzelda64/types/Player.h>
 #include <libultra/PR/gbi.h>
 
 enum {

@@ -22,16 +22,16 @@ ADDRESS = 0x80800000
 CC   = @mips64-gcc
 LD   = @mips64-ld
 
-CFLAGS =    -I$(LIBZ64_PATH) -D_LANGUAGE_C -DF3DEX_GBI_2 -D_MLDEBUG -DGAMESTATE_CAVE -DGAME_VERSION_1_0 -G 0 -Ofast	\
+CFLAGS =    -I$(LIBZ64_PATH) -I$(LIBZ64_PATH)/libultra -D_LANGUAGE_C -DF3DEX_GBI_2 -D_MLDEBUG -DGAMESTATE_CAVE -DGAME_VERSION_1_0 -G 0 -Ofast	\
             -std=gnu11 -mtune=vr4300 -march=vr4300 -mabi=32 -mips3							        \
             -mdivide-breaks -mno-explicit-relocs -mno-split-addresses -mno-memcpy -mno-check-zero-division -mno-shared -mframe-header-opt	\
 			-ffreestanding -fno-reorder-blocks  -w
 
-LDFLAGS = -L$(LIBZ64_PATH) -T $(LIBZ64_LD) --emit-relocs
+LDFLAGS = -L$(LIBZ64_PATH) -T libzelda64.ld --emit-relocs
 
-default: dirs $(OBJECTS) $(PROGRAM) dump
+default: entry dirs $(OBJECTS) $(PROGRAM) dump
 
-dirs:
+dirs: entry
 	mkdir -p bin_oot
 	mkdir -p bin_mm
 
@@ -53,6 +53,11 @@ dump: dirs $(OBJECTS) $(PROGRAM)
 	./dumpbinary.sh mm
 	bintots -d bin_oot
 	bintots -d bin_mm
+
+entry:
+	@echo -n "ENTRY_POINT = "$(ADDRESS) > entry.ld
+	@echo ";" >> entry.ld
+	@echo "Generated entry.ld"
 
 clean:
 	@rm -f *.elf *.o *.o.oot *.o.mm *.elf.oot *.elf.mm

@@ -1,9 +1,9 @@
 #ifndef __OVL_EN_TEMPLATE__
 #define __OVL_EN_TEMPLATE__
 
-#include <libzelda64/lib/Actor.h>
-#include <libzelda64/lib/ActorShape.h>
-#include <libzelda64/lib/types/GlobalContext.h>
+#include <libzelda64/Actor.h>
+#include <libzelda64/ActorShape.h>
+#include <libzelda64/types/GlobalContext.h>
 
 typedef struct {
     Actor actor;

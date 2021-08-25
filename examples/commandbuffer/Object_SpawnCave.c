@@ -1,7 +1,7 @@
 #include <inttypes.h>
-#include <libzelda64/lib/DmaMgr.h>
-#include <libzelda64/lib/types/ObjectContext.h>
-#include <libzelda64/lib/types/RomFile.h>
+#include <libzelda64/DmaMgr.h>
+#include <libzelda64/types/ObjectContext.h>
+#include <libzelda64/types/RomFile.h>
 #include "Actor_CaveHelpers.h"
 
 #ifdef GAME_OOT

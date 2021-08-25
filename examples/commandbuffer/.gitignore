@@ -1,5 +1,9 @@
 *.o
+*.o.mm
+*.o.oot
 *.elf
+*.elf.mm
+*.elf.oot
 entry.ld
 *.idb
 *.id0
@@ -7,7 +11,8 @@ entry.ld
 *.id2
 *.nam
 *.til
-Sfx_Hook.c
-SkelAnime_DrawFlexLodHook.c
-bin
+*.ts
 bad_idea
+bin_mm
+bin_oot
+test

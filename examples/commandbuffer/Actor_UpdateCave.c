@@ -1,4 +1,4 @@
-#include <libzelda64/lib/Actor.h>
+#include <libzelda64.h>
 #include "commandbuffer.h"
 #include "Actor_CaveHelpers.h"
 

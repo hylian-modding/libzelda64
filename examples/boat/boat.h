@@ -1,17 +1,17 @@
 #ifndef BOAT_H
 #define BOAT_H
 
-#include <libzelda64/lib/Actor.h>
-#include <libzelda64/lib/ActorShape.h>
-#include <libzelda64/lib/Collider.h>
-#include <libzelda64/lib/BGCheck.h>
-#include <libzelda64/lib/DynaPoly.h>
-#include <libzelda64/lib/Math.h>
-#include <libzelda64/lib/GraphicsContext.h>
-#include <libzelda64/lib/types/DynaPolyActor.h>
-#include <libzelda64/lib/types/GlobalContext.h>
-#include <libzelda64/lib/types/Player.h>
-#include <libzelda64/lib/types/ColliderInitType1.h>
+#include <libzelda64/Actor.h>
+#include <libzelda64/ActorShape.h>
+#include <libzelda64/Collider.h>
+#include <libzelda64/BGCheck.h>
+#include <libzelda64/DynaPoly.h>
+#include <libzelda64/Math.h>
+#include <libzelda64/GraphicsContext.h>
+#include <libzelda64/types/DynaPolyActor.h>
+#include <libzelda64/types/GlobalContext.h>
+#include <libzelda64/types/Player.h>
+#include <libzelda64/types/ColliderInitType1.h>
 #include <libultra/PR/gbi.h>
 #include "obj.h"
 

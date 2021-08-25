@@ -1,8 +1,8 @@
 #ifndef __PUPPET_EQUIP_GEAR_H__
 #define __PUPPET_EQUIP_GEAR_H__
 
-#include <libzelda64/lib/types/GlobalContext.h>
-#include <libzelda64/lib/Blure.h>
+#include <libzelda64/types/GlobalContext.h>
+#include <libzelda64/Blure.h>
 #include "../lut_offsets.h"
 
 /*

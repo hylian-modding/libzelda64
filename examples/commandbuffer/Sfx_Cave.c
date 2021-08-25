@@ -1,5 +1,5 @@
 #include <inttypes.h>
-#include <libzelda64/lib/types/GlobalContext.h>
+#include <libzelda64/types/GlobalContext.h>
 #include "commandbuffer.h"
 #include "Actor_CaveHelpers.h"
 

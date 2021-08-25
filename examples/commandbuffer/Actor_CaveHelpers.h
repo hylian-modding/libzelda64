@@ -1,7 +1,7 @@
 #ifndef ACTOR_HOOKHELPERS_H
 #define ACTOR_HOOKHELPERS_H
 
-#include <libzelda64/lib/Actor.h>
+#include <libzelda64.h>
 #include "commandbuffer.h"
 
 #define AM_FIELD_SIZE 0x27A0

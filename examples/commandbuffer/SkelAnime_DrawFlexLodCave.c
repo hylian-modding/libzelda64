@@ -1,6 +1,6 @@
 #include <inttypes.h>
-#include <libzelda64/lib/types/GlobalContext.h>
-#include <libzelda64/lib/SkelAnime.h>
+#include <libzelda64/types/GlobalContext.h>
+#include <libzelda64/SkelAnime.h>
 #include "commandbuffer.h"
 
 /* 80089710?

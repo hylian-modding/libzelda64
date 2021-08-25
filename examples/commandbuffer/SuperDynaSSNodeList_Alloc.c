@@ -1,7 +1,7 @@
-#include <libzelda64/lib/types/GlobalContext.h>
-#include <libzelda64/lib/types/CollisionPoly.h>
-#include <libzelda64/lib/types/DynaSSNodeList.h>
-#include <libzelda64/lib/types/Vec3s.h>
+#include <libzelda64/types/GlobalContext.h>
+#include <libzelda64/types/CollisionPoly.h>
+#include <libzelda64/types/DynaSSNodeList.h>
+#include <libzelda64/types/Vec3s.h>
 
 extern volatile DynaSSNodeList* gNodeList;
 asm("gNodeList = 0x12345678");

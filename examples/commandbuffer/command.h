@@ -1,9 +1,7 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
-#include <inttypes.h>
-#include <libzelda64/lib/types/Vec3f.h>
-#include <libzelda64/lib/types/Vec3s.h>
+#include <libzelda64.h>
 #include "../puppet/pvp.h"
 
 enum {

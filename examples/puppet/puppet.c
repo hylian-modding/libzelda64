@@ -1,10 +1,10 @@
 #include "puppet.h"
-#include <libzelda64/lib/GraphicsContext.h>
-#include <libzelda64/lib/LinkAnimation.h>
-#include <libzelda64/lib/Macros.h>
-#include <libzelda64/lib/libc.h>
-#include <libzelda64/lib/Audio.h>
-#include <libzelda64/lib/ActorShape.h>
+#include <libzelda64/GraphicsContext.h>
+#include <libzelda64/LinkAnimation.h>
+#include <libzelda64/Macros.h>
+#include <libzelda64/libc.h>
+#include <libzelda64/Audio.h>
+#include <libzelda64/ActorShape.h>
 #include "Helpers.h"
 #include "deps/lut_offsets.h"
 #include "deps/collider.h"

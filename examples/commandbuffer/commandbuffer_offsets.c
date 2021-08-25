@@ -1,5 +1,5 @@
 #include "commandbuffer.h"
-#include <libzelda64/lib/Macros.h>
+#include <libzelda64/Macros.h>
 
 const uint32_t Command_Max = COMMAND_MAX;
 const uint32_t CommandEvent_Max = COMMANDEVENT_MAX;

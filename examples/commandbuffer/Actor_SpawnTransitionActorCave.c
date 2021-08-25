@@ -1,7 +1,4 @@
-#include <libzelda64/lib/types/TransitionActorEntry.h>
-#include <libzelda64/lib/Actor.h>
-#include <libzelda64/lib/types/ActorContext.h>
-#include <libzelda64/lib/types/GlobalContext.h>
+#include <libzelda64.h>
 #include "commandbuffer.h"
 #include "Actor_CaveHelpers.h"
 

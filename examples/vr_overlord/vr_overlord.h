@@ -1,15 +1,15 @@
 #ifndef VR_OVERLORD_H
 #define VR_OVERLORD_H
 
-#include <libzelda64/lib/Actor.h>
-#include <libzelda64/lib/types/GlobalContext.h>
-#include <libzelda64/lib/types/WeaponInfo.h>
-#include <libzelda64/lib/types/Color_RGBA8_u32.h>
-#include <libzelda64/lib/types/ColliderQuad.h>
-#include <libzelda64/lib/types/ColliderInit.h>
-#include <libzelda64/lib/types/ColliderInfoInit.h>
-#include <libzelda64/lib/types/ColliderQuadDimInit.h>
-#include <libzelda64/lib/types/Player.h>
+#include <libzelda64/Actor.h>
+#include <libzelda64/types/GlobalContext.h>
+#include <libzelda64/types/WeaponInfo.h>
+#include <libzelda64/types/Color_RGBA8_u32.h>
+#include <libzelda64/types/ColliderQuad.h>
+#include <libzelda64/types/ColliderInit.h>
+#include <libzelda64/types/ColliderInfoInit.h>
+#include <libzelda64/types/ColliderQuadDimInit.h>
+#include <libzelda64/types/Player.h>
 
 #define SPARK_COUNT 3
 #define BLURE_COUNT 25

@@ -1,7 +1,7 @@
 #ifndef SPRING_H
 #define SPRING_H
 
-#include <libzelda64/lib/types/Vec3f.h>
+#include <libzelda64/types/Vec3f.h>
 #include "bettermath.h"
 
 // OILERS NUMBER 😂😂😂

@@ -1,5 +1,5 @@
 #include "boat.h"
-#include <libzelda64/lib/types/ActorInit.h>
+#include <libzelda64/types/ActorInit.h>
 
 void init(En_Boat* this, GlobalContext* globalCtx) {
     CollisionHeader* colHeader;

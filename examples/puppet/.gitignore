@@ -1,5 +1,6 @@
 bin
 build.cmd
+*.ld
 *.bak
 *.o
 *.elf
