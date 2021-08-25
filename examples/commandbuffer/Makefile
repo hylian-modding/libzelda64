@@ -1,7 +1,10 @@
 PROGRAM = commandbuffer
-SOURCES =   Actor_DestroyCave.c  Actor_SpawnEntryCave.c            Actor_UpdateCave.c  SkelAnime_DrawFlexLodCave.c	\
-			Actor_InitCave.c     Actor_SpawnTransitionActorCave.c  Object_SpawnCave.c  commandbuffer.c				\
-			Actor_SpawnCave.c    Actor_SpawnWithAddress.c          Sfx_Cave.c          commandbuffer_offsets.c
+SOURCES =   Actor_DestroyCave.c               Actor_SpawnWithAddress.c     SuperDynaPoly_AllocPolyList.c  test.c \
+Actor_InitCave.c                  Actor_UpdateCave.c           SuperDynaPoly_AllocVtxList.c   test2.c test3.c \
+Actor_SpawnCave.c                 Object_SpawnCave.c           SuperDynaSSNodeList_Alloc.c \
+Actor_SpawnEntryCave.c            Sfx_Cave.c                   commandbuffer.c \
+Actor_SpawnTransitionActorCave.c  SkelAnime_DrawFlexLodCave.c  commandbuffer_offsets.c
+
 OBJECTS = $(SOURCES:.c=.o)
 ADDRESS = 0x80800000
 
