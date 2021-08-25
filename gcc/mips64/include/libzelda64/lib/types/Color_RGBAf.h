@@ -9,4 +9,3 @@ typedef struct Color_RGBAf {
 } Color_RGBAf; /* sizeof = 0x10 */
 
 #endif
-

@@ -1,8 +1,8 @@
 #ifndef FARORESWINDDATA_TYPE_H
 #define FARORESWINDDATA_TYPE_H
 
-#include <inttypes.h>
 #include "Vec3i.h"
+#include <inttypes.h>
 
 typedef struct {
     /* 0x00 */ Vec3i pos;
@@ -16,4 +16,3 @@ typedef struct {
 } FaroresWindData; /* sizeof = 0x28 */
 
 #endif
-

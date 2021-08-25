@@ -11,4 +11,3 @@ typedef struct {
 } ColliderJntSphInit; /* sizeof = 0x10 */
 
 #endif
-

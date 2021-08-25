@@ -17,4 +17,3 @@ typedef struct ActorEnvironment {
 
 
 #endif
-

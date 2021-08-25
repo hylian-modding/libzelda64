@@ -13,7 +13,6 @@ typedef struct {
     /* 0x0B */ uint8_t delayB;
     /* 0x0C */ int16_t alpha;
     /* 0x0E */ int16_t color;
-} TitleCardContext; /* 0x10 */
+} TitleCardContext; /* sizeof = 0x10 */
 
 #endif
-

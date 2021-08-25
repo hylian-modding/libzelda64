@@ -7,4 +7,3 @@ typedef struct ListAlloc {
 } ListAlloc; /* sizeof = 0x08 */
 
 #endif
-

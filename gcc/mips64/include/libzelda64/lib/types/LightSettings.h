@@ -27,4 +27,3 @@ typedef struct LightSettings {
 } LightSettings; /* 0x16 */
 
 #endif
-

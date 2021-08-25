@@ -14,4 +14,3 @@ typedef struct {
 } SavedSceneFlags; /* sizeof = 0x1C */
 
 #endif
-

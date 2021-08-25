@@ -10,4 +10,3 @@ typedef struct CamData {
 } CamData; /* sizeof = 0x-8 */
 
 #endif
-

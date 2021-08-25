@@ -10,4 +10,3 @@ typedef struct LightInfo {
 } LightInfo; /* sizeof = 0xE */
 
 #endif
-

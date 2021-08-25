@@ -18,4 +18,3 @@ typedef struct WaterBox {
 } WaterBox; /* sizeof = 0x10 */
 
 #endif
-

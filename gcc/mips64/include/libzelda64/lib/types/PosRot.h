@@ -12,4 +12,3 @@ typedef struct PosRot {
 
 
 #endif
-

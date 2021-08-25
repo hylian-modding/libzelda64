@@ -1,8 +1,8 @@
 #ifndef CSCMDACTORACTION_TYPE_H
 #define CSCMDACTORACTION_TYPE_H
 
-#include "Vec3s.h"
 #include "Vec3i.h"
+#include "Vec3s.h"
 #include <inttypes.h>
 
 typedef struct CsCmdActorAction {
@@ -19,4 +19,3 @@ typedef struct CsCmdActorAction {
 } CsCmdActorAction; /* sizeof = 0x30 */
 
 #endif
-

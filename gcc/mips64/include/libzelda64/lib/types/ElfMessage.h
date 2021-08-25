@@ -12,4 +12,3 @@ typedef struct ElfMessage {
 
 
 #endif
-

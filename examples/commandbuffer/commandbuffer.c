@@ -1,7 +1,6 @@
 #include "commandbuffer.h"
 #include "command.h"
 #include "commandreturn.h"
-#include "utility.h"
 #include <inttypes.h>
 #include <libzelda64/lib/Actor.h>
 #include <libzelda64/lib/Audio.h>
@@ -12,8 +11,6 @@
 #include <libzelda64/lib/libc.h>
 #include <libzelda64/lib/types/GlobalContext.h>
 #include <libzelda64/lib/types/SaveContext.h>
-
-#define OFFSETOF(TYPE, ELEMENT) ((uint32_t)&(((TYPE *)0)->ELEMENT))
 
 typedef enum {
     /* 0x00 */ BTN_ENABLED,
@@ -41,10 +38,11 @@ void CommandBuffer_Update(GlobalContext* globalCtx, struct ActorContext* actorCt
 {
     uint32_t index;
     uint32_t qndex;
+    uint32_t temp;
     volatile Command* command;
     volatile CommandReturn* commandReturn;
 #ifdef GAMESTATE_CAVE
-    GlobalContext* globalCtx = &global;
+    GlobalContext* globalCtx = &gGlobalCtx;
     ActorContext* actorCtx = &globalCtx->actorCtx;
 #endif
     Player* player = ((Player*)globalCtx->actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head);
@@ -71,6 +69,11 @@ void CommandBuffer_Update(GlobalContext* globalCtx, struct ActorContext* actorCt
                 commandReturn->type = command->type;
                 commandReturn->uuid = command->uuid;
 
+#ifdef GAME_MM
+                if (command->params.actorSpawn.type == ACTORSPAWNTYPE_WITHPARENTANDCUTSCENE) {
+                    commandReturn->data.actorSpawn.actor = Actor_SpawnWithParentAndCutscene(actorCtx, globalCtx, command->params.actorSpawn.actorId, command->params.actorSpawn.pos.x, command->params.actorSpawn.pos.y, command->params.actorSpawn.pos.z, command->params.actorSpawn.rot.x, command->params.actorSpawn.rot.y, command->params.actorSpawn.rot.z, command->params.actorSpawn.params, command->params.actorSpawn.cutscene, command->params.actorSpawn.param_12, command->params.actorSpawn.address);
+                } else
+#endif
                 if (command->params.actorSpawn.address) {
                     Actor_SpawnWithAddress(globalCtx, command->params.actorSpawn.actorId, command->params.actorSpawn.params, &command->params.actorSpawn.pos, &command->params.actorSpawn.rot, command->params.actorSpawn.address);
                     commandReturn->data.actorSpawn.actor = command->params.actorSpawn.address;
@@ -104,32 +107,38 @@ void CommandBuffer_Update(GlobalContext* globalCtx, struct ActorContext* actorCt
             }
             else if (command->type == COMMANDTYPE_WARP) {
                 // Thanks, Fig!
-                gSaveContext.nextCutsceneIndex = command->params.warp.cutsceneIndex;
+#ifdef GAME_OOT
+                gSaveContext.nextCutsceneIndex = command->params.warp.cutsceneIndex; // TODO: not sure if this is in mm?
+#endif
                 globalCtx->nextEntranceIndex = command->params.warp.entranceIndex;
                 globalCtx->sceneLoadFlag = 0x14;
 
-                debug = Rand_S16Offset(0, 5);
-                if (debug == 0) {
+                temp = Rand_S16Offset(0, 5);
+                if (temp == 0) {
                     globalCtx->fadeTransition = 0;
                 }
-                else if (debug == 1) {
+                else if (temp == 1) {
                     globalCtx->fadeTransition = 1;
                 }
-                else if (debug == 2) {
+                else if (temp == 2) {
                     globalCtx->fadeTransition = 4;
                 }
-                else if (debug == 3) {
+                else if (temp == 3) {
                     globalCtx->fadeTransition = 5;
                 }
-                else if (debug == 4) {
+                else if (temp == 4) {
                     globalCtx->fadeTransition = 32;
                 }
-                else if (debug == 5) {
+                else if (temp == 5) {
                     globalCtx->fadeTransition = 44;
                 }
 
                 if (command->params.warp.age >= 0) {
+#ifdef GAME_OOT
                     globalCtx->linkAgeOnLoad = command->params.warp.age;
+#elif defined GAME_MM
+                    gSaveContext.playerForm = command->params.warp.age;
+#endif
                 }
             }
             else if (command->type == COMMANDTYPE_MOVEPLAYERTOADDRESS && commandReturn) {
@@ -194,9 +203,11 @@ void CommandBuffer_Update(GlobalContext* globalCtx, struct ActorContext* actorCt
                 //}
                 //player->cylinder.info.toucherFlags |= TOUCH_HIT;
                 //player->cylinder.info.bumper.effect = 2;
-                player->unk_890 = command->params.pvp.ctx.damageQueue;
+#ifdef GAME_OOT
+                player->unk_890 = command->params.pvp.ctx.damageQueue; // totally unknown for mm
                 player->unk_892 = command->params.pvp.ctx.damageAngle;
                 player->unk_891 = command->params.pvp.ctx.damageType;
+#endif
                 player->cylinder.base.acFlags |= AC_HIT;
                 player->cylinder.base.ac = command->params.pvp.source;
             }

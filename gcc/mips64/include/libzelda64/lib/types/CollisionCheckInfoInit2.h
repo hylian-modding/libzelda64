@@ -12,4 +12,3 @@ typedef struct {
 } CollisionCheckInfoInit2; /* sizeof = 0x09 */
 
 #endif
-

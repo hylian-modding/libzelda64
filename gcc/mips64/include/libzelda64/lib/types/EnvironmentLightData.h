@@ -10,4 +10,3 @@ typedef struct EnvironmentLightData {
 } EnvironmentLightData; /* sizeof = 0x0E */
 
 #endif
-

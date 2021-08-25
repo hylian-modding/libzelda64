@@ -1,12 +1,14 @@
 #ifndef MESSAGECONTEXT_TYPE_H
 #define MESSAGECONTEXT_TYPE_H
 
-#include "View.h"
-#include "Font.h"
 #include "DmaRequest.h"
-#include <libultra/PR/os.h>
+#include "Font.h"
+#include "View.h"
 #include <inttypes.h>
+#include <libultra/PR/os.h>
 
+#ifdef GAME_OOT
+#ifdef GAME_VERSION_1_0
 typedef struct MessageContext {
     /* 0x0000 */ View view;
     /* 0x0128 */ Font font;
@@ -67,5 +69,46 @@ typedef struct MessageContext {
     /* 0xE411 */ uint8_t _pad[7];
 } MessageContext; /* sizeof = 0xE418 */
 
+#else /* GAME_VERSION_1_0 */
+#warning "Actor is not defined for this game version!"
 #endif
+#elif defined GAME_MM /* GAME_OOT */
+typedef struct {
+    /* 0x00000 */ View view;
+    /* 0x00168 */ Font font;
+    /* 0x11EF4 */ char unk_11EF4[0x10];
+    /* 0x11F04 */ uint16_t unk11F04;
+    /* 0x11F06 */ uint8_t pad11F06[0x4];
+    /* 0x11F0A */ uint8_t unk11F0A;
+    /* 0x11F0B */ uint8_t pad11F0B[0x5];
+    /* 0x11F10 */ int32_t unk11F10;
+    /* 0x11F14 */ uint8_t pad11F14[0xE];
+    /* 0x11F22 */ uint8_t unk11F22;
+    /* 0x11F23 */ uint8_t pad11F23[0xFD];
+    /* 0x12020 */ uint8_t unk12020;
+    /* 0x12021 */ uint8_t choiceIndex;
+    /* 0x12022 */ uint8_t unk12022;
+    /* 0x12023 */ int8_t unk12023;
+    /* 0x12024 */ uint8_t unk12024[0x6];
+    /* 0x1202A */ uint16_t unk1202A;
+    /* 0x1202C */ uint8_t pad1202C[0x2];
+    /* 0x1202E */ uint16_t unk1202E;
+    /* 0x12030 */ uint8_t pad12030[0x14];
+    /* 0x12044 */ int16_t unk12044;
+    /* 0x12046 */ uint8_t pad12046[0x24];
+    /* 0x1206A */ int16_t unk1206A;
+    /* 0x1206C */ int32_t unk1206C;
+    /* 0x12070 */ uint8_t pad12070[0x8];
+    /* 0x12078 */ int32_t bankRupeesSelected;
+    /* 0x1207C */ int32_t bankRupees;
+    /* 0x12080 */ uint8_t pad12080[0x31];
+    /* 0x120B1 */ uint8_t unk120B1;
+    /* 0x120B2 */ uint8_t pad120B2[0x22];
+    /* 0x120D4 */ uint16_t unk120D4;
+    /* 0x120D6 */ uint16_t unk120D6;
+    /* 0x120D8 */ uint8_t pad120D8[0x8];
+} MessageContext; /* sizeof = 0x120E0 */
+#endif                /* GAME_MM */
 
+
+#endif

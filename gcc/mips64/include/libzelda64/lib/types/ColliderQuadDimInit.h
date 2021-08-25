@@ -8,4 +8,3 @@ typedef struct ColliderQuadDimInit {
 } ColliderQuadDimInit; /* sizeof = 0x30 */
 
 #endif
-

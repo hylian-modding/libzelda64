@@ -3,9 +3,9 @@
 
 #include <inttypes.h>
 
-#define COLLISION_CHECK_AT_MAX 50
-#define COLLISION_CHECK_AC_MAX 60
-#define COLLISION_CHECK_OC_MAX 50
+#define COLLISION_CHECK_AT_MAX      50
+#define COLLISION_CHECK_AC_MAX      60
+#define COLLISION_CHECK_OC_MAX      50
 #define COLLISION_CHECK_OC_LINE_MAX 3
 
 typedef struct CollisionCheckContext {
@@ -21,4 +21,3 @@ typedef struct CollisionCheckContext {
 } CollisionCheckContext; /* sizeof = 0x29C */
 
 #endif
-

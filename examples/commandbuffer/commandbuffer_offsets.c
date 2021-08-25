@@ -1,6 +1,5 @@
 #include "commandbuffer.h"
-
-#define OFFSETOF(TYPE, ELEMENT) ((uint32_t)&(((TYPE *)0)->ELEMENT))
+#include <libzelda64/lib/Macros.h>
 
 const uint32_t Command_Max = COMMAND_MAX;
 const uint32_t CommandEvent_Max = COMMANDEVENT_MAX;

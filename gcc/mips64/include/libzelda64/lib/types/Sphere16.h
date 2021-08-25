@@ -10,4 +10,3 @@ typedef struct {
 } Sphere16; /* sizeof = 0x08 */
 
 #endif
-

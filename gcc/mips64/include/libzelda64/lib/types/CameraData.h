@@ -10,4 +10,3 @@ typedef struct CameraData {
 
 
 #endif
-

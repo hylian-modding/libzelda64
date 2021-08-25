@@ -1,8 +1,8 @@
 #ifndef COLLIDERCYLINDERINIT_TYPE_H
 #define COLLIDERCYLINDERINIT_TYPE_H
 
-#include "ColliderInit.h"
 #include "ColliderInfoInit.h"
+#include "ColliderInit.h"
 #include "Cylinder16.h"
 
 typedef struct ColliderCylinderInit {
@@ -12,4 +12,3 @@ typedef struct ColliderCylinderInit {
 } ColliderCylinderInit; /* sizeof = 0x2C */
 
 #endif
-

@@ -16,4 +16,3 @@ typedef struct Vec3us {
 } Vec3us; /* sizeof = 0x06 */
 
 #endif
-

@@ -1,10 +1,12 @@
 #ifndef GRAPHICSMESSAGE_TYPE_H
 #define GRAPHICSMESSAGE_TYPE_H
 
-#include <libultra/ultra64.h>
+#include <inttypes.h>
+// clang-format off
 #include <libultra/PR/sptask.h>
 #include <libultra/PR/sched.h>
-#include <inttypes.h>
+#include <libultra/ultra64.h>
+// clang-format on
 
 typedef union {
     struct {
@@ -19,4 +21,3 @@ typedef union {
 } GraphicsMessage; /* sizeof = 0x20 */
 
 #endif
-

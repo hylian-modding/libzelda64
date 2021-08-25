@@ -11,4 +11,3 @@ typedef struct GameAllocEntry {
 } GameAllocEntry; /* sizeof = 0x10 */
 
 #endif
-

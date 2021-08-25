@@ -2,6 +2,7 @@
 #include "commandbuffer.h"
 #include "Actor_CaveHelpers.h"
 
+// replace jr at 800B9744 in MM
 void Actor_UpdateCave(struct Actor* actor, struct GlobalContext* globalCtx) {
     register CommandEvent* commandEvent = CommandBuffer_CommandEvent_GetCollision(actor, COMMANDEVENTTYPE_UPDATE, COMMANDEVENTTYPE_UPDATE);
 

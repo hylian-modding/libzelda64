@@ -6,7 +6,6 @@
 typedef struct SSNode {
     /* 0x00 */ int16_t polyId;
     /* 0x02 */ uint16_t next; // next SSNode index
-} SSNode; /* sizeof = 0x04 */
+} SSNode;                     /* sizeof = 0x04 */
 
 #endif
-

@@ -24,7 +24,6 @@ typedef struct PreRenderContext {
     /* 0x40 */ int32_t lry;
     /* 0x44 */ ListAlloc alloc;
     /* 0x4C */ uint32_t isAllocMyself;
-} PreRenderContext; // size = 0x50
+} PreRenderContext; /* sizeof = 0x50 */
 
 #endif
-

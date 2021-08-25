@@ -10,4 +10,3 @@ typedef struct Color_RGB8 {
 } Color_RGB8; /* sizeof = 0x3 */
 
 #endif
-

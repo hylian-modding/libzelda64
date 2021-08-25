@@ -14,4 +14,3 @@ typedef struct Scene {
 } Scene; /* sizeof = 0x14 */
 
 #endif
-

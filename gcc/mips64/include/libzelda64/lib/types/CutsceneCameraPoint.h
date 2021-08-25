@@ -13,4 +13,3 @@ typedef struct CutsceneCameraPoint {
 } CutsceneCameraPoint; /* sizeof = 0x10 */
 
 #endif
-

@@ -8,4 +8,3 @@ typedef struct LightNode {
 } LightNode; /* sizeof = 0x0C */
 
 #endif
-

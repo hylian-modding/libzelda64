@@ -19,4 +19,3 @@ typedef union {
 } Color_RGBA8_u32; /* sizeof = 0x04 */
 
 #endif
-

@@ -11,4 +11,3 @@ typedef struct WeaponInfo {
 } WeaponInfo; /* sizeof = 0x1C */
 
 #endif
-

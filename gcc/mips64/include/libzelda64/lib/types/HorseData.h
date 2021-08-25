@@ -1,8 +1,8 @@
 #ifndef HORSEDATA_TYPE_H
 #define HORSEDATA_TYPE_H
 
-#include <inttypes.h>
 #include "Vec3s.h"
+#include <inttypes.h>
 
 typedef struct {
     /* 0x00 */ int16_t scene;
@@ -11,4 +11,3 @@ typedef struct {
 } HorseData; /* sizeof = 0x0A */
 
 #endif
-

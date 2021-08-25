@@ -10,4 +10,3 @@ typedef struct OcarinaMessageInfo {
 } OcarinaMessageInfo; /* sizeof = 0x03 */
 
 #endif
-

@@ -9,6 +9,7 @@ asm("func_8002F7DC = 0x80022F84");
 extern GlobalContext globalCtx;
 asm("globalCtx = 0x801C84A0");
 
+#ifdef GAME_OOT
 /* 80022FB8?
     I don't really know the purpose of this
     glank sets up like this in 1.0:
@@ -50,3 +51,6 @@ void Sfx_Cave(struct Actor* actor, uint16_t sfxId) {
         }
     }
 }
+#elif defined GAME_MM
+void Sfx_Cave(struct Actor* actor, uint16_t sfxId) {}
+#endif

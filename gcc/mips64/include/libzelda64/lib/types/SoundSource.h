@@ -12,4 +12,3 @@ typedef struct SoundSource {
 } SoundSource; /* sizeof = 0x1C */
 
 #endif
-

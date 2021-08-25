@@ -10,11 +10,12 @@ typedef struct Room {
     /* 0x03 */ uint8_t type;
     /* 0x04 */ uint8_t echo;
     /* 0x05 */ uint8_t showInvisActors;
-    /* 0x08 */ struct Mesh* mesh;
+    /* 0x06 */ uint8_t enablePosLights;
+    /* 0x07 */ uint8_t _pad;
+    /* 0x08 */ struct Mesh* mesh; // Possibly wrong, mm decomp is really disorganized with this one
     /* 0x0C */ void* segment;
     /* 0x10 */ int toolOffset;
 } Room; /* sizeof = 0x14 */
 
 
 #endif
-

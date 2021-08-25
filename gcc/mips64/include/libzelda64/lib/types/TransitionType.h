@@ -2,8 +2,8 @@
 #define TRANSITIONTYPE_TYPE_H
 
 #include "Color_RGBA8_u32.h"
-#include <libultra/PR/gbi.h>
 #include <inttypes.h>
+#include <libultra/PR/gbi.h>
 
 typedef struct {
     /* 0x000 */ uint8_t fadeType;
@@ -66,4 +66,3 @@ typedef union TransitionType {
 } TransitionType; /* sizeof = 0x228 */
 
 #endif
-

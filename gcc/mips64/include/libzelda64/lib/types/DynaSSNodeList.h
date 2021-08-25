@@ -10,4 +10,3 @@ typedef struct DynaSSNodeList {
 } DynaSSNodeList; /* sizeof = 0x0C */
 
 #endif
-

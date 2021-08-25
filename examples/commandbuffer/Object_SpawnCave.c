@@ -3,8 +3,8 @@
 #include <libzelda64/lib/types/ObjectContext.h>
 #include <libzelda64/lib/types/RomFile.h>
 #include "Actor_CaveHelpers.h"
-#include "utility.h"
 
+#ifdef GAME_OOT
 // For some reason, this crashes in 1.0!
 int32_t Object_SpawnCave(ObjectContext* objectCtx, int16_t objectId) {
     register CommandEvent* commandEvent = 0;
@@ -34,4 +34,8 @@ int32_t Object_SpawnCave(ObjectContext* objectCtx, int16_t objectId) {
 
     return objectCtx->num - 1;
 }
+#elif defined GAME_MM
+// TODO?
+int32_t Object_SpawnCave(ObjectContext* objectCtx, int16_t objectId) {}
+#endif
 

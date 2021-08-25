@@ -2,9 +2,8 @@
 #define ANIMATIONENTRYDATA_TYPE_H
 
 #include "DmaRequest.h"
-#include <libultra/PR/os.h>
 #include <inttypes.h>
-
+#include <libultra/PR/os.h>
 
 
 typedef struct AnimEntryLoadFrame {
@@ -61,4 +60,3 @@ typedef union AnimationEntryData {
 
 
 #endif
-

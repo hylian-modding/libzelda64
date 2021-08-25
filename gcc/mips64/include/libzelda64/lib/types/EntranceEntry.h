@@ -9,4 +9,3 @@ typedef struct EntranceEntry {
 } EntranceEntry; /* sizeof = 0x02 */
 
 #endif
-

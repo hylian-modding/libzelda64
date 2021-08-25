@@ -2,7 +2,6 @@
 #define ACTOR_HOOKHELPERS_H
 
 #include <libzelda64/lib/Actor.h>
-#include "utility.h"
 #include "commandbuffer.h"
 
 #define AM_FIELD_SIZE 0x27A0

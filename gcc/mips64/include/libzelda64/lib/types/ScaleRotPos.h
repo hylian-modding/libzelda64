@@ -11,4 +11,3 @@ typedef struct ScaleRotPos {
 } ScaleRotPos; /* sizeof = 0x1C */
 
 #endif
-

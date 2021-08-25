@@ -18,4 +18,3 @@ typedef struct BgImage {
 } BgImage; /* sizeof = 0x1C */
 
 #endif
-

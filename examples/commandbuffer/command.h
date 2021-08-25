@@ -29,14 +29,21 @@ enum {
     ACTORADDREMCAT_DELETE
 };
 
+enum {
+    ACTORSPAWNTYPE_DEFAULT,
+    ACTORSPAWNTYPE_WITHPARENTANDCUTSCENE
+};
+
 typedef struct {
     /* 0x00 */ int16_t actorId;
     /* 0x02 */ int16_t params;
     /* 0x04 */ Vec3s rot;
-    /* 0x0A */ int16_t pad;
+    /* 0x0A */ int16_t type;
     /* 0x0C */ Vec3f pos;
-    /* 0x18 */ struct Actor* address; // 0 to spawn on game heap, otherwise actor will spawn at this address
-} CommandParams_ActorSpawn; /* sizeof = 0x1C */
+    /* 0x18 */ struct Actor* address; // 0 to spawn on game heap, otherwise actor will spawn at this address, if mm and type is nonzero, this is the parent
+    /* 0x20 */ uint16_t cutscene;
+    /* 0x22 */ uint16_t param_12;
+} CommandParams_ActorSpawn; /* sizeof = 0x24 */
 
 typedef struct {
     struct Actor* address;
@@ -90,7 +97,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ uint32_t malloc;
     /* 0x04 */ uint32_t data;
-} CommandParams_MallocFree;
+} CommandParams_MallocFree; /* sizeof = 0x08 */
 
 typedef struct {
     /* 0x02 */ int16_t objectId;

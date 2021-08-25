@@ -10,4 +10,3 @@ typedef struct {
 } ColliderJntSphElement; /* sizeof = 0x40 */
 
 #endif
-

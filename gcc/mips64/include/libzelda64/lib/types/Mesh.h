@@ -46,8 +46,7 @@ typedef union Mesh {
     /* 0x00 */ PolygonType0 polygon0;
     /* 0x00 */ PolygonType1 polygon1;
     /* 0x00 */ PolygonType2 polygon2;
-} Mesh; /* sizeof = 0x1C */
+} Mesh, RoomMesh; /* sizeof = 0x1C */
 
 
 #endif
-

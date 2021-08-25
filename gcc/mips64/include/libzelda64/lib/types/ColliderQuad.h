@@ -12,4 +12,3 @@ typedef struct ColliderQuad {
 } ColliderQuad; /* sizeof = 0x80 */
 
 #endif
-

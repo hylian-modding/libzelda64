@@ -10,11 +10,10 @@ typedef struct {
     /* 0x04 */ uint32_t flags;
     /* 0x08 */ int16_t objectId;
     /* 0x0C */ uint32_t instanceSize;
-    /* 0x10 */ ActorFunc init; // Constructor
+    /* 0x10 */ ActorFunc init;    // Constructor
     /* 0x14 */ ActorFunc destroy; // Destructor
-    /* 0x18 */ ActorFunc update; // Update Function
-    /* 0x1C */ ActorFunc draw; // Draw function
-} ActorInit; /* size = 0x20 */
+    /* 0x18 */ ActorFunc update;  // Update Function
+    /* 0x1C */ ActorFunc draw;    // Draw function
+} ActorInit;                      /* size = 0x20 */
 
 #endif
-

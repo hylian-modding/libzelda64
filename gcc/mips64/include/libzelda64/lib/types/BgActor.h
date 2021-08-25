@@ -18,5 +18,5 @@ typedef struct BgActor {
     /* 0x60 */ float maxY;
 } BgActor; /* sizeof = 0x64 */
 
-#endif
 
+#endif

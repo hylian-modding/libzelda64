@@ -12,4 +12,3 @@ typedef struct Cylinder16 {
 } Cylinder16; /* sizeof = 0x0C */
 
 #endif
-

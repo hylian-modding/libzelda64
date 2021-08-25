@@ -4,10 +4,10 @@
 #include "Vec3s.h"
 #include <inttypes.h>
 
-typedef struct TransitionActorEntry_Side {
-    int8_t room;
-    int8_t effects;
-};
+typedef struct {
+    /* 0x00 */ int8_t room;
+    /* 0x01 */ int8_t effects;
+} TransitionActorEntry_Side; /* sizeof = 0x02 */
 
 typedef struct TransitionActorEntry {
     /* 0x00 */ TransitionActorEntry_Side sides[2];
@@ -19,4 +19,3 @@ typedef struct TransitionActorEntry {
 
 
 #endif
-

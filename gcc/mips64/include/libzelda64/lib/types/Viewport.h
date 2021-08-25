@@ -11,4 +11,3 @@ typedef struct Viewport {
 } Viewport; /* sizeof = 0x10 */
 
 #endif
-

@@ -18,4 +18,3 @@ typedef struct CollisionHeader {
 } CollisionHeader; /* sizeof = 0x2C */
 
 #endif
-

@@ -2,8 +2,8 @@
 #define OBJECTSTATUS_TYPE_H
 
 #include "DmaRequest.h"
-#include <libultra/PR/os.h>
 #include <inttypes.h>
+#include <libultra/PR/os.h>
 
 typedef struct ObjectStatus {
     /* 0x00 */ int16_t id;
@@ -14,4 +14,3 @@ typedef struct ObjectStatus {
 } ObjectStatus; /* sizeof = 0x44 */
 
 #endif
-

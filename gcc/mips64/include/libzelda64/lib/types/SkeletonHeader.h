@@ -9,4 +9,3 @@ typedef struct SkeletonHeader {
 } SkeletonHeader; /* sizeof = 0x08 */
 
 #endif
-

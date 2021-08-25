@@ -1,12 +1,14 @@
 #ifndef CAMERA_TYPE_H
 #define CAMERA_TYPE_H
 
-#include "Vec3f.h"
+#include "../zelda64_version.h"
 #include "PosRot.h"
+#include "Vec3f.h"
 #include "Vec3s.h"
 #include <inttypes.h>
-
 // TODO: Add camera params (as union) from decomp!
+#ifdef GAME_OOT
+#ifdef GAME_VERSION_1_0
 
 typedef struct Camera {
     /* 0x000 */ char paramData[0x50];
@@ -71,14 +73,85 @@ typedef struct Camera {
     /* 0x16A */ int16_t opDemo;
 } Camera; /* sizeof = 0x16C */
 
+#else /* GAME_VERSION_1_0 */
+#warning "Camera is not defined for this game version!"
+
+#endif
+#elif defined GAME_MM /* GAME_OOT */
+
+typedef struct Camera {
+    /* 0x000 */ char paramData[0x50];
+    /* 0x050 */ Vec3f at;
+    /* 0x05C */ Vec3f eye;
+    /* 0x068 */ Vec3f up;
+    /* 0x074 */ Vec3f eyeNext;
+    /* 0x080 */ Vec3f skyboxOffset;
+    /* 0x08C */ struct GlobalContext* globalCtx;
+    /* 0x090 */ struct Player* player;
+    /* 0x094 */ PosRot playerPosRot;
+    /* 0x0A8 */ struct Actor* target;
+    /* 0x0AC */ PosRot targetPosRot;
+    /* 0x0C0 */ float rUpdateRateInv;
+    /* 0x0C4 */ float pitchUpdateRateInv;
+    /* 0x0C8 */ float yawUpdateRateInv;
+    /* 0x0CC */ float yOffsetUpdateRate;
+    /* 0x0D0 */ float xzOffsetUpdateRate;
+    /* 0x0D4 */ float fovUpdateRate;
+    /* 0x0D8 */ float xzSpeed;
+    /* 0x0DC */ float dist;
+    /* 0x0E0 */ float speedRatio;
+    /* 0x0E4 */ Vec3f posOffset;
+    /* 0x0F0 */ Vec3f playerPosDelta;
+    /* 0x0FC */ float fov;
+    /* 0x100 */ float atLERPStepScale;
+    /* 0x104 */ float playerGroundY;
+    /* 0x108 */ Vec3f floorNorm;
+    /* 0x114 */ float waterYPos;
+    /* 0x118 */ int32_t waterPrevCamIdx;
+    /* 0x11C */ int32_t waterPrevCamSetting;
+    /* 0x120 */ int16_t waterQuakeId;
+    /* 0x122 */ int16_t unk122;
+    /* 0x124 */ void* data0;
+    /* 0x128 */ void* data1;
+    /* 0x12C */ int16_t data2;
+    /* 0x12E */ int16_t data3;
+    /* 0x130 */ int16_t uid;
+    /* 0x132 */ uint16_t dummy;
+    /* 0x134 */ Vec3s inputDir;
+    /* 0x13A */ Vec3s camDir;
+    /* 0x140 */ int16_t status;
+    /* 0x142 */ int16_t setting;
+    /* 0x144 */ int16_t mode;
+    /* 0x146 */ int16_t bgCheckId;
+    /* 0x148 */ int16_t camDataIdx;
+    /* 0x14A */ int16_t changeFlag;
+    /* 0x14C */ int16_t idFlag;
+    /* 0x14E */ int16_t childCamIdx;
+    /* 0x150 */ int16_t curTimer;
+    /* 0x152 */ int16_t stretch;
+    /* 0x154 */ int16_t prevSetting;
+    /* 0x156 */ int16_t nextCamDataIdx;
+    /* 0x158 */ int16_t nextBGCheckId;
+    /* 0x15A */ int16_t roll;
+    /* 0x15C */ int16_t paramFlags;
+    /* 0x15E */ int16_t animState;
+    /* 0x160 */ int16_t unk160;
+    /* 0x162 */ int16_t timer;
+    /* 0x164 */ int16_t thisIdx;
+    /* 0x166 */ int16_t prevCamDataIdx;
+    /* 0x168 */ int16_t prevId;
+    /* 0x16A */ int16_t opDemo;
+    /* 0x16C */ Vec3f meshActorPos;
+} Camera; // size = 0x178
+#endif                /* GAME_MM */
 
 // Defines and enums
 
-#define CAM_STAT_CUT        0
-#define CAM_STAT_WAIT       1
-#define CAM_STAT_UNK3       3
-#define CAM_STAT_ACTIVE     7
-#define CAM_STAT_UNK100     0x100
+#define CAM_STAT_CUT    0
+#define CAM_STAT_WAIT   1
+#define CAM_STAT_UNK3   3
+#define CAM_STAT_ACTIVE 7
+#define CAM_STAT_UNK100 0x100
 
 typedef enum {
     /* 0x00 */ CAM_SET_NONE,
@@ -152,12 +225,12 @@ typedef enum {
 
 typedef enum {
     /* 0x00 */ CAM_MODE_NORMAL,
-    /* 0x01 */ CAM_MODE_TARGET, // Original: CAM_MODE_PARALLEL
+    /* 0x01 */ CAM_MODE_TARGET,       // Original: CAM_MODE_PARALLEL
     /* 0x02 */ CAM_MODE_FOLLOWTARGET, // Original: CAM_MODE_KEEPON
     /* 0x03 */ CAM_MODE_TALK,
     /* 0x04 */ CAM_MODE_BATTLE,
     /* 0x05 */ CAM_MODE_CLIMB,
-    /* 0x06 */ CAM_MODE_FIRSTPERSON,  // Original: CAM_MODE_SUBJECT
+    /* 0x06 */ CAM_MODE_FIRSTPERSON, // Original: CAM_MODE_SUBJECT
     /* 0x07 */ CAM_MODE_BOWARROW,
     /* 0x08 */ CAM_MODE_BOWARROWZ,
     /* 0x09 */ CAM_MODE_FOOKSHOT,
@@ -252,4 +325,3 @@ typedef enum {
 
 
 #endif
-

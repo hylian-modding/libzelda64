@@ -16,8 +16,7 @@ typedef struct InterfaceRestrictions {
     /* 0x09 */ uint8_t m_wind;     /* Magic (wind) */
     /* 0x0A */ uint8_t m_magic;    /* Magic (flame / love) */
     /* 0x0B */ uint8_t another;    /* Other C button */
-} InterfaceRestrictions; /* sizeof = 0x0C */
+} InterfaceRestrictions;           /* sizeof = 0x0C */
 
 
 #endif
-

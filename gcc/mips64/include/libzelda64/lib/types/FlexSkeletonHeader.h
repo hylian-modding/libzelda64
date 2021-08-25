@@ -10,4 +10,3 @@ typedef struct FlexSkeletonHeader {
 } FlexSkeletonHeader; /* sizeof = 0x0C */
 
 #endif
-

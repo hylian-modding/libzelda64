@@ -7,13 +7,13 @@ typedef struct Vec3f {
     /* 0x08 */ float z;
 } Vec3f, vec3f_t; /* sizeof = 0x0C */
 
-#define Vec3f_Zero      ((Vec3f){0, 0, 0})
-#define Vec3f_Right     ((Vec3f){1, 0, 0})
-#define Vec3f_Up        ((Vec3f){0, 1, 0})
-#define Vec3f_Forward   ((Vec3f){0, 0, 1})
-#define Vec3f_Left      ((Vec3f){-1, 0, 0})
-#define Vec3f_Down      ((Vec3f){0, -1, 0})
-#define Vec3f_Back      ((Vec3f){0, 0, -1})
+#define Vec3f_Zero         ((Vec3f){0, 0, 0})
+#define Vec3f_Right        ((Vec3f){1, 0, 0})
+#define Vec3f_Up           ((Vec3f){0, 1, 0})
+#define Vec3f_Forward      ((Vec3f){0, 0, 1})
+#define Vec3f_Left         ((Vec3f){-1, 0, 0})
+#define Vec3f_Down         ((Vec3f){0, -1, 0})
+#define Vec3f_Back         ((Vec3f){0, 0, -1})
 #define Vec3f_New(x, y, z) ((Vec3f){x, y, z})
 
 // Don't these exist in-game??
@@ -57,4 +57,3 @@ static void Math3D_Vec3f_SubV(Vec3f* lhs, Vec3f* rhs, Vec3f* ret) {
 #endif
 
 #endif
-

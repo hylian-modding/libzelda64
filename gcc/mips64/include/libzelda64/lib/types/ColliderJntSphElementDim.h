@@ -9,7 +9,6 @@ typedef struct {
     /* 0x08 */ Sphere16 worldSphere; // world space sphere
     /* 0x10 */ float scale;          // world space sphere = model * scale * 0.01
     /* 0x14 */ uint8_t limb;         // attached limb
-} ColliderJntSphElementDim; /* sizeof = 0x18 */
+} ColliderJntSphElementDim;          /* sizeof = 0x18 */
 
 #endif
-

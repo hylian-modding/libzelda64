@@ -9,4 +9,3 @@ typedef struct PauseInfo {
 } PauseInfo; /* sizeof = 0x08 */
 
 #endif
-

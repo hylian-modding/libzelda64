@@ -12,4 +12,3 @@ typedef struct ColliderCylinder {
 } ColliderCylinder; /* size = 0x4C */
 
 #endif
-

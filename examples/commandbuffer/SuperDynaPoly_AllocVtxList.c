@@ -5,8 +5,12 @@
 extern volatile Vec3s* gVtxList;
 asm("gVtxList = 0x12345678");
 
-__attribute__ ((aligned (0x20)))
+#ifdef GAME_OOT
 void SuperDynaPoly_AllocVtxList(GlobalContext* globalCtx, Vec3s** vtxList, int32_t numVtx) {
     *vtxList = gVtxList;
 }
+#elif defined GAME_MM
+// TODO?
+void SuperDynaPoly_AllocVtxList(GlobalContext* globalCtx, Vec3s** vtxList, int32_t numVtx) {}
+#endif
 
