@@ -76,6 +76,6 @@ float slash_length_table[6] = {
 // Bottles
 //#define ACTION_BOTTLE(action)(action >= PLAYER_AP_BOTTLE && action <= PLAYER_AP_BOTTLE_FAIRY)
 
-#define RESET_ENV_TO_TUNIC(GFX) gDPSetEnvColor((GFX)->p++, ((this)->puppet).colorTunic.r, ((this)->puppet).colorTunic.g, ((this)->puppet).colorTunic.b, ((this)->puppet).colorTunic.a);
+#define RESET_ENV_TO_TUNIC() gDPSetEnvColor(POLY_OPA_DISP++, ((this)->puppet).colorTunic.r, ((this)->puppet).colorTunic.g, ((this)->puppet).colorTunic.b, ((this)->puppet).colorTunic.a);
 
 #endif /* __PUPPET_EQUIP_H__ */

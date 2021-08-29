@@ -10,7 +10,7 @@
 #define MLDEBUG_END(this, value)
 #endif
 
-#define DEBUG_OPA(ITEM0) gDPNoOpTag(polyOpa->p++, (ITEM0));
+#define DEBUG_OPA(ITEM0) gDPNoOpTag(POLY_OPA_DISP++, (ITEM0));
 
 #define baseToPointer(this, addr) ((*((uint32_t*)(&(this)->actor.home.rot))) + addr)
 #define baseToPointerSkel(this, addr) (*((uint32_t*)((uint32_t)(*((uint32_t*)(&(this)->actor.home.rot))) + (addr))))
@@ -58,10 +58,12 @@ typedef struct {
     /* 0x3F0 */ uint32_t end;
 } En_Puppet; /* sizeof = 0x3F4 */
 
-void init(En_Puppet* this, GlobalContext* globalCtx);
-void destroy(En_Puppet* this, GlobalContext* globalCtx);
-void update(En_Puppet* this, GlobalContext* globalCtx);
-void draw(En_Puppet* this, GlobalContext* globalCtx);
+const uint64_t PUPPET_STRUCT_SIZE = sizeof(En_Puppet);
+
+void init(En_Puppet* inst, GlobalContext* globalCtx);
+void destroy(En_Puppet* inst, GlobalContext* globalCtx);
+void update(En_Puppet* inst, GlobalContext* globalCtx);
+void draw(En_Puppet* inst, GlobalContext* globalCtx);
 
 ActorInit initVars = {
     .id = 5,

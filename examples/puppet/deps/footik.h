@@ -2,6 +2,8 @@
 #define FOOTIK_H
 
 #include "../puppet.h"
+#include <libzelda64.h>
+#include <PR/gu.h>
 
 Vec3f D_8012602C = { 0.0f, 0.0f, 0.0f };
 Vec3f D_80126038[] = {

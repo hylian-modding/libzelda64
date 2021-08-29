@@ -19,23 +19,22 @@ enum {
 } Oot_Mask;
 
 const uint32_t mask_dlists[8] = {
-    CHILD_LINK_LUT_DL_MASK_KEATON,
-    CHILD_LINK_LUT_DL_MASK_SKULL,
-    CHILD_LINK_LUT_DL_MASK_SPOOKY,
-    CHILD_LINK_LUT_DL_MASK_BUNNY,
-    CHILD_LINK_LUT_DL_MASK_GORON,
-    CHILD_LINK_LUT_DL_MASK_ZORA,
-    CHILD_LINK_LUT_DL_MASK_GERUDO,
-    CHILD_LINK_LUT_DL_MASK_TRUTH
+    DL_MASK_KEATON,
+    DL_MASK_SKULL,
+    DL_MASK_SPOOKY,
+    DL_MASK_BUNNY,
+    DL_MASK_GORON,
+    DL_MASK_ZORA,
+    DL_MASK_GERUDO,
+    DL_MASK_TRUTH
 };
 
 void BunnyHood_Mtx_Setup(En_Puppet* this, GlobalContext* globalCtx) {
-    TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
-
-    Mtx *ear_mtx = ((Mtx*)baseToPointer(this, PROXY_LINK_MTX_BUNNY1));    // Allocate 0x80 bytes of free space.
+    
+    Mtx *ear_mtx = ((Mtx*)baseToPointer(this, MATRIX_BUNNYHOOD0));    // Allocate 0x80 bytes of free space.
     Vec3s *r = &(this->puppet).bunnyHoodRot;
     Vec3s ear;
-    gSPSegment(polyOpa->p++, 0x0B, ear_mtx);
+    gSPSegment(POLY_OPA_DISP++, 0x0B, ear_mtx);
 
     // Right Ear
     ear.x = r->y + 0x03E2;

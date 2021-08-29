@@ -284,12 +284,12 @@ void SkelAnime_InitLink_Custom(GlobalContext* globalCtx, SkelAnime* skelAnime, F
 
 #ifdef GAME_OOT
 int32_t AnimateCallback(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dl, Vec3f* pos, Vec3s* rot, En_Puppet* this) {
-    TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
+    
     TwoHeadGfxArena* polyXlu = &globalCtx->game.gfxCtx->polyXlu;
 
     // Animation Data
     memcpy(&this->skelAnime0.jointTable, &this->puppet.anim, 0x86);
-    RESET_ENV_TO_TUNIC(polyOpa);
+    RESET_ENV_TO_TUNIC();
 
     if (limbIndex == 1) {
         pos->y *= this->puppet.age == 0 ? 1 : 0.66f;
@@ -332,7 +332,7 @@ int32_t AnimateCallback(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dl, V
                         BunnyHood_Mtx_Setup(this, globalCtx);
                     }
 
-                    gSPDisplayList(polyOpa->p++, baseToPointer(this, RESOLVE_PROXY(mask_dlists[this->puppet.currentMask - 1])));
+                    gSPDisplayList(POLY_OPA_DISP++, baseToPointer(this, mask_dlists[this->puppet.currentMask - 1]));
                 }
                 Matrix_Pop();
             }
@@ -352,7 +352,7 @@ int32_t AnimateCallback(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dl, V
         } break;
         case PLAYER_LIMB_SHEATH: {
             if (IS_SWORDLESS) {
-                *dl = baseToPointer(this, PROXY_LINK_DL_DF);
+                *dl = baseToPointer(this, DL_DF);
             }
             else {
                 *dl = CURRENT_SHEATH_DL;
@@ -398,10 +398,10 @@ int32_t AnimateCallback(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dl, V
 #endif
 
 int32_t OtherCallback(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dList, Vec3s* rot, En_Puppet* this) {
-    const uint32_t eyes[3] = { deref(baseToPointer(this, 0x580)) + 0, deref(baseToPointer(this, 0x580)) + 0x800, deref(baseToPointer(this, 0x580)) + 0x1000 };
+    const uint32_t eyes[3] = { deref(baseToPointer(this, TEX_EYES + 4)) + 0, deref(baseToPointer(this, TEX_EYES + 4)) + 0x800, deref(baseToPointer(this, TEX_EYES + 4)) + 0x1000 };
     this->puppet.eyeTexture = eyes[Helper_EyeBlink(&this->puppet.eyeIndex)];
     gSPSegment(POLY_OPA_DISP++, 8, this->puppet.eyeTexture);
-    gSPSegment(POLY_OPA_DISP++, 9, deref(baseToPointer(this, 0x584)));
+    gSPSegment(POLY_OPA_DISP++, 9, deref(baseToPointer(this, TEX_MOUTH + 4)));
     return 1;
 }
 
@@ -411,7 +411,7 @@ void init(En_Puppet* this, GlobalContext* globalCtx) {
     this->puppet.age = ((uint32_t)this->actor.params);
 
     SkelAnime_InitLink_Custom(globalCtx, &this->skelAnime0.skelAnime,
-        baseToPointerSkel(this, 0xC), /* TODO: current method will not work for mm */
+        baseToPointer(this, SKEL_SECTION), /* TODO: current method will not work for mm */
         0,
         9, /* initflags */
         this->skelAnime0.jointTable, this->skelAnime0.morphTable, PLAYER_LIMB_MAX

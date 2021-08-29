@@ -62,9 +62,9 @@ int32_t AnimateCallback(struct GlobalContext* globalCtx, int32_t limbIndex, stru
 }
 
 int32_t FaceCallback(struct GlobalContext* globalCtx, int32_t limbIndex, struct Gfx** dList, struct Vec3s* rot, entity_t* this) {
-    TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
-    gSPSegment(polyOpa->p++, 8, baseToPointer2(this, 0x0));
-    gSPSegment(polyOpa->p++, 9, baseToPointer2(this, 0x00004000));
+    
+    gSPSegment(POLY_OPA_DISP++, 8, baseToPointer2(this, 0x0));
+    gSPSegment(POLY_OPA_DISP++, 9, baseToPointer2(this, 0x00004000));
     return 1;
 }
 

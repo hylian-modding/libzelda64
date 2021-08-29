@@ -11,35 +11,35 @@
 */
 
 const uint32_t blade_proxies[3] = {
-    PROXY_LINK_DL_SWORD0_BLADE,
-    PROXY_LINK_DL_SWORD1_BLADE,
-    PROXY_LINK_DL_SWORD2_BLADE
+    DL_SWORD_BLADE_1,
+    DL_SWORD_BLADE_2,
+    DL_SWORD_BLADE_3
 };
 
 const uint32_t hilt_proxies[3] = {
-    PROXY_LINK_DL_SWORD0_HILT,
-    PROXY_LINK_DL_SWORD1_HILT,
-    PROXY_LINK_DL_SWORD2_HILT
+    DL_SWORD_HILT_1,
+    DL_SWORD_HILT_2,
+    DL_SWORD_HILT_3
 };
 
 const uint32_t sheath_proxies[3] = {
-    PROXY_LINK_DL_SWORD0_SHEATH,
-    PROXY_LINK_DL_SWORD1_SHEATH,
-    PROXY_LINK_DL_SWORD2_SHEATH
+    DL_SWORD_HILT_1,
+    DL_SWORD_HILT_2,
+    DL_SWORD_HILT_3
 };
 
 const uint32_t shield_proxies[4] = {
     0,
-    PROXY_LINK_DL_SHIELD0,
-    PROXY_LINK_DL_SHIELD1,
-    PROXY_LINK_DL_SHIELD2
+    DL_SHIELD_1,
+    DL_SHIELD_2,
+    DL_SHIELD_3
 };
 
 const uint32_t gauntlet_hands[4] = {
-    ADULT_LINK_LUT_DL_UPGRADE_LHAND,
-    ADULT_LINK_LUT_DL_UPGRADE_LFIST,
-    ADULT_LINK_LUT_DL_UPGRADE_RHAND,
-    ADULT_LINK_LUT_DL_UPGRADE_RFIST
+    DL_UPGRADE_LHAND,
+    DL_UPGRADE_LFIST,
+    DL_UPGRADE_RHAND,
+    DL_UPGRADE_RFIST
 };
 
 // Swords
@@ -60,20 +60,20 @@ const uint32_t gauntlet_hands[4] = {
 #define CURRENT_BLADE_DL baseToPointer(this, blade_proxies[((this)->puppet).currentSword - ITEM_KOKIRI_SWORD])
 
 void DrawSword(GlobalContext* globalCtx, En_Puppet* this, struct Vec3f* pos, struct Vec3s* rot) {
-    TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
+    
 
     Matrix_Push();
     {
         Matrix_Translate(pos->x, pos->y, pos->z, 1);
         Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
 
-        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
 
         if (IS_SWORDLESS) {
-            gSPDisplayList(polyOpa->p++, baseToPointer(this, PROXY_LINK_DL_DF));
+            gSPDisplayList(POLY_OPA_DISP++, baseToPointer(this, DL_DF));
         } else {
-            gSPDisplayList(polyOpa->p++, CURRENT_HILT_DL);
-            gSPDisplayList(polyOpa->p++, CURRENT_BLADE_DL);
+            gSPDisplayList(POLY_OPA_DISP++, CURRENT_HILT_DL);
+            gSPDisplayList(POLY_OPA_DISP++, CURRENT_BLADE_DL);
         }
     }
     Matrix_Pop();
@@ -99,56 +99,56 @@ const EffectBlureInit2 sBlureInit2 = {
 #define CURRENT_SHIELD_DL baseToPointer(this, shield_proxies[((this)->puppet).currentShield])
 
 void DrawShield(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s* rot) {
-    TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
+    
 
     Matrix_Push();
     {
         Matrix_Translate(pos->x, pos->y, pos->z, 1);
         Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
 
-        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
 
         if (IS_SHIELDLESS) {
-            gSPDisplayList(polyOpa->p++, baseToPointer(this, PROXY_LINK_DL_DF));
+            gSPDisplayList(POLY_OPA_DISP++, baseToPointer(this, DL_DF));
         } else {
-            gSPDisplayList(polyOpa->p++, CURRENT_SHIELD_DL);
+            gSPDisplayList(POLY_OPA_DISP++, CURRENT_SHIELD_DL);
         }
     }
     Matrix_Pop();
 }
 
 void DrawBow(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s* rot){
-    TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
+    
     Matrix_Push();
     {
         Matrix_Translate(pos->x, pos->y, pos->z, 1);
         Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
-        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
 
-        gSPDisplayList(polyOpa->p++, baseToPointer(this, PROXY_LINK_DL_BOW));
+        gSPDisplayList(POLY_OPA_DISP++, baseToPointer(this, DL_BOW));
     }
     Matrix_Pop();
 }
 
 void DrawOcarina(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s* rot){
-    TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
+    
     Matrix_Push();
     {
         Matrix_Translate(pos->x, pos->y, pos->z, 1);
         Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
-        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
 
         switch(this->puppet.currentOcarina){
             case 0:
                 break;
             case 1:
-                gSPDisplayList(polyOpa->p++, baseToPointer(this, PROXY_LINK_DL_OCARINA0));
+                gSPDisplayList(POLY_OPA_DISP++, baseToPointer(this, DL_OCARINA_FAIRY));
                 break;
             case 2:
                 if (this->puppet.age == 0){
-                    gSPDisplayList(polyOpa->p++, baseToPointer(this, PROXY_LINK_DL_OCARINA1_ADULT));
+                    gSPDisplayList(POLY_OPA_DISP++, baseToPointer(this, DL_OCARINA_FAIRY));
                 }else{
-                    gSPDisplayList(polyOpa->p++, baseToPointer(this, PROXY_LINK_DL_OCARINA1_CHILD));
+                    gSPDisplayList(POLY_OPA_DISP++, baseToPointer(this, DL_OCARINA_2));
                 }
                 break;
         }
@@ -157,40 +157,40 @@ void DrawOcarina(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s* r
 }
 
 void DrawHookshot(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s* rot){
-    TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
+    
     Matrix_Push();
     {
         Matrix_Translate(pos->x, pos->y, pos->z, 1);
         Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
-        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
 
-        gSPDisplayList(polyOpa->p++, baseToPointer(this, PROXY_LINK_DL_HOOKSHOT));
+        gSPDisplayList(POLY_OPA_DISP++, baseToPointer(this, DL_HOOKSHOT));
     }
     Matrix_Pop();
 }
 
 void DrawSlingshot(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s* rot){
-    TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
+    
     Matrix_Push();
     {
         Matrix_Translate(pos->x, pos->y, pos->z, 1);
         Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
-        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
 
-        gSPDisplayList(polyOpa->p++, baseToPointer(this, PROXY_LINK_DL_SLINGSHOT));
+        gSPDisplayList(POLY_OPA_DISP++, baseToPointer(this, DL_SLINGSHOT));
     }
     Matrix_Pop();
 }
 
 void DrawBoomerang(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s* rot){
-    TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
+    
     Matrix_Push();
     {
         Matrix_Translate(pos->x, pos->y, pos->z, 1);
         Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
-        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
 
-        gSPDisplayList(polyOpa->p++, baseToPointer(this, PROXY_LINK_DL_BOOMERANG));
+        gSPDisplayList(POLY_OPA_DISP++, baseToPointer(this, DL_BOOMERANG));
     }
     Matrix_Pop();
 }
@@ -198,7 +198,6 @@ void DrawBoomerang(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s*
 // Composite
 
 void DrawEquipBack(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s* rot) {
-    TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
 
     Matrix_Push();
     {
@@ -207,23 +206,48 @@ void DrawEquipBack(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s*
 
         if (!ACTION_IS_SWORD)
         {
-            gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
             if (IS_SWORDLESS) {
-                gSPDisplayList(polyOpa->p++, baseToPointer(this, PROXY_LINK_DL_DF));
+                gSPDisplayList(POLY_OPA_DISP++, baseToPointer(this, DL_DF));
             } else {
-                gSPMatrix(polyOpa->p++, baseToPointer(this, PROXY_LINK_MTX_HILT), G_MTX_MUL);
-                gSPDisplayList(polyOpa->p++, CURRENT_HILT_DL);
+                switch(this->puppet.currentSword){
+                    case 0:
+                        break;
+                    case 1:
+                        gSPMatrix(POLY_OPA_DISP++, baseToPointer(this, MATRIX_SWORD1_BACK), G_MTX_MUL);
+                        break;
+                    case 2:
+                        gSPMatrix(POLY_OPA_DISP++, baseToPointer(this, MATRIX_SWORD2_BACK), G_MTX_MUL);
+                        break;
+                    case 3:
+                        gSPMatrix(POLY_OPA_DISP++, baseToPointer(this, MATRIX_SWORD3_BACK), G_MTX_MUL);
+                        break;
+                }
+                gSPDisplayList(POLY_OPA_DISP++, CURRENT_HILT_DL);
             }
         }
 
         if ((!ACTION_IS_SWORD && !ACTION_IS_SHIELDING) || (ACTION_IS_BIGGORON_SWORD))
         {
-            gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
             if (IS_SHIELDLESS) {
-                gSPDisplayList(polyOpa->p++, baseToPointer(this, PROXY_LINK_DL_DF));
+                gSPDisplayList(POLY_OPA_DISP++, baseToPointer(this, DL_DF));
             } else {
-                gSPMatrix(polyOpa->p++, baseToPointer(this, PROXY_LINK_MTX_SHIELD), G_MTX_MUL);
-                gSPDisplayList(polyOpa->p++, CURRENT_SHIELD_DL);
+                switch(this->puppet.currentShield){
+                    case 0:
+                        break;
+                    case 1:
+                        gSPMatrix(POLY_OPA_DISP++, baseToPointer(this, MATRIX_SHIELD1_BACK), G_MTX_MUL);
+                        break;
+                    case 2:
+                        gSPMatrix(POLY_OPA_DISP++, baseToPointer(this, MATRIX_SHIELD2_BACK), G_MTX_MUL);
+                        break;
+                    case 3:
+                        gSPMatrix(POLY_OPA_DISP++, baseToPointer(this, MATRIX_SHIELD3_BACK), G_MTX_MUL);
+                        break;
+                }
+                gSPMatrix(POLY_OPA_DISP++, baseToPointer(this, MATRIX_SHIELD1_BACK), G_MTX_MUL);
+                gSPDisplayList(POLY_OPA_DISP++, CURRENT_SHIELD_DL);
             }
         }
     }
