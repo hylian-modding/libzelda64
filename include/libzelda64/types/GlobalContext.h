@@ -239,6 +239,6 @@ extern GlobalContext gGlobalCtx;
 SYMBOL_VERSION_CONFIG(gGlobalCtx, 0x801C84A0, 0x803E6B20);
 
 extern uint32_t gSegments[];
-SYMBOL_VERSION_CONFIG(gSegments, 0x80120C38, 0xDEADBEEF);
+SYMBOL_VERSION_CONFIG(gSegments, 0x80120C38, 0x801F8180);
 
 #endif
