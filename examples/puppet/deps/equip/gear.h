@@ -196,7 +196,7 @@ void DrawBoomerang(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s*
 }
 
 // Composite
-
+#ifdef GAME_OOT
 void DrawEquipBack(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s* rot) {
 
     Matrix_Push();
@@ -253,5 +253,8 @@ void DrawEquipBack(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s*
     }
     Matrix_Pop();
 }
-
+#elif defined GAME_MM
+#warning "DrawEquipBack needs implemented for MM!"
+void DrawEquipBack(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s* rot) {}
+#endif
 #endif /* __PUPPET_EQUIP_GEAR_H__ */
