@@ -86,65 +86,71 @@ void Actor_SpawnWithAddress(GlobalContext* globalCtx, int16_t actorId, int16_t p
 //return Actor_SpawnWithParentAndCutscene(actorCtx, globalCtx, index, x, y, z, rotX, rotY, rotZ, params, -1, parent->unk20, parent);
 void Actor_SpawnWithAddress(ActorContext* actorCtx, GlobalContext* globalCtx, int16_t index, float x, float y, float z, int16_t rotX, int16_t rotY, int16_t rotZ, int32_t params, Actor* actor) {
     register CommandEvent* commandEvent;
-    ActorInit* init;
-    int32_t object;
-    ActorOverlay* overlay;
-    uint32_t tempSegment;
+    ActorInit* actorInit;
+    int32_t objBankIndex;
+    uint32_t segmentAux;
+    ActorOverlay* overlayEntry;
 
-    if (actorCtx->total >= 255) {
+    if (actorCtx->total >= 0xFF) {
         return NULL;
     }
 
-    init = Actor_LoadOverlay(actorCtx, index);
-    if (init == NULL) {
+    actorInit = Actor_LoadOverlay(actorCtx, index);
+    if (actorInit == NULL) {
         return NULL;
     }
 
-    object = Object_GetIndex(&globalCtx->objectCtx, init->objectId);
-    if ((object < 0) || (init->category == ACTORCAT_ENEMY && Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) && (init->id != ACTOR_BOSS_05)) {
-        overlay = &gActorOverlayTable[index];
-        Actor_FreeOverlay(overlay);
+    objBankIndex = Object_GetIndex(&globalCtx->objectCtx, actorInit->objectId);
+    if ((objBankIndex < 0) || ((actorInit->category == ACTORCAT_ENEMY) && ((Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num) != 0)) && (actorInit->id != ACTOR_BOSS_05))) {
+        Actor_FreeOverlay(&gActorOverlayTable[index]);
         return NULL;
     }
 
-    overlay = &gActorOverlayTable[index];
-    if (overlay->vramStart != 0) {
-        overlay->nbLoaded += 1;
+    if (actor == NULL) {
+        Actor_FreeOverlay(&gActorOverlayTable[index]);
+        return NULL;
     }
 
-    bzero(actor, init->instanceSize);
-    actor->overlayEntry = overlay;
-    actor->id = init->id;
-    actor->flags = init->flags;
-    if (init->id == ACTOR_EN_PART) {
+    overlayEntry = &gActorOverlayTable[index];
+    if (overlayEntry->vramStart != 0) {
+        overlayEntry->nbLoaded++;
+    }
+
+    bzero(actor, actorInit->instanceSize);
+    actor->overlayEntry = overlayEntry;
+    actor->id = actorInit->id;
+    actor->flags = actorInit->flags;
+
+    if (actorInit->id == ACTOR_EN_PART) {
         actor->objBankIndex = rotZ;
         rotZ = 0;
     }
     else {
-        actor->objBankIndex = object;
+        actor->objBankIndex = objBankIndex;
     }
 
-    actor->init = init->init;
-    actor->destroy = init->destroy;
-    actor->update = init->update;
-    actor->draw = init->draw;
+    actor->init = actorInit->init;
+    actor->destroy = actorInit->destroy;
+    actor->update = actorInit->update;
+    actor->draw = actorInit->draw;
     actor->room = globalCtx->roomCtx.curRoom.num;
+
     actor->home.pos.x = x;
     actor->home.pos.y = y;
     actor->home.pos.z = z;
     actor->home.rot.x = rotX;
     actor->home.rot.y = rotY;
     actor->home.rot.z = rotZ;
-    actor->params = params;
+    actor->params = params & 0xFFFF;
 
-    // I think this just ends up as F but I am too lazy to check
-    actor->cutscene = ((uint32_t)-1) & 0x7F;
+    actor->cutscene = (-1 & 0x7F);
     if (actor->cutscene == 0x7F) {
         actor->cutscene = -1;
     }
+
     actor->unk20 = 0x3FF;
 
-    Actor_AddToCategory(actorCtx, actor, init->category);
+    Actor_AddToCategory(actorCtx, actor, actorInit->category);
 
     commandEvent = CommandBuffer_CommandEvent_GetCollision(actor, COMMANDEVENTTYPE_SPAWN, COMMANDEVENTTYPE_SPAWNTRANSITION);
     if (commandEvent) {
@@ -161,9 +167,10 @@ void Actor_SpawnWithAddress(ActorContext* actorCtx, GlobalContext* globalCtx, in
         }
     }
 
-    tempSegment = gSegments[6];
+    segmentAux = gSegments[6];
     Actor_Init(actor, globalCtx);
-    gSegments[6] = tempSegment;
+    gSegments[6] = segmentAux;
+
     return actor;
 }
 #endif

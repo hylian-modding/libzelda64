@@ -67,10 +67,10 @@ extern float Math_FTanF(float angle);
 SYMBOL_VERSION_CONFIG(Math_FTanF, 0x800CD510, 0x80000180);
 
 extern float Math_FAtan2F(float y, float x);
-SYMBOL_VERSION_CONFIG(Math_FAtan2F, 0x800CD76C, 0x80000180);
+SYMBOL_VERSION_CONFIG(Math_FAtan2F, 0x800CD76C, 0x801800CC);
 
 extern float sqrtf(float x);
-SYMBOL_VERSION_CONFIG(sqrtf, 0x800D0DC0, 0x80000180);
+SYMBOL_VERSION_CONFIG(sqrtf, 0x800D0DC0, 0x8008D700);
 
 extern int32_t Math_StepToF(int32_t* pValue, int32_t target, int32_t step);
 SYMBOL_VERSION_CONFIG(Math_StepToF, 0x8006385C, 0x80000180);
@@ -82,10 +82,10 @@ extern float Math_SinS(int16_t angle);
 SYMBOL_VERSION_CONFIG(Math_SinS, 0x800636C4, 0x80000180);
 
 extern float Math_CosF(float angle);
-SYMBOL_VERSION_CONFIG(Math_CosF, 0x800A4650, 0x80000180);
+SYMBOL_VERSION_CONFIG(Math_CosF, 0x800A4650, 0x80091F40);
 
 extern float Math_SinF(float angle);
-SYMBOL_VERSION_CONFIG(Math_SinF, 0x800A45FC, 0x80000180);
+SYMBOL_VERSION_CONFIG(Math_SinF, 0x800A45FC, 0x80088350);
 
 extern float Math_FAcosF(float angle);
 SYMBOL_VERSION_CONFIG(Math_FAcosF, 0x800CD890, 0x80000180);

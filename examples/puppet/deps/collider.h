@@ -1,8 +1,7 @@
 #ifndef __PUPPET_COLLIDER_H__
 #define __PUPPET_COLLIDER_H__
 
-#include <libzelda64/types/ColliderCylinderInit.h"
-#include <libzelda64/Collider.h"
+#include <libzelda64.h>
 
 // copy of Link's default ColliderCylinderInit
 const ColliderCylinderInit colliderInit = {

@@ -1,7 +1,7 @@
 #ifndef __PUPPET_EQUIP_STICK_H__
 #define __PUPPET_EQUIP_STICK_H__
 
-#include <libzelda64/types/GlobalContext.h>
+#include <libzelda64.h>
 
 #define DEKU_STICK_IS_BROKEN ((((this)->puppet).deku_stick).length < 1.0f)
 

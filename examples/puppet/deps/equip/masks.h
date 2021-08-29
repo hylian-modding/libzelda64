@@ -1,7 +1,7 @@
 #ifndef __PUPPET_EQUIP_MASK_H__
 #define __PUPPET_EQUIP_MASK_H__
 
-#include <libzelda64/types/GlobalContext.h>
+#include <libzelda64.h>
 #include "../lut_offsets.h"
 #include "../../puppet.h"
 

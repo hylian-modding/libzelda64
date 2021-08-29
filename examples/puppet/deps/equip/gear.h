@@ -1,8 +1,7 @@
 #ifndef __PUPPET_EQUIP_GEAR_H__
 #define __PUPPET_EQUIP_GEAR_H__
 
-#include <libzelda64/types/GlobalContext.h>
-#include <libzelda64/Blure.h>
+#include <libzelda64.h>
 #include "../lut_offsets.h"
 
 /*
@@ -68,7 +67,7 @@ void DrawSword(GlobalContext* globalCtx, En_Puppet* this, struct Vec3f* pos, str
         Matrix_Translate(pos->x, pos->y, pos->z, 1);
         Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
 
-        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx, __FILE__, __LINE__), G_MTX_LOAD);
+        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
 
         if (IS_SWORDLESS) {
             gSPDisplayList(polyOpa->p++, baseToPointer(this, PROXY_LINK_DL_DF));
@@ -107,7 +106,7 @@ void DrawShield(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s* ro
         Matrix_Translate(pos->x, pos->y, pos->z, 1);
         Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
 
-        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx, __FILE__, __LINE__), G_MTX_LOAD);
+        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
 
         if (IS_SHIELDLESS) {
             gSPDisplayList(polyOpa->p++, baseToPointer(this, PROXY_LINK_DL_DF));
@@ -124,7 +123,7 @@ void DrawBow(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s* rot){
     {
         Matrix_Translate(pos->x, pos->y, pos->z, 1);
         Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
-        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx, __FILE__, __LINE__), G_MTX_LOAD);
+        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
 
         gSPDisplayList(polyOpa->p++, baseToPointer(this, PROXY_LINK_DL_BOW));
     }
@@ -137,7 +136,7 @@ void DrawOcarina(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s* r
     {
         Matrix_Translate(pos->x, pos->y, pos->z, 1);
         Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
-        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx, __FILE__, __LINE__), G_MTX_LOAD);
+        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
 
         switch(this->puppet.currentOcarina){
             case 0:
@@ -163,7 +162,7 @@ void DrawHookshot(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s* 
     {
         Matrix_Translate(pos->x, pos->y, pos->z, 1);
         Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
-        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx, __FILE__, __LINE__), G_MTX_LOAD);
+        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
 
         gSPDisplayList(polyOpa->p++, baseToPointer(this, PROXY_LINK_DL_HOOKSHOT));
     }
@@ -176,7 +175,7 @@ void DrawSlingshot(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s*
     {
         Matrix_Translate(pos->x, pos->y, pos->z, 1);
         Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
-        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx, __FILE__, __LINE__), G_MTX_LOAD);
+        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
 
         gSPDisplayList(polyOpa->p++, baseToPointer(this, PROXY_LINK_DL_SLINGSHOT));
     }
@@ -189,7 +188,7 @@ void DrawBoomerang(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s*
     {
         Matrix_Translate(pos->x, pos->y, pos->z, 1);
         Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
-        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx, __FILE__, __LINE__), G_MTX_LOAD);
+        gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
 
         gSPDisplayList(polyOpa->p++, baseToPointer(this, PROXY_LINK_DL_BOOMERANG));
     }
@@ -208,7 +207,7 @@ void DrawEquipBack(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s*
 
         if (!ACTION_IS_SWORD)
         {
-            gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx, __FILE__, __LINE__), G_MTX_LOAD);
+            gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
             if (IS_SWORDLESS) {
                 gSPDisplayList(polyOpa->p++, baseToPointer(this, PROXY_LINK_DL_DF));
             } else {
@@ -219,7 +218,7 @@ void DrawEquipBack(GlobalContext* globalCtx, En_Puppet* this, Vec3f* pos, Vec3s*
 
         if ((!ACTION_IS_SWORD && !ACTION_IS_SHIELDING) || (ACTION_IS_BIGGORON_SWORD))
         {
-            gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx, __FILE__, __LINE__), G_MTX_LOAD);
+            gSPMatrix(polyOpa->p++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
             if (IS_SHIELDLESS) {
                 gSPDisplayList(polyOpa->p++, baseToPointer(this, PROXY_LINK_DL_DF));
             } else {

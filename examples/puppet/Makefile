@@ -4,11 +4,19 @@ ADDRESS = 0x80800000
 OBJDUMP = mips64-objdump
 PARTS = $(PROGRAM).o
 
-CC   = @mips64-gcc
-LD   = mips64-ld
+ifeq ($(shell type mips64-gcc >/dev/null 2>/dev/null; echo $$?), 0)
+	CROSS := mips64-
+else ifeq ($(shell type mips-linux-gnu-gcc >/dev/null 2>/dev/null; echo $$?), 0)
+	CROSS := mips-linux-gnu-
+else
+	CROSS := mips64-elf-
+endif
+
+CC   = $(CROSS)gcc
+LD   = $(CROSS)ld
 NOVL = nOVL
 
-CFLAGS = -I$(LIBZ64_PATH) -I$(LIBZ64_PATH)/libultra -D_LANGUAGE_C -DF3DEX_GBI_2 -D_MLDEBUG -G 0 -Ofast	\
+CFLAGS = -I$(LIBZ64_PATH) -I$(LIBZ64_PATH)/libultra -D_LANGUAGE_C -DF3DEX_GBI_2 -D_MLDEBUG -DGAME_OOT -DGAME_VERSION_1_0 -G 0 -Ofast	\
 -std=gnu11 -mtune=vr4300 -march=vr4300 -mabi=32 -mips3							\
 -mno-shared -mdivide-breaks -mno-explicit-relocs -mno-memcpy					\
 -mno-check-zero-division -ffreestanding -fno-reorder-blocks -w

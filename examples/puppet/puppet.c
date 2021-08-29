@@ -1,10 +1,5 @@
+#include <PR/mbi.h>
 #include "puppet.h"
-#include <libzelda64/GraphicsContext.h>
-#include <libzelda64/LinkAnimation.h>
-#include <libzelda64/Macros.h>
-#include <libzelda64/libc.h>
-#include <libzelda64/Audio.h>
-#include <libzelda64/ActorShape.h>
 #include "Helpers.h"
 #include "deps/lut_offsets.h"
 #include "deps/collider.h"
@@ -22,6 +17,7 @@ const float ageProperties_38[] = { 70.0f, 45.29412079f };
 const Color_RGBA8_u32 white = {.rgba = 0xFFFFFFFF};
 const uint8_t copyFlags[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 
+#ifdef GAME_OOT
 void Pvp_Update(En_Puppet* this, GlobalContext* globalCtx) {
     Player* player = ((Player*)globalCtx->actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head);
     int16_t invulnerable = 0;
@@ -58,6 +54,7 @@ void Pvp_Update(En_Puppet* this, GlobalContext* globalCtx) {
     }
 
     dot = dotdir.x * dir.x + dotdir.y * dir.y + dotdir.z * dir.z;
+    //@TODO: find Math_FTanF in MM
     angle = Math_FTanF(dot); //Math_FAcosF(dot);
     behind = angle < 0;
 
@@ -82,12 +79,14 @@ void Pvp_Update(En_Puppet* this, GlobalContext* globalCtx) {
         }
     }
 
+#ifdef _MLDEBUG
     *((float*)0x806C0000) = angle;
     *((uint32_t*)0x806C0004) = (angle > DTOR(30) || angle < -DTOR(30));
     *((uint32_t*)0x806C0008) = shielding;
     *((uint32_t*)0x806C000C) = behind;
     *((uint32_t*)0x806C0010) = invulnerable;
     *((uint32_t*)0x806C0014) = this->collider.base.acFlags;
+#endif
 
     // if the player has i-frames, we can't hurt them
     /* FIXME: this approach may allow people to get way more damage against high-ping players, since the state flags will be out-of-date until they are updated.
@@ -250,10 +249,14 @@ void Pvp_Update(En_Puppet* this, GlobalContext* globalCtx) {
         }
     }
 }
+#elif defined GAME_MM
+#warning "PVP CURRENTLY NOT AVAILABLE FOR MM"
+void Pvp_Update(En_Puppet* this, GlobalContext* globalCtx) {}
+#endif
 
 void SkelAnime_InitLink_Custom(GlobalContext* globalCtx, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
                             LinkAnimationHeader* animation, int32_t flags, Vec3s* jointTable, Vec3s* morphTable, int32_t limbBufCount) {
-    struct FlexSkeletonHeader* skeletonHeader = skeletonHeaderSeg;
+    FlexSkeletonHeader* skeletonHeader = skeletonHeaderSeg;
     int32_t headerJointCount = skeletonHeader->sh.limbCount;
     int32_t limbCount;
 
@@ -275,9 +278,11 @@ void SkelAnime_InitLink_Custom(GlobalContext* globalCtx, SkelAnime* skelAnime, F
     skelAnime->jointTable = (Vec3s*)ALIGN16((uint32_t)jointTable);
     skelAnime->morphTable = (Vec3s*)ALIGN16((uint32_t)morphTable);
 
+    //@TODO: Find LinkAnimation_Change in MM
     if (animation != NULL) LinkAnimation_Change(globalCtx, skelAnime, animation, 1.0f, 0.0f, 0.0f, ANIMMODE_LOOP, 0.0f);
 }
 
+#ifdef GAME_OOT
 int32_t AnimateCallback(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dl, Vec3f* pos, Vec3s* rot, En_Puppet* this) {
     TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
     TwoHeadGfxArena* polyXlu = &globalCtx->game.gfxCtx->polyXlu;
@@ -323,8 +328,9 @@ int32_t AnimateCallback(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dl, V
                     this->actor.focus.pos.y = pos->y;
                     this->actor.focus.pos.z = pos->z;
 
-                    if (this->puppet.currentMask == MASK_INDEX_BUNNY_HOOD)
+                    if (this->puppet.currentMask == MASK_INDEX_BUNNY_HOOD) {
                         BunnyHood_Mtx_Setup(this, globalCtx);
+                    }
 
                     gSPDisplayList(polyOpa->p++, baseToPointer(this, RESOLVE_PROXY(mask_dlists[this->puppet.currentMask - 1])));
                 }
@@ -334,7 +340,8 @@ int32_t AnimateCallback(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dl, V
         case PLAYER_LIMB_HAND_L: {
             if (ACTION_IS_SWORD) {
                 DrawSword(globalCtx, this, pos, rot);
-            } else if (ACTION_IS_MEGATON_HAMMER) {
+            }
+            else if (ACTION_IS_MEGATON_HAMMER) {
                 draw_hammer(globalCtx, this, pos, rot);
             }
         } break;
@@ -346,7 +353,8 @@ int32_t AnimateCallback(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dl, V
         case PLAYER_LIMB_SHEATH: {
             if (IS_SWORDLESS) {
                 *dl = baseToPointer(this, PROXY_LINK_DL_DF);
-            } else {
+            }
+            else {
                 *dl = CURRENT_SHEATH_DL;
             }
             DrawEquipBack(globalCtx, this, pos, rot);
@@ -385,13 +393,15 @@ int32_t AnimateCallback(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dl, V
 
     return 0;
 }
+#elif defined GAME_MM
+int32_t AnimateCallback(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dl, Vec3f* pos, Vec3s* rot, En_Puppet* this) {}
+#endif
 
-int32_t OtherCallback(struct GlobalContext* globalCtx, int32_t limbIndex, struct Gfx** dList, struct Vec3s* rot, En_Puppet* this) {
-    TwoHeadGfxArena* polyOpa = &globalCtx->game.gfxCtx->polyOpa;
+int32_t OtherCallback(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dList, Vec3s* rot, En_Puppet* this) {
     const uint32_t eyes[3] = { deref(baseToPointer(this, 0x580)) + 0, deref(baseToPointer(this, 0x580)) + 0x800, deref(baseToPointer(this, 0x580)) + 0x1000 };
     this->puppet.eyeTexture = eyes[Helper_EyeBlink(&this->puppet.eyeIndex)];
-    gSPSegment(polyOpa->p++, 8, this->puppet.eyeTexture);
-    gSPSegment(polyOpa->p++, 9, deref(baseToPointer(this, 0x584)));
+    gSPSegment(POLY_OPA_DISP++, 8, this->puppet.eyeTexture);
+    gSPSegment(POLY_OPA_DISP++, 9, deref(baseToPointer(this, 0x584)));
     return 1;
 }
 
@@ -471,14 +481,17 @@ void draw(En_Puppet* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(globalCtx->game.gfxCtx->polyOpa.p++, this->puppet.colorTunic.r, this->puppet.colorTunic.g, this->puppet.colorTunic.b, this->puppet.colorTunic.a);
 
     // Teardrop / feet shadow drawn by callback from ActorShape_Init, feetpos is set in AnimateCallback
+    // @TODO: Find in mm
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime0.skelAnime.skeleton, this->skelAnime0.skelAnime.jointTable, this->skelAnime0.skelAnime.dListCount, &AnimateCallback, &OtherCallback, this);
 
     if (this->puppet.soundId) {
+        // @TODO: Find in mm
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 25, this->puppet.soundId);
         this->puppet.soundId = 0;
     }
 
     if (this->puppet.blureSwordInfo.active) {
+        // @TODO: Find in mm
         EffectBlure_AddVertex(Effect_GetByIndex(this->puppet.blureEffectID), &this->puppet.blureSwordInfo.base, &this->puppet.blureSwordInfo.tip);
     }
 }

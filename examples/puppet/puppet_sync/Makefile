@@ -5,7 +5,8 @@ LD   = mips64-ld
 OBJCOPY = mips64-objcopy
 OBJDUMP = mips64-objdump
 
-CFLAGS = -I$(LIBZ64_PATH) -I$(LIBZ64_PATH)/libultra -G 0 -Os 						\
+CFLAGS = -I$(LIBZ64_PATH) -I$(LIBZ64_PATH)/libultra -G 0 -Ofast 						\
+-D_LANGUAGE_C -DF3DEX_GBI_2 -D_MLDEBUG -DGAME_OOT -DGAME_VERSION_1_0 \
 --std=gnu99 -mtune=vr4300 -mabi=32 -mips3 			\
 -mno-explicit-relocs -mno-memcpy -ffreestanding		\
 -Wno-main -mno-gpopt -Wno-unused-function 			\

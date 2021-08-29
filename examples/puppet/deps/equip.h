@@ -1,11 +1,10 @@
 #ifndef __PUPPET_EQUIP_H__
 #define __PUPPET_EQUIP_H__
 
-#include <libzelda64/types/GlobalContext.h>
-#include <libzelda64/GraphicsContext.h>
-#include <libzelda64/types/Player.h>
+#include <libzelda64.h>
+#include <ultra64.h>
+#include <PR/gbi.h>
 
-#include "../gbi.h"
 #include "equip/gear.h"
 #include "equip/bottle.h"
 #include "equip/masks.h"

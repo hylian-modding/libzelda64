@@ -9,21 +9,21 @@
 #include <inttypes.h>
 
 extern void ActorShadow_DrawCircle(Actor* actor, struct Lights* lights, struct GlobalContext* globalCtx);
-SYMBOL_VERSION_CONFIG(ActorShadow_DrawCircle, 0x8001EFF4, 0x80000180);
+SYMBOL_VERSION_CONFIG(ActorShadow_DrawCircle, 0x8001EFF4, 0x800B3FC0);
 
 // z_actor_shadow_teardrop / ActorShadow_DrawFunc_Teardrop / Actor_shadow_foot on Poe's sheet (Decomp renamed it)
 extern void ActorShadow_DrawFeet(Actor* actor, struct Lights* lights, struct GlobalContext* globalCtx);
-SYMBOL_VERSION_CONFIG(ActorShadow_DrawFeet, 0x8001F280, 0x80000180);
+SYMBOL_VERSION_CONFIG(ActorShadow_DrawFeet, 0x8001F280, 0x800B42F8);
 
 // unnamed on Poe's sheet (it's out of date)
 extern void Actor_SetFeetPos(Actor* actor, int32_t limbIndex, int32_t leftFootIndex, struct Vec3f* leftFootPos, int32_t rightFootIndex, struct Vec3f* rightFootPos);
-SYMBOL_VERSION_CONFIG(Actor_SetFeetPos, 0x8001F74C, 0x80000180);
+SYMBOL_VERSION_CONFIG(Actor_SetFeetPos, 0x8001F74C, 0x800B4A98);
 
 extern void Actor_Kill(Actor* actor);
 SYMBOL_VERSION_CONFIG(Actor_Kill, 0x80020EB4, 0x800B670C);
 
 extern void Actor_SetScale(Actor* actor, float scale);
-SYMBOL_VERSION_CONFIG(Actor_SetScale, 0x80020F88, 0x80000180);
+SYMBOL_VERSION_CONFIG(Actor_SetScale, 0x80020F88, 0x800B67E0);
 
 extern void Actor_Init(Actor* actor, struct GlobalContext* globalCtx);
 SYMBOL_VERSION_CONFIG(Actor_Init, 0x80020FDC, 0x800B6834);
@@ -62,7 +62,7 @@ extern void Actor_UpdateAll(struct GlobalContext* globalCtx, struct ActorContext
 SYMBOL_VERSION_CONFIG(Actor_UpdateAll, 0x80023D70, 0x800B9780);
 
 extern void Actor_SetFocus(Actor* actor, float offset);
-SYMBOL_VERSION_CONFIG(Actor_SetFocus, 0x80020F04, 0x80000180);
+SYMBOL_VERSION_CONFIG(Actor_SetFocus, 0x80020F04, 0x800B675C);
 
 extern void func_8002F7A0(struct GlobalContext* globalCtx, Actor* actor, float arg2, int16_t arg3, float arg4);
 SYMBOL_VERSION_CONFIG(func_8002F7A0, 0x80022F48, 0x80000180);
@@ -71,7 +71,7 @@ extern int16_t func_8002D7EC(Actor* actor);
 SYMBOL_VERSION_CONFIG(func_8002D7EC, 0x80021124, 0x80000180);
 
 extern void Actor_SetObjectDependency(struct GlobalContext* globalCtx, Actor* actor);
-SYMBOL_VERSION_CONFIG(Actor_SetObjectDependency, 0x80020FA4, 0x80000180);
+SYMBOL_VERSION_CONFIG(Actor_SetObjectDependency, 0x80020FA4, 0x800B67FC);
 
 extern ActorInit* Actor_LoadOverlay(struct ActorContext* actorCtx, int16_t index);
 SYMBOL_VERSION_CONFIG(Actor_LoadOverlay, 0x80000180, 0x800BACD4);

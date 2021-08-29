@@ -1,15 +1,7 @@
 #ifndef __OVL_EN_OOTO_PUPPET__
 #define __OVL_EN_OOTO_PUPPET__
 
-#include <libzelda64/types/Vec3s.h>
-#include <libzelda64/types/Player.h>
-#include <libzelda64/types/Color_RGBA8_u32.h>
-#include <libzelda64/types/WeaponInfo.h>
-#include <libzelda64/SkelAnime.h>
-#include <libzelda64/Actor.h>
-#include <libzelda64/Collider.h>
-#include <libzelda64/types/GlobalContext.h>
-#include <libzelda64/types/ActorInit.h>
+#include <libzelda64.h>
 #include "pvp.h"
 
 #ifdef _MLDEBUG

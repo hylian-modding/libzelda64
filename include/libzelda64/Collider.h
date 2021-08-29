@@ -20,25 +20,25 @@
 #include <inttypes.h>
 
 extern int32_t Collider_SetCylinder(struct GlobalContext* globalCtx, ColliderCylinder* collider, struct Actor* actor, ColliderCylinderInit* src);
-SYMBOL_VERSION_CONFIG(Collider_SetCylinder, 0x8004ACEC, 0x80000180);
+SYMBOL_VERSION_CONFIG(Collider_SetCylinder, 0x8004ACEC, 0x800E130C);
 
 extern int32_t Collider_DestroyCylinder(struct GlobalContext* globalCtx, ColliderCylinder* collider);
 SYMBOL_VERSION_CONFIG(Collider_DestroyCylinder, 0x8004ABCC, 0x80000180);
 
 extern int32_t Collider_InitCylinder(struct GlobalContext* globalCtx, ColliderCylinder* collider);
-SYMBOL_VERSION_CONFIG(Collider_InitCylinder, 0x8004AB7C, 0x80000180);
+SYMBOL_VERSION_CONFIG(Collider_InitCylinder, 0x8004AB7C, 0x800E119C);
 
 extern void Collider_UpdateCylinder(struct Actor* actor, ColliderCylinder* collider);
-SYMBOL_VERSION_CONFIG(Collider_UpdateCylinder, 0x80050B00, 0x80000180);
+SYMBOL_VERSION_CONFIG(Collider_UpdateCylinder, 0x80050B00, 0x800E7DF8);
 
 extern int32_t CollisionCheck_SetAT(struct GlobalContext* globalCtx, struct CollisionCheckContext* colChkCtx, Collider* collider);
 SYMBOL_VERSION_CONFIG(CollisionCheck_SetAT, 0x8004BD50, 0x80000180);
 
 extern int32_t CollisionCheck_SetAC(struct GlobalContext* globalCtx, struct CollisionCheckContext* colChkCtx, Collider* collider);
-SYMBOL_VERSION_CONFIG(CollisionCheck_SetAC, 0x8004BF40, 0x80000180);
+SYMBOL_VERSION_CONFIG(CollisionCheck_SetAC, 0x8004BF40, 0x800E2740);
 
 extern int32_t CollisionCheck_SetOC(struct GlobalContext* globalCtx, struct CollisionCheckContext* colChkCtx, Collider* collider);
-SYMBOL_VERSION_CONFIG(CollisionCheck_SetOC, 0x8004C130, 0x80000180);
+SYMBOL_VERSION_CONFIG(CollisionCheck_SetOC, 0x8004C130, 0x800E2928);
 
 extern void CollisionHeader_GetVirtual(void* colHeader, struct CollisionHeader** dest);
 SYMBOL_VERSION_CONFIG(CollisionHeader_GetVirtual, 0x80033EF4, 0x80000180);

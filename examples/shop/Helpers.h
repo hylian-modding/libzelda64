@@ -2,8 +2,7 @@
 #define HELPERS_FUNCS_H
 
 #include "MagicNumbers.h"
-#include <libzelda64/Macros.h>
-#include <libzelda64/Math.h>
+#include <libzelda64.h>
 #include <inttypes.h>
 
 typedef enum {
@@ -27,7 +26,7 @@ static inline bool Object_IsLoaded(GlobalContext* globalCtx, int32_t id)
 static inline unsigned char Helper_EyeBlink(int16_t* frame)
 {
     if (*frame == 0) {
-        *frame = Math_Rand_S16Offset(30, 30);
+        *frame = Rand_S16Offset(30, 30);
     }
 
     *frame -= 1;
