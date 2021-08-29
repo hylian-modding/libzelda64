@@ -11,6 +11,43 @@
 #include <inttypes.h>
 #include <PR/os.h>
 
+typedef enum {
+    /* 0x00 */ PLAYER_LIMB_NONE,
+    /* 0x01 */ PLAYER_LIMB_ROOT,
+    /* 0x02 */ PLAYER_LIMB_WAIST,
+    /* 0x03 */ PLAYER_LIMB_LOWER,
+    /* 0x04 */ PLAYER_LIMB_THIGH_R,
+    /* 0x05 */ PLAYER_LIMB_SHIN_R,
+    /* 0x06 */ PLAYER_LIMB_FOOT_R,
+    /* 0x07 */ PLAYER_LIMB_THIGH_L,
+    /* 0x08 */ PLAYER_LIMB_SHIN_L,
+    /* 0x09 */ PLAYER_LIMB_FOOT_L,
+    /* 0x0A */ PLAYER_LIMB_UPPER,
+    /* 0x0B */ PLAYER_LIMB_HEAD,
+    /* 0x0C */ PLAYER_LIMB_HAT,
+    /* 0x0D */ PLAYER_LIMB_COLLAR,
+    /* 0x0E */ PLAYER_LIMB_SHOULDER_L,
+    /* 0x0F */ PLAYER_LIMB_FOREARM_L,
+    /* 0x10 */ PLAYER_LIMB_HAND_L,
+    /* 0x11 */ PLAYER_LIMB_SHOULDER_R,
+    /* 0x12 */ PLAYER_LIMB_FOREARM_R,
+    /* 0x13 */ PLAYER_LIMB_HAND_R,
+    /* 0x14 */ PLAYER_LIMB_SHEATH,
+    /* 0x15 */ PLAYER_LIMB_TORSO,
+    /* 0x16 */ PLAYER_LIMB_MAX
+} PlayerLimb;
+
+typedef enum {
+    /* 0 */ ANIMMODE_LOOP,
+    /* 1 */ ANIMMODE_LOOP_INTERP,
+    /* 2 */ ANIMMODE_ONCE,
+    /* 3 */ ANIMMODE_ONCE_INTERP,
+    /* 4 */ ANIMMODE_LOOP_PARTIAL,
+    /* 5 */ ANIMMODE_LOOP_PARTIAL_INTERP
+} AnimationModes;
+
+#define PLAYER_LIMB_BUF_COUNT PLAYER_LIMB_MAX + 2 // 2 extra entries in limb buffers?
+
 #ifdef GAME_OOT
 #ifdef GAME_VERSION_1_0
 typedef enum {
@@ -213,46 +250,9 @@ typedef enum {
 #define PLAYER_ACTION3_HOOK_FLY           (1 << 7)
 
 typedef enum {
-    /* 0x00 */ PLAYER_LIMB_NONE,
-    /* 0x01 */ PLAYER_LIMB_ROOT,
-    /* 0x02 */ PLAYER_LIMB_WAIST,
-    /* 0x03 */ PLAYER_LIMB_LOWER,
-    /* 0x04 */ PLAYER_LIMB_THIGH_R,
-    /* 0x05 */ PLAYER_LIMB_SHIN_R,
-    /* 0x06 */ PLAYER_LIMB_FOOT_R,
-    /* 0x07 */ PLAYER_LIMB_THIGH_L,
-    /* 0x08 */ PLAYER_LIMB_SHIN_L,
-    /* 0x09 */ PLAYER_LIMB_FOOT_L,
-    /* 0x0A */ PLAYER_LIMB_UPPER,
-    /* 0x0B */ PLAYER_LIMB_HEAD,
-    /* 0x0C */ PLAYER_LIMB_HAT,
-    /* 0x0D */ PLAYER_LIMB_COLLAR,
-    /* 0x0E */ PLAYER_LIMB_SHOULDER_L,
-    /* 0x0F */ PLAYER_LIMB_FOREARM_L,
-    /* 0x10 */ PLAYER_LIMB_HAND_L,
-    /* 0x11 */ PLAYER_LIMB_SHOULDER_R,
-    /* 0x12 */ PLAYER_LIMB_FOREARM_R,
-    /* 0x13 */ PLAYER_LIMB_HAND_R,
-    /* 0x14 */ PLAYER_LIMB_SHEATH,
-    /* 0x15 */ PLAYER_LIMB_TORSO,
-    /* 0x16 */ PLAYER_LIMB_MAX
-} PlayerLimb;
-
-typedef enum {
-    /* 0 */ ANIMMODE_LOOP,
-    /* 1 */ ANIMMODE_LOOP_INTERP,
-    /* 2 */ ANIMMODE_ONCE,
-    /* 3 */ ANIMMODE_ONCE_INTERP,
-    /* 4 */ ANIMMODE_LOOP_PARTIAL,
-    /* 5 */ ANIMMODE_LOOP_PARTIAL_INTERP
-} AnimationModes;
-
-typedef enum {
     /* 0 */ PLAYER_AGE_ADULT,
     /* 1 */ PLAYER_AGE_CHILD
 } Ages;
-
-#define PLAYER_LIMB_BUF_COUNT PLAYER_LIMB_MAX + 2 // 2 extra entries in limb buffers?
 
 #define AGE_IS_ADULT(age) (age == 0)
 
@@ -801,6 +801,5 @@ typedef struct Player {
     /* 0xD6C */ Vec3f unk_D6C; // previous body part 0 position
 } Player;                      /* sizeof = 0xD78 */
 #endif                /* GAME_MM */
-
 
 #endif
