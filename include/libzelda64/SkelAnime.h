@@ -37,7 +37,7 @@ SYMBOL_VERSION_CONFIG(SkelAnime_DrawOpa, 0x8008993C, 0x80133B3C);
 
 extern void SkelAnime_DrawFlexOpa(
     struct GlobalContext* globalCtx, void** skeleton, struct Vec3s* jointTable, int32_t dListCount, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* instance);
-SYMBOL_VERSION_CONFIG(SkelAnime_DrawFlexOpa, 0x80089D8C, 0x80133F28);
+SYMBOL_VERSION_CONFIG(SkelAnime_DrawFlexOpa, 0x80089D8C, 0x80135998);
 
 extern void SkelAnime_DrawFlexLod(
     struct GlobalContext* globalCtx, void** skeleton, struct Vec3s* jointTable, int32_t dListCount, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* arg, int32_t dListIndex);
