@@ -16,7 +16,7 @@ CC   = $(CROSS)gcc
 LD   = $(CROSS)ld
 NOVL = nOVL
 
-CFLAGS = -I$(LIBZ64_PATH) -I$(LIBZ64_PATH)/libultra -D_LANGUAGE_C -DF3DEX_GBI_2 -D_MLDEBUG -DGAME_MM -DGAME_VERSION_1_0 -G 0 -Ofast	\
+CFLAGS = -I$(LIBZ64_PATH) -I$(LIBZ64_PATH)/libultra -D_LANGUAGE_C -D_FINALROM -DF3DEX_GBI_2 -D_MLDEBUG -DGAME_MM -DGAME_VERSION_1_0 -G 0 -Ofast	\
 -std=gnu11 -mtune=vr4300 -march=vr4300 -mabi=32 -mips3							\
 -mno-shared -mdivide-breaks -mno-explicit-relocs -mno-memcpy					\
 -mno-check-zero-division -ffreestanding -fno-reorder-blocks -w

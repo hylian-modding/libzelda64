@@ -475,11 +475,10 @@ typedef enum {
     /* 0x01D5 */ ACTOR_BG_JYA_BLOCK,
     /* 0x01D6 */ ACTOR_OBJ_WARP2BLOCK,
     /* 0x01D7 */ ACTOR_ID_MAX // originally "ACTOR_DLF_MAX"
-} ActorId,
-    ActorID;
+} ActorID;
 
 #elif defined GAME_MM /* GAME_OOT */
-enum {
+typedef enum {
     /* 0x000 */ ACTOR_PLAYER,
     /* 0x001 */ ACTOR_EN_TEST,
     /* 0x002 */ ACTOR_EN_GIRLA,
@@ -1171,8 +1170,7 @@ enum {
     /* 0x2B0 */ ACTOR_OBJ_ENDING,
     /* 0x2B1 */ ACTOR_EN_RSN,
     /* 0x2B2 */ ACTOR_ID_MAX // originally "ACTOR_DLF_MAX"
-} ActorId,
-    ActorID;
+} ActorID;
 #endif                /* GAME_MM */
 
 #endif

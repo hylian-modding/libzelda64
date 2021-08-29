@@ -405,8 +405,8 @@ int32_t AnimateCallback(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dl, V
 int32_t OtherCallback(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dList, Vec3s* rot, En_Puppet* this) {
     const uint32_t eyes[3] = { deref(baseToPointer(this, TEX_EYES + 4)) + 0, deref(baseToPointer(this, TEX_EYES + 4)) + 0x800, deref(baseToPointer(this, TEX_EYES + 4)) + 0x1000 };
     this->puppet.eyeTexture = eyes[Helper_EyeBlink(&this->puppet.eyeIndex)];
-    //gSPSegment(POLY_OPA_DISP++, 8, this->puppet.eyeTexture);
-    //gSPSegment(POLY_OPA_DISP++, 9, deref(baseToPointer(this, TEX_MOUTH + 4)));
+    gSPSegment(POLY_OPA_DISP++, 8, this->puppet.eyeTexture);
+    gSPSegment(POLY_OPA_DISP++, 9, deref(baseToPointer(this, TEX_MOUTH + 4)));
     return 1;
 }
 
