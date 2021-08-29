@@ -16,7 +16,7 @@ float D_80126060[] = { 10.019104f, -19.92510223f };
 float D_80126068[] = { 5.0f, 3.0f };
 Vec3f D_80126070 = { 0.0f, -300.0f, 0.0f };
 
-void FootIK(GlobalContext* globalCtx, En_Puppet* this, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot, int32_t thighLimbIndex,
+void FootIK(GlobalContext* globalCtx, En_Puppet* inst, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot, int32_t thighLimbIndex,
             int32_t shinLimbIndex, int32_t footLimbIndex) {
     Vec3f spA4;
     Vec3f sp98;
@@ -43,22 +43,22 @@ void FootIK(GlobalContext* globalCtx, En_Puppet* this, SkelAnime* skelAnime, Vec
     if (1) {
         int32_t pad;
 
-        sp7C = D_80126058[this->puppet.age];
-        sp78 = D_80126060[this->puppet.age];
-        sp74 = D_80126068[this->puppet.age]; /* - this->unk_6C4 something to do with boots */
+        sp7C = D_80126058[inst->puppet.age];
+        sp78 = D_80126060[inst->puppet.age];
+        sp74 = D_80126068[inst->puppet.age]; /* - this->unk_6C4 something to do with boots */
 
         Matrix_Push();
         Matrix_JointPosition(pos, rot);
         Matrix_MultVec3f(&D_8012602C, &spA4);
-        Matrix_JointPosition(&D_80126038[this->puppet.age], &skelAnime->jointTable[shinLimbIndex]);
-        Matrix_Translate(D_80126050[this->puppet.age], 0.0f, 0.0f, MTXMODE_APPLY);
+        Matrix_JointPosition(&D_80126038[inst->puppet.age], &skelAnime->jointTable[shinLimbIndex]);
+        Matrix_Translate(D_80126050[inst->puppet.age], 0.0f, 0.0f, MTXMODE_APPLY);
         Matrix_MultVec3f(&D_8012602C, &sp98);
         Matrix_MultVec3f(&D_80126070, &footprintPos);
         Matrix_Pop();
 
         footprintPos.y += 15.0f;
 
-        sp80 = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &sp88, &sp84, &this->actor, &footprintPos) + sp74;
+        sp80 = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &sp88, &sp84, &inst->actor, &footprintPos) + sp74;
 
         if (sp98.y < sp80) {
             sp70 = sp98.x - spA4.x;

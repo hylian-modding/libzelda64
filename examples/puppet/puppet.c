@@ -394,16 +394,22 @@ int32_t AnimateCallback(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dl, V
     return 0;
 }
 #elif defined GAME_MM
-int32_t AnimateCallback(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dl, Vec3f* pos, Vec3s* rot, En_Puppet* this) {}
+#warning "AnimateCallback needs implemented for MM!"
+int32_t AnimateCallback(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dl, Vec3f* pos, Vec3s* rot, En_Puppet* this) {
+    memcpy(&this->skelAnime0.jointTable, &this->puppet.anim, 0x86);
+    return 0;
+}
 #endif
 
 int32_t OtherCallback(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dList, Vec3s* rot, En_Puppet* this) {
     const uint32_t eyes[3] = { deref(baseToPointer(this, TEX_EYES + 4)) + 0, deref(baseToPointer(this, TEX_EYES + 4)) + 0x800, deref(baseToPointer(this, TEX_EYES + 4)) + 0x1000 };
     this->puppet.eyeTexture = eyes[Helper_EyeBlink(&this->puppet.eyeIndex)];
-    gSPSegment(POLY_OPA_DISP++, 8, this->puppet.eyeTexture);
-    gSPSegment(POLY_OPA_DISP++, 9, deref(baseToPointer(this, TEX_MOUTH + 4)));
+    //gSPSegment(POLY_OPA_DISP++, 8, this->puppet.eyeTexture);
+    //gSPSegment(POLY_OPA_DISP++, 9, deref(baseToPointer(this, TEX_MOUTH + 4)));
     return 1;
 }
+
+#define LINK_ANIM_BUFFER 0x80400500
 
 void init(En_Puppet* this, GlobalContext* globalCtx) {
     Player* player = ((Player*)globalCtx->actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head);
@@ -412,7 +418,7 @@ void init(En_Puppet* this, GlobalContext* globalCtx) {
 
     SkelAnime_InitLink_Custom(globalCtx, &this->skelAnime0.skelAnime,
         baseToPointer(this, SKEL_SECTION), /* TODO: current method will not work for mm */
-        0,
+        NULL,
         9, /* initflags */
         this->skelAnime0.jointTable, this->skelAnime0.morphTable, PLAYER_LIMB_MAX
     );
@@ -436,6 +442,7 @@ void init(En_Puppet* this, GlobalContext* globalCtx) {
 
     this->actor.flags |= 0x0E000075;
 
+    //memcpy(&this->puppet.anim, __tpose_anim, __tpose_anim_size);
     memcpy(&this->puppet.anim, __tpose_anim, __tpose_anim_size);
     this->puppet.colorTunic.a = 0xFF;
     this->pvpCtx.enabled = 1;
@@ -452,11 +459,14 @@ void destroy(En_Puppet* this, GlobalContext* globalCtx) {
 }
 
 void update(En_Puppet* this, GlobalContext* globalCtx) {
-    Vec3f focusPos;
+    /* Vec3f focusPos;
     Player* player = ((Player*)globalCtx->actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head);
 
+#ifdef GAME_OOT
     if (AGE_IS_ADULT(this->puppet.age)) this->collider.dim.height = 60;
     else this->collider.dim.height = 44;
+#elif defined GAME_MM
+#endif
 
     this->actor.shape.shadowAlpha = player->actor.shape.shadowAlpha;
 
@@ -470,30 +480,33 @@ void update(En_Puppet* this, GlobalContext* globalCtx) {
 
     focusPos = this->actor.world.pos;
 
+#ifdef GAME_OOT
     if (AGE_IS_ADULT(this->puppet.age)) focusPos.y += 68.0f; // camera uses these offsets, who knows if they work here
     else focusPos.y += 44.0f;
+#elif defined GAME_MM
+#endif
 
     this->actor.focus.rot = this->actor.world.rot;
-    this->end = 0xDEADBEEF;
+    this->end = 0xDEADBEEF; */
 }
 
 void draw(En_Puppet* this, GlobalContext* globalCtx) {
+#ifdef GAME_OOT
     gDPSetEnvColor(globalCtx->game.gfxCtx->polyOpa.p++, this->puppet.colorTunic.r, this->puppet.colorTunic.g, this->puppet.colorTunic.b, this->puppet.colorTunic.a);
+#elif defined GAME_MM
+#endif
 
     // Teardrop / feet shadow drawn by callback from ActorShape_Init, feetpos is set in AnimateCallback
-    // @TODO: Find in mm
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime0.skelAnime.skeleton, this->skelAnime0.skelAnime.jointTable, this->skelAnime0.skelAnime.dListCount, &AnimateCallback, &OtherCallback, this);
 
-    if (this->puppet.soundId) {
-        // @TODO: Find in mm
+/*     if (this->puppet.soundId) {
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 25, this->puppet.soundId);
         this->puppet.soundId = 0;
     }
 
     if (this->puppet.blureSwordInfo.active) {
-        // @TODO: Find in mm
         EffectBlure_AddVertex(Effect_GetByIndex(this->puppet.blureEffectID), &this->puppet.blureSwordInfo.base, &this->puppet.blureSwordInfo.tip);
-    }
+    } */
 }
 
 

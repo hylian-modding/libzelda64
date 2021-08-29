@@ -13,7 +13,6 @@
 #define DEBUG_OPA(ITEM0) gDPNoOpTag(POLY_OPA_DISP++, (ITEM0));
 
 #define baseToPointer(this, addr) ((*((uint32_t*)(&(this)->actor.home.rot))) + addr)
-#define baseToPointerSkel(this, addr) (*((uint32_t*)((uint32_t)(*((uint32_t*)(&(this)->actor.home.rot))) + (addr))))
 #define deref(addr) *((uint32_t*) addr)
 
 typedef struct {
