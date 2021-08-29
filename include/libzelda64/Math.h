@@ -58,28 +58,28 @@
 #define RTOD(RHS) (RAD2DEG * RHS)
 
 extern float Rand_ZeroOne(void);
-SYMBOL_VERSION_CONFIG(Rand_ZeroOne, 0x800CDCCC, 0x80000180);
+SYMBOL_VERSION_CONFIG(Rand_ZeroOne, 0x800CDCCC, 0x80086fdc);
 
 extern int16_t Rand_S16Offset(int16_t offset, int16_t range);
 SYMBOL_VERSION_CONFIG(Rand_S16Offset, 0x80063BF0, 0x800FF450);
 
 extern float Math_FTanF(float angle);
-SYMBOL_VERSION_CONFIG(Math_FTanF, 0x800CD510, 0x80000180);
+SYMBOL_VERSION_CONFIG(Math_FTanF, 0x800CD510, 0x80086760);
 
 extern float Math_FAtan2F(float y, float x);
-SYMBOL_VERSION_CONFIG(Math_FAtan2F, 0x800CD76C, 0x801800CC);
+SYMBOL_VERSION_CONFIG(Math_FAtan2F, 0x800CD76C, 0x80180100);
 
 extern float sqrtf(float x);
 SYMBOL_VERSION_CONFIG(sqrtf, 0x800D0DC0, 0x8008D700);
 
 extern int32_t Math_StepToF(int32_t* pValue, int32_t target, int32_t step);
-SYMBOL_VERSION_CONFIG(Math_StepToF, 0x8006385C, 0x80000180);
+SYMBOL_VERSION_CONFIG(Math_StepToF, 0x8006385C, 0x800FF03C);
 
 extern float Math_CosS(int16_t angle);
-SYMBOL_VERSION_CONFIG(Math_CosS, 0x80063684, 0x80000180);
+SYMBOL_VERSION_CONFIG(Math_CosS, 0x80063684, 0x800FED44);
 
 extern float Math_SinS(int16_t angle);
-SYMBOL_VERSION_CONFIG(Math_SinS, 0x800636C4, 0x80000180);
+SYMBOL_VERSION_CONFIG(Math_SinS, 0x800636C4, 0x800FED84);
 
 extern float Math_CosF(float angle);
 SYMBOL_VERSION_CONFIG(Math_CosF, 0x800A4650, 0x80091F40);

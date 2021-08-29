@@ -10,19 +10,19 @@
 #define Matrix_Pop Matrix_Pull
 
 extern void Gfx_DrawDListOpa(struct GlobalContext* globalCtx, struct Gfx* dlist);
-SYMBOL_VERSION_CONFIG(Gfx_DrawDListOpa, 0x80028048, 0x80000180);
+SYMBOL_VERSION_CONFIG(Gfx_DrawDListOpa, 0x80028048, 0x800BDFC0);
 
 extern void Matrix_Push(void);
-SYMBOL_VERSION_CONFIG(Matrix_Push, 0x800AA6EC, 0x80000180);
+SYMBOL_VERSION_CONFIG(Matrix_Push, 0x800AA6EC, 0x8018019C);
 
 extern void Matrix_Translate(float x, float y, float z, int32_t mode);
-SYMBOL_VERSION_CONFIG(Matrix_Translate, 0x800AA7F4, 0x80000180);
+SYMBOL_VERSION_CONFIG(Matrix_Translate, 0x800AA7F4, 0x8018029C);
 
 extern void Matrix_RotateRPY(int16_t x, int16_t y, int16_t z, int32_t mode);
-SYMBOL_VERSION_CONFIG(Matrix_RotateRPY, 0x800AAF00, 0x80000180);
+SYMBOL_VERSION_CONFIG(Matrix_RotateRPY, 0x800AAF00, 0x8018039C);
 
 extern void Matrix_Scale(float x, float y, float z, int32_t mode);
-SYMBOL_VERSION_CONFIG(Matrix_Scale, 0x800AA8FC, 0x80000180);
+SYMBOL_VERSION_CONFIG(Matrix_Scale, 0x800AA8FC, 0x8018039C);
 
 extern void Matrix_Pull(void);
 SYMBOL_VERSION_CONFIG(Matrix_Pull, 0x800AA724, 0x80000180);
@@ -31,19 +31,19 @@ extern void Matrix_JointPosition(struct Vec3f* position, struct Vec3f* rotation)
 SYMBOL_VERSION_CONFIG(Matrix_JointPosition, 0x800AB1BC, 0x80000180);
 
 extern void Matrix_MultVec3f(struct Vec3f* src, struct Vec3f* dest);
-SYMBOL_VERSION_CONFIG(Matrix_MultVec3f, 0x800AB958, 0x80000180);
+SYMBOL_VERSION_CONFIG(Matrix_MultVec3f, 0x800AB958, 0x80181A98);
 
 extern void Matrix_SoftCv3_Load(float x, float y, float z, struct Vec3s* v);
-SYMBOL_VERSION_CONFIG(Matrix_SoftCv3_Load, 0x800AB510, 0x80000180);
+SYMBOL_VERSION_CONFIG(Matrix_SoftCv3_Load, 0x800AB510, 0x80181650);
 
 extern Mtx* Matrix_ToMtx(Mtx* dest, char* file, int32_t line);
-SYMBOL_VERSION_CONFIG(Matrix_ToMtx, 0x800AB8D8, 0x80000180);
+SYMBOL_VERSION_CONFIG(Matrix_ToMtx, 0x800AB8D8, 0x80181A18);
 
 extern Mtx* Matrix_NewMtx(GraphicsContext* gfxCtx);
-SYMBOL_VERSION_CONFIG(Matrix_NewMtx, 0x800AB900, 0x80000180);
+SYMBOL_VERSION_CONFIG(Matrix_NewMtx, 0x800AB900, 0x80181A40);
 
 extern void func_80094C50(GraphicsContext* gfxCtx);
-SYMBOL_VERSION_CONFIG(func_80094C50, 0x8007E978, 0x80000180);
+SYMBOL_VERSION_CONFIG(func_80094C50, 0x8007E978, 0x8012C8FC);
 
 // TODO: Move
 extern void EffectSsDtBubble_SpawnCustomColor(

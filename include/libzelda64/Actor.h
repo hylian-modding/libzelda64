@@ -65,10 +65,10 @@ extern void Actor_SetFocus(Actor* actor, float offset);
 SYMBOL_VERSION_CONFIG(Actor_SetFocus, 0x80020F04, 0x800B675C);
 
 extern void func_8002F7A0(struct GlobalContext* globalCtx, Actor* actor, float arg2, int16_t arg3, float arg4);
-SYMBOL_VERSION_CONFIG(func_8002F7A0, 0x80022F48, 0x80000180);
+SYMBOL_VERSION_CONFIG(func_8002F7A0, 0x80022F48, 0x800B8E1C);
 
 extern int16_t func_8002D7EC(Actor* actor);
-SYMBOL_VERSION_CONFIG(func_8002D7EC, 0x80021124, 0x80000180);
+SYMBOL_VERSION_CONFIG(func_8002D7EC, 0x80021124, 0x800B69AC);
 
 extern void Actor_SetObjectDependency(struct GlobalContext* globalCtx, Actor* actor);
 SYMBOL_VERSION_CONFIG(Actor_SetObjectDependency, 0x80020FA4, 0x800B67FC);
