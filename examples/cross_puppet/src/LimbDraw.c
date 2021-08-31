@@ -4,8 +4,8 @@
 int32_t LimbDrawOpa_Override(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Puppet* thisx) {
     DEBUG_FLAG_START(DEBUGFLG_LDOV);
 
-    memcpy(thisx->jointTable, thisx->animeTable, PLAYER_LIMB_BUF_COUNT * sizeof(Vec3s));
-    memcpy(thisx->morphTable, thisx->animeTable, PLAYER_LIMB_BUF_COUNT * sizeof(Vec3s));
+    memcpy(thisx->jointTable, thisx->animeTable, (PLAYER_LIMB_MAX * sizeof(Vec3s)) + 2);
+    memcpy(thisx->morphTable, thisx->animeTable, (PLAYER_LIMB_MAX * sizeof(Vec3s)) + 2);
     // @TODO: Game agnostic, and game-secific rendering
 #ifdef GAME_OOT
 #elif defined GAME_MM
