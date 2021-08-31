@@ -65,9 +65,7 @@ static const int16_t sColliderHeight[] = {
 #endif
 
 void Puppet_Ctor(Puppet* thisx, GlobalContext* globalCtx) {
-#ifdef _MLDEBUG
-    thisx->__debugFlg |= DEBUGFLG_CTOR;
-#endif
+    DEBUG_FLAG_START(DEBUGFLG_CTOR);
 
     thisx->form = thisx->actor.params;
     thisx->actor.room = 0xFF;
@@ -96,14 +94,12 @@ void Puppet_Ctor(Puppet* thisx, GlobalContext* globalCtx) {
 
 #ifdef _MLDEBUG
     thisx->__debug = 0xDEADBEEF;
-    thisx->__debugFlg &= ~DEBUGFLG_CTOR;
 #endif
+    DEBUG_FLAG_END(DEBUGFLG_CTOR);
 }
 
 void Puppet_Dtor(Puppet* thisx, GlobalContext* globalCtx) {
-#ifdef _MLDEBUG
-    thisx->__debugFlg |= DEBUGFLG_DTOR;
-#endif
+    DEBUG_FLAG_START(DEBUGFLG_DTOR);
 
     if (thisx->actor.child) {
         thisx->actor.child->parent = 0;
@@ -111,15 +107,11 @@ void Puppet_Dtor(Puppet* thisx, GlobalContext* globalCtx) {
         thisx->actor.child = 0;
     }
 
-#ifdef _MLDEBUG
-    thisx->__debugFlg &= ~DEBUGFLG_DTOR;
-#endif
+    DEBUG_FLAG_END(DEBUGFLG_DTOR);
 }
 
 void Puppet_Step(Puppet* thisx, GlobalContext* globalCtx) {
-#ifdef _MLDEBUG
-    thisx->__debugFlg |= DEBUGFLG_STEP;
-#endif
+    DEBUG_FLAG_START(DEBUGFLG_STEP);
 
     Vec3f focusPos;
     Player* player = (Player*)globalCtx->actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head;
@@ -136,15 +128,11 @@ void Puppet_Step(Puppet* thisx, GlobalContext* globalCtx) {
     thisx->actor.focus.rot.y = thisx->actor.world.rot.y;
     thisx->actor.focus.rot.z = thisx->actor.world.rot.z;
 
-#ifdef _MLDEBUG
-    thisx->__debugFlg &= ~DEBUGFLG_STEP;
-#endif
+    DEBUG_FLAG_END(DEBUGFLG_STEP);
 }
 
 void Puppet_Draw(Puppet* thisx, GlobalContext* globalCtx) {
-#ifdef _MLDEBUG
-    thisx->__debugFlg |= DEBUGFLG_DRAW;
-#endif
+    DEBUG_FLAG_START(DEBUGFLG_DRAW);
 
 #ifdef GAME_OOT
     // @TODO: Add gDPSetEnvColor for tunic!
@@ -153,9 +141,7 @@ void Puppet_Draw(Puppet* thisx, GlobalContext* globalCtx) {
     SkelAnime_DrawFlexOpa(globalCtx, thisx->skelAnime.skeleton, thisx->jointTable,
         thisx->skelAnime.dListCount, LimbDrawOpa_Override, LimbDrawOpa_Post, thisx);
 
-#ifdef _MLDEBUG
-    thisx->__debugFlg &= ~DEBUGFLG_DRAW;
-#endif
+    DEBUG_FLAG_END(DEBUGFLG_DRAW);
 }
 
 ActorInit initVars = {

@@ -2,9 +2,8 @@
 #include "LUTOffsets.h"
 
 int32_t LimbDrawOpa_Override(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Puppet* thisx) {
-#ifdef _MLDEBUG
-    thisx->__debugFlg |= DEBUGFLG_LDOV;
-#endif
+    DEBUG_FLAG_START(DEBUGFLG_LDOV);
+
     memcpy(thisx->jointTable, thisx->animeTable, PLAYER_LIMB_BUF_COUNT * sizeof(Vec3s));
     memcpy(thisx->morphTable, thisx->animeTable, PLAYER_LIMB_BUF_COUNT * sizeof(Vec3s));
     // @TODO: Game agnostic, and game-secific rendering
@@ -12,16 +11,12 @@ int32_t LimbDrawOpa_Override(GlobalContext* globalCtx, int32_t limbIndex, Gfx** 
 #elif defined GAME_MM
 #endif
 
-#ifdef _MLDEBUG
-    thisx->__debugFlg &= ~DEBUGFLG_LDOV;
-#endif
+    DEBUG_FLAG_END(DEBUGFLG_LDOV);
     return 0;
 }
 
 void LimbDrawOpa_Post(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dList, Vec3s* rot, Puppet* thisx) {
-#ifdef _MLDEBUG
-    thisx->__debugFlg |= DEBUGFLG_LDPO;
-#endif
+    DEBUG_FLAG_START(DEBUGFLG_LDPO);
 
     if (thisx->eyeCounter == 0) {
         thisx->eyeCounter = Rand_S16Offset(30, 30);
@@ -39,8 +34,6 @@ void LimbDrawOpa_Post(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dList, 
     gSPSegment(POLY_OPA_DISP++, 0x08, thisx->eyeTexturePointer);
     gSPSegment(POLY_OPA_DISP++, 0x09, *((uint32_t*)(thisx->basePointer + TEX_MOUTH + 4)));
 
-#ifdef _MLDEBUG
-    thisx->__debugFlg &= ~DEBUGFLG_LDPO;
-#endif
+    DEBUG_FLAG_END(DEBUGFLG_LDPO);
 }
 
