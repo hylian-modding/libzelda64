@@ -14,7 +14,11 @@ enum {
 };
 
 typedef struct {
-    uint32_t ageOrForm;
+    // These are different data sizes between Oot and MM.
+    union{
+        uint32_t age;
+        uint8_t form;
+    } ageOrForm;
     Color_RGBA8_u32 colorGauntlet;
     Color_RGBA8_u32 colorBottle;
     Color_RGBA8_u32 colorTunic;
@@ -40,9 +44,6 @@ typedef struct{
     uint32_t eyeTexturePointer;
     uint8_t eyeIndex;
     uint8_t eyeCounter;
-    uint8_t eyes[0x8];
-    uint8_t mouth[0x8];
-    uint8_t end[0x8];
 } PuppetFaceInfo;
 
 typedef struct {

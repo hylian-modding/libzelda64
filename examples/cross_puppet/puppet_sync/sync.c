@@ -70,7 +70,7 @@ volatile ooto_sync_object_t sync_entries[] = {
     SYNC_RAW_NO_LINK("anim", (LINK + 0x01F0), OFFSETOF(Puppet, animeTable), 0x86),
     SYNC_RAW_NO_LINK("str", 0x806FFF00, OFFSETOF(Puppet, syncInfo.strength), sizeof(uint8_t)),
     SYNC_RAW_NO_LINK("ears", 0x803AF180, OFFSETOF(Puppet, syncInfo.bunnyHoodRot), (sizeof(Vec3s) * 2)),
-    SYNC_RAW_NO_LINK("age", 0x8011A5D4, OFFSETOF(Puppet, syncInfo.ageOrForm), sizeof(uint32_t)),
+    SYNC_RAW_NO_LINK("age", 0x8011A5D4, OFFSETOF(Puppet, syncInfo.ageOrForm.age), sizeof(uint32_t)),
     SYNC_RAW_NO_LINK("tunic", 0xDEADBEEF, OFFSETOF(Puppet, syncInfo.colorTunic), 0x3),
     SYNC_RAW_NO_LINK("strength", 0xDEADBEEF, OFFSETOF(Puppet, syncInfo.strength), sizeof(uint8_t)),
     SYNC_RAW_NO_LINK("gauntlet", 0xDEADBEEF, OFFSETOF(Puppet, syncInfo.colorGauntlet), 0x3),
@@ -83,8 +83,11 @@ volatile ooto_sync_object_t sync_entries[] = {
     SYNC("pos", Player, Puppet, actor.world),
     SYNC("rot", Player, Puppet, actor.shape.rot),
     SYNC("fpos", Player, Puppet, actor.focus),
+    SYNC_RAW("state1", OFFSETOF(Player, stateFlags1), OFFSETOF(Puppet, syncInfo.stateFlags[0]), sizeof(uint32_t)),
+    SYNC_RAW("state2", OFFSETOF(Player, stateFlags2), OFFSETOF(Puppet, syncInfo.stateFlags[1]), sizeof(uint32_t)),
+    SYNC_RAW("state3", OFFSETOF(Player, stateFlags3), OFFSETOF(Puppet, syncInfo.stateFlags[2]), sizeof(uint32_t)),
     SYNC_RAW_NO_LINK("anim", (0x80400500), OFFSETOF(Puppet, animeTable), 0x86),
-    SYNC_RAW_NO_LINK("form", SAVE_CONTEXT + 0x20, OFFSETOF(Puppet, syncInfo.ageOrForm), sizeof(uint8_t)),
+    SYNC_RAW_NO_LINK("form", SAVE_CONTEXT + 0x20, OFFSETOF(Puppet, syncInfo.ageOrForm.form), sizeof(uint8_t)),
     SYNC_END
 };
 #endif

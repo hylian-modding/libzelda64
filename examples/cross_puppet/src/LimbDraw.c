@@ -4,6 +4,22 @@
 #include "Macros.h"
 
 #ifdef GAME_OOT
+    const float form_height_adjustments[2] = {
+        1.0f,
+        0.65f
+    };
+#elif defined GAME_MM
+    const float form_height_adjustments[6] = {
+        1.5f,
+        0.75f,
+        1.0f,
+        0.30f,
+        0.65f,
+        1.0f
+    };
+#endif
+
+#ifdef GAME_OOT
 int32_t LimbDrawOpa_Override(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dl, Vec3f* pos, Vec3s* rot, Puppet* thisx) {
 
     TwoHeadGfxArena* polyXlu = &globalCtx->game.gfxCtx->polyXlu;
@@ -14,7 +30,7 @@ int32_t LimbDrawOpa_Override(GlobalContext* globalCtx, int32_t limbIndex, Gfx** 
     RESET_ENV_TO_TUNIC();
 
     if (limbIndex == 1) {
-        pos->y *= thisx->syncInfo.ageOrForm == 0 ? 1 : 0.66f;
+        pos->y *= thisx->syncInfo.ageOrForm.age == 0 ? 1 : 0.66f;
     }
 
     // Limb Logic
@@ -38,7 +54,7 @@ int32_t LimbDrawOpa_Override(GlobalContext* globalCtx, int32_t limbIndex, Gfx** 
             Matrix_RotateRPY((thisx->syncInfo).bodyAngle.x, (thisx->syncInfo).bodyAngle.y, (thisx->syncInfo).bodyAngle.z, 1);
         } break;
         case PLAYER_LIMB_HEAD: {
-            if (thisx->syncInfo.ageOrForm && thisx->syncInfo.currentMask) {
+            if (thisx->syncInfo.ageOrForm.age && thisx->syncInfo.currentMask) {
                 Matrix_Push(); // Child
                 {
                     // Translate to Base
@@ -86,6 +102,12 @@ int32_t LimbDrawOpa_Override(GlobalContext* globalCtx, int32_t limbIndex, Gfx** 
 }
 #elif defined GAME_MM
 int32_t LimbDrawOpa_Override(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dl, Vec3f* pos, Vec3s* rot, Puppet* thisx) {
+
+    if (limbIndex == 1)
+	{
+		pos->y *= form_height_adjustments[thisx->syncInfo.ageOrForm.form];
+	}
+
     memcpy(thisx->jointTable, thisx->animeTable, 0x86);
     memcpy(thisx->morphTable, thisx->animeTable, 0x86);
     return 0;
@@ -110,15 +132,8 @@ void LimbDrawOpa_Post(GlobalContext* globalCtx, int32_t limbIndex, Gfx** dList, 
 
     thisx->face.eyeTexturePointer = baseToPointer(TEX_EYES + 4) + (thisx->face.eyeIndex * 0x800);
 
-    // Why does this work but the commented out stuff below does not (in MM)?
-    gSPSegment(&thisx->face.eyes, 0x08, thisx->face.eyeTexturePointer);
-    gSPSegment(&thisx->face.mouth, 0x09, baseToPointer(TEX_MOUTH + 4));
-    gSPEndDisplayList(&thisx->face.end);
-    DrawDlistOpa(&thisx->face.eyes);
-
-/*     gSPSegment(POLY_OPA_DISP++, 0x08, thisx->eyeTexturePointer);
-    gSPSegment(POLY_OPA_DISP++, 0x09, *((uint32_t*)(thisx->basePointer + TEX_MOUTH + 4)));
-    gDPPipeSync(POLY_OPA_DISP++); */
+    gSPSegment(POLY_OPA_DISP++, 0x08, thisx->face.eyeTexturePointer);
+    gSPSegment(POLY_OPA_DISP++, 0x09, baseToPointer(TEX_MOUTH + 4));
 
 #ifdef _MLDEBUG
     thisx->__debugFlg &= ~DEBUGFLG_LDPO;

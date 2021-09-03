@@ -70,7 +70,11 @@ void Puppet_Ctor(Puppet* thisx, GlobalContext* globalCtx) {
     thisx->__debugFlg |= DEBUGFLG_CTOR;
 #endif
 
-    thisx->syncInfo.ageOrForm = thisx->actor.params;
+#ifdef GAME_OOT
+    thisx->syncInfo.ageOrForm.age = thisx->actor.params;
+#elif defined GAME_MM
+    thisx->syncInfo.ageOrForm.form = (uint8_t) thisx->actor.params;
+#endif
     thisx->actor.room = 0xFF;
     thisx->actor.shape.rot.x = 0;
     thisx->actor.shape.rot.y = 0;
@@ -82,12 +86,16 @@ void Puppet_Ctor(Puppet* thisx, GlobalContext* globalCtx) {
         (FlexSkeletonHeader*)(thisx->basePointer + SKEL_SECTION), // This custom function assumes this is not segmented!
         NULL, 9, thisx->jointTable, thisx->morphTable, PLAYER_LIMB_MAX);
 
-    ActorShape_Init(&thisx->actor.shape, 0.0f, ActorShadow_DrawFeet, sShadowScales[thisx->syncInfo.ageOrForm]);
+#ifdef GAME_OOT
+    ActorShape_Init(&thisx->actor.shape, 0.0f, ActorShadow_DrawFeet, sShadowScales[thisx->syncInfo.ageOrForm.age]);
+    thisx->collider.dim.radius = sColliderRadius[thisx->syncInfo.ageOrForm.age];
+#elif defined GAME_MM
+    ActorShape_Init(&thisx->actor.shape, 0.0f, ActorShadow_DrawFeet, sShadowScales[thisx->syncInfo.ageOrForm.form]);
+    thisx->collider.dim.radius = sColliderRadius[thisx->syncInfo.ageOrForm.form];
+#endif
 
     Collider_InitCylinder(globalCtx, &thisx->collider);
     Collider_SetCylinder(globalCtx, &thisx->collider, thisx, &gDefaultCollider);
-
-    thisx->collider.dim.radius = sColliderRadius[thisx->syncInfo.ageOrForm];
 
     Actor_SetScale((Actor*)thisx, 0.01f);
 
@@ -125,7 +133,12 @@ void Puppet_Step(Puppet* thisx, GlobalContext* globalCtx) {
     Vec3f focusPos;
     Player* player = (Player*)globalCtx->actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head;
 
-    thisx->collider.dim.height = sColliderHeight[thisx->syncInfo.ageOrForm];
+#ifdef GAME_OOT
+        thisx->collider.dim.height = sColliderHeight[thisx->syncInfo.ageOrForm.age];
+#elif defined GAME_MM
+        thisx->collider.dim.height = sColliderHeight[thisx->syncInfo.ageOrForm.form];
+#endif
+
     thisx->actor.shape.shadowAlpha = player->actor.shape.shadowAlpha;
 
     Collider_UpdateCylinder((Actor*)thisx, &thisx->collider);
@@ -150,9 +163,20 @@ void Puppet_Draw(Puppet* thisx, GlobalContext* globalCtx) {
 #ifdef GAME_OOT
     RESET_ENV_TO_TUNIC();
 #endif
-
-    SkelAnime_DrawFlexOpa(globalCtx, thisx->skelAnime.skeleton, thisx->jointTable,
+    uint8_t rollState = 0;
+    if (thisx->syncInfo.stateFlags[2] == 0x00001000){
+        DrawDlistOpa(obtainAlias(DL_CURLED));
+        rollState += 1;
+    }
+    if (thisx->syncInfo.stateFlags[2] == 0x00081000){
+        DrawDlistOpa(obtainAlias(DL_CURLED));
+        DrawDlistOpa(obtainAlias(DL_SPIKES));
+        rollState += 2;
+    }
+    if (!rollState){
+        SkelAnime_DrawFlexOpa(globalCtx, thisx->skelAnime.skeleton, thisx->jointTable,
         thisx->skelAnime.dListCount, LimbDrawOpa_Override, LimbDrawOpa_Post, thisx);
+    }
 
 #ifdef _MLDEBUG
     thisx->__debugFlg &= ~DEBUGFLG_DRAW;
