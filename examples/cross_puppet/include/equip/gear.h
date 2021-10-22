@@ -57,9 +57,9 @@ const uint32_t gauntlet_hands[4] = {
 #define ACTION_OOT_IS_SWORD (ACTION_OOT_IS_KOKIRI_SWORD || ACTION_OOT_IS_MASTER_SWORD || ACTION_OOT_IS_BIGGORON_SWORD | ACTION_OOT_IS_BROKEN_SWORD)
 #define IS_SWORDLESS (((thisx)->syncInfo).currentSword < ITEM_KOKIRI_SWORD || ((thisx)->syncInfo).currentSword > ITEM_BIGGORON_SWORD)
 
-#define CURRENT_SHEATH_DL baseToPointer(sheath_proxies[((thisx)->syncInfo).currentSword - ITEM_KOKIRI_SWORD])
-#define CURRENT_HILT_DL baseToPointer(hilt_proxies[((thisx)->syncInfo).currentSword - ITEM_KOKIRI_SWORD])
-#define CURRENT_BLADE_DL baseToPointer(blade_proxies[((thisx)->syncInfo).currentSword - ITEM_KOKIRI_SWORD])
+#define CURRENT_SHEATH_DL obtainAlias(sheath_proxies[((thisx)->syncInfo).currentSword - ITEM_KOKIRI_SWORD])
+#define CURRENT_HILT_DL obtainAlias(hilt_proxies[((thisx)->syncInfo).currentSword - ITEM_KOKIRI_SWORD])
+#define CURRENT_BLADE_DL obtainAlias(blade_proxies[((thisx)->syncInfo).currentSword - ITEM_KOKIRI_SWORD])
 #define IS_GF_SWORD (thisx->syncInfo.currentSword == 4)
 
 #ifdef GAME_OOT
@@ -72,7 +72,7 @@ void DrawSword(GlobalContext* globalCtx, Puppet* thisx, struct Vec3f* pos, struc
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
 
         if (IS_SWORDLESS) {
-            gSPDisplayList(POLY_OPA_DISP++, baseToPointer(DL_DF));
+            gSPDisplayList(POLY_OPA_DISP++, obtainAlias(DL_DF));
         } else {
             gSPDisplayList(POLY_OPA_DISP++, CURRENT_HILT_DL);
             gSPDisplayList(POLY_OPA_DISP++, CURRENT_BLADE_DL);
@@ -90,10 +90,10 @@ void DrawSword(GlobalContext* globalCtx, Puppet* thisx, struct Vec3f* pos, struc
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
 
         if (IS_SWORDLESS) {
-            gSPDisplayList(POLY_OPA_DISP++, baseToPointer(DL_DF));
+            gSPDisplayList(POLY_OPA_DISP++, obtainAlias(DL_DF));
         } else {
             if (IS_GF_SWORD){
-                gSPDisplayList(POLY_OPA_DISP++, baseToPointer(DL_SWORD4));
+                gSPDisplayList(POLY_OPA_DISP++, obtainAlias(DL_SWORD4));
             }else{
                 gSPDisplayList(POLY_OPA_DISP++, CURRENT_HILT_DL);
                 gSPDisplayList(POLY_OPA_DISP++, CURRENT_BLADE_DL);
@@ -121,7 +121,7 @@ const EffectBlureInit2 sBlureInit2 = {
 
 #define ACTION_OOT_IS_SHIELDING (((thisx)->syncInfo).actionParams[1] == 0xFF)
 #define IS_SHIELDLESS (((thisx)->syncInfo).currentShield < INDEX_DEKU_SHIELD || ((thisx)->syncInfo).currentShield > INDEX_MIRROR_SHIELD)
-#define CURRENT_SHIELD_DL baseToPointer(shield_proxies[((thisx)->syncInfo).currentShield])
+#define CURRENT_SHIELD_DL obtainAlias(shield_proxies[((thisx)->syncInfo).currentShield])
 
 void DrawShield(GlobalContext* globalCtx, Puppet* thisx, Vec3f* pos, Vec3s* rot) {
     Matrix_Push();
@@ -129,7 +129,7 @@ void DrawShield(GlobalContext* globalCtx, Puppet* thisx, Vec3f* pos, Vec3s* rot)
         Matrix_Translate(pos->x, pos->y, pos->z, 1);
         Matrix_RotateRPY(rot->x, rot->y, rot->z, 1);
 
-        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
+        //gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->game.gfxCtx), G_MTX_LOAD);
 
         if (IS_SHIELDLESS) {
             gSPDisplayList(POLY_OPA_DISP++, obtainAlias(DL_DF));
@@ -273,7 +273,6 @@ void DrawEquipBack(GlobalContext* globalCtx, Puppet* thisx, Vec3f* pos, Vec3s* r
                         gSPMatrix(POLY_OPA_DISP++, obtainAlias(MATRIX_SHIELD3_BACK), G_MTX_MUL);
                         break;
                 }
-                gSPMatrix(POLY_OPA_DISP++, baseToPointer(MATRIX_SHIELD1_BACK), G_MTX_MUL);
                 gSPDisplayList(POLY_OPA_DISP++, CURRENT_SHIELD_DL);
             }
         }

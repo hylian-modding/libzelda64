@@ -48,7 +48,6 @@ int32_t LimbDrawOpa_Override(GlobalContext* globalCtx, int32_t limbIndex, Gfx** 
         isLFist = 0;
         isRFist = 0;
     }
-
     switch(limbIndex) {
         case PLAYER_LIMB_UPPER: {
             Matrix_RotateRPY((thisx->syncInfo).bodyAngle.x, (thisx->syncInfo).bodyAngle.y, (thisx->syncInfo).bodyAngle.z, 1);
