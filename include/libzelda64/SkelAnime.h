@@ -48,13 +48,11 @@ extern void SkelAnime_DrawFlexOpa(struct GlobalContext* globalCtx, void** skelet
 //SYMBOL_VERSION_CONFIG(SkelAnime_DrawFlexOpa, 0x80089D8C, 0x80133F28);
 SYMBOL_VERSION_CONFIG(SkelAnime_DrawFlexOpa, 0x80089D8C, 0x80135998);
 
-#ifdef GAME_MM
 //extern void SkelAnime_DrawFlexLimbOpaSC();
-//SYMBOL_VERSION_CONFIG(SkelAnime_DrawFlexLimbOpaSC, 0x80800000, 0x80135BB8);
+//SYMBOL_VERSION_CONFIG(SkelAnime_DrawFlexLimbOpaSC, 0x80000180, 0x80135BB8);
 
 //extern void SkelAnime_DrawFlexOpaSC();
-//SYMBOL_VERSION_CONFIG(SkelAnime_DrawFlexOpaSC, 0x80800000, 0x80135E30);
-#endif
+//SYMBOL_VERSION_CONFIG(SkelAnime_DrawFlexOpaSC, 0x80000180, 0x80135E30);
 
 extern int32_t SkelAnime_GetFrameData(struct LegacyAnimationHeader* animation, int32_t frame, Vec3s* frameTable);
 SYMBOL_VERSION_CONFIG(SkelAnime_GetFrameData, 0x80089FF0, 0x80136070);
