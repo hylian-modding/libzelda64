@@ -149,9 +149,6 @@ SYMBOL_VERSION_CONFIG(SkelAnime_InitLink, 0x8008BB08, 0x801379F8);
 extern void LinkAnimation_SetUpdateFunction(SkelAnime* skelAnime);
 SYMBOL_VERSION_CONFIG(LinkAnimation_SetUpdateFunction, 0x8008BC6C, 0x80137B18);
 
-extern int32_t LinkAnimation_Update(struct GlobalContext* globalCtx, SkelAnime* skelAnime);
-SYMBOL_VERSION_CONFIG(LinkAnimation_Update, 0x8008BCA4, 0x80137B50);
-
 extern int32_t LinkAnimation_Morph(struct GlobalContext* globalCtx, SkelAnime* skelAnime);
 SYMBOL_VERSION_CONFIG(LinkAnimation_Morph, 0x8008BCC8, 0x80137B74);
 
@@ -166,9 +163,6 @@ SYMBOL_VERSION_CONFIG(LinkAnimation_Once, 0x8008BF00, 0x80137D8C);
 
 extern void Animation_SetMorph(struct GlobalContext* globalCtx, SkelAnime* skelAnime, float morphFrames);
 SYMBOL_VERSION_CONFIG(Animation_SetMorph, 0x8008BFDC, 0x80137E60);
-
-extern void LinkAnimation_Change(struct GlobalContext* globalCtx, SkelAnime* skelAnime, struct LinkAnimationHeader* animation, float playSpeed, float startFrame, float endFrame, uint8_t mode, float morphFrames);
-SYMBOL_VERSION_CONFIG(LinkAnimation_Change, 0x8008C000, 0x80137E84);
 
 extern void LinkAnimation_PlayOnce(struct GlobalContext* globalCtx, SkelAnime* skelAnime, struct LinkAnimationHeader* animation);
 SYMBOL_VERSION_CONFIG(LinkAnimation_PlayOnce, 0x8008C178, 0x80137FFC);

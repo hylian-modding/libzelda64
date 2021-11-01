@@ -5,6 +5,7 @@
 #include "types/ActorFunc.h"
 #include "types/ActorInit.h"
 #include "types/ActorOverlay.h"
+#include "types/SkelAnime.h"
 #include "zelda64_version.h"
 #include <inttypes.h>
 
@@ -503,7 +504,7 @@ SYMBOL_VERSION_CONFIG(func_800304B0, 0x80023BF0, 0x800B90F4);
 //extern ? func_800B9120();
 //SYMBOL_VERSION_CONFIG(func_800B9120, 0x80000180, 0x800B9120);
 
-extern void func_800304DC(struct GlobalContext* globalCtx, struct ActorContext* actorCtx, ActorEntry* actorEntry);
+extern void func_800304DC(struct GlobalContext* globalCtx, struct ActorContext* actorCtx, struct ActorEntry* actorEntry);
 SYMBOL_VERSION_CONFIG(func_800304DC, 0x80023C1C, 0x800B9170);
 
 //extern ? func_800B9334();
@@ -581,7 +582,7 @@ SYMBOL_VERSION_CONFIG(Actor_SpawnAsChild, 0x800253F0, 0x800BB0C0);
 extern void Actor_SpawnTransitionActors(struct GlobalContext* globalCtx, struct ActorContext* actorCtx);
 SYMBOL_VERSION_CONFIG(Actor_SpawnTransitionActors, 0x80025488, 0x800BB140);
 
-extern Actor* Actor_SpawnEntry(struct ActorContext* actorCtx, ActorEntry* actorEntry, struct GlobalContext* globalCtx);
+extern Actor* Actor_SpawnEntry(struct ActorContext* actorCtx, struct ActorEntry* actorEntry, struct GlobalContext* globalCtx);
 SYMBOL_VERSION_CONFIG(Actor_SpawnEntry, 0x800255C4, 0x800BB2D0);
 
 extern Actor* Actor_Delete(struct ActorContext* actorCtx, Actor* actor, struct GlobalContext* globalCtx);
@@ -614,13 +615,13 @@ SYMBOL_VERSION_CONFIG(func_80032D60, 0x80025C38, 0x800BBC20);
 //extern ? func_800BBCEC();
 //SYMBOL_VERSION_CONFIG(func_800BBCEC, 0x80000180, 0x800BBCEC);
 
-extern void BodyBreak_Alloc(BodyBreak* bodyBreak, int32_t count, struct GlobalContext* globalCtx);
+extern void BodyBreak_Alloc(struct BodyBreak* bodyBreak, int32_t count, struct GlobalContext* globalCtx);
 SYMBOL_VERSION_CONFIG(BodyBreak_Alloc, 0x80025D04, 0x80000180);
 
-extern void BodyBreak_SetInfo(BodyBreak* bodyBreak, int32_t limbIndex, int32_t minLimbIndex, int32_t maxLimbIndex, uint32_t count, Gfx** dList, int16_t objectId);
+extern void BodyBreak_SetInfo(struct BodyBreak* bodyBreak, int32_t limbIndex, int32_t minLimbIndex, int32_t maxLimbIndex, uint32_t count, Gfx** dList, int16_t objectId);
 SYMBOL_VERSION_CONFIG(BodyBreak_SetInfo, 0x80025DFC, 0x80000180);
 
-extern int32_t BodyBreak_SpawnParts(Actor* actor, BodyBreak* bodyBreak, struct GlobalContext* globalCtx, int16_t type);
+extern int32_t BodyBreak_SpawnParts(Actor* actor, struct BodyBreak* bodyBreak, struct GlobalContext* globalCtx, int16_t type);
 SYMBOL_VERSION_CONFIG(BodyBreak_SpawnParts, 0x80025F04, 0x80000180);
 
 extern void Actor_SpawnFloorDustRing(struct GlobalContext* globalCtx, Actor* actor, Vec3f* posXZ, float radius, int32_t amountMinusOne, float randAccelWeight, int16_t scale, int16_t scaleStep, uint8_t useLighting);
@@ -707,16 +708,16 @@ SYMBOL_VERSION_CONFIG(func_8003435C, 0x80027188, 0x800BCC68);
 extern int32_t func_800343CC(struct GlobalContext* globalCtx, Actor* actor, int16_t* arg2, float arg3, uint16_t (*unkFunc1)(struct GlobalContext*, Actor*), int16_t (*unkFunc2)(struct GlobalContext*, Actor*));
 SYMBOL_VERSION_CONFIG(func_800343CC, 0x800271FC, 0x800BD2B4);
 
-extern void func_800344BC(Actor* actor, struct_80034A14_arg1* arg1, int16_t arg2, int16_t arg3, int16_t arg4, int16_t arg5, int16_t arg6, int16_t arg7, uint8_t arg8);
+extern void func_800344BC(Actor* actor, struct struct_80034A14_arg1* arg1, int16_t arg2, int16_t arg3, int16_t arg4, int16_t arg5, int16_t arg6, int16_t arg7, uint8_t arg8);
 SYMBOL_VERSION_CONFIG(func_800344BC, 0x800272EC, 0x800BD384);
 
 extern int16_t func_800347E8(int16_t arg0);
 SYMBOL_VERSION_CONFIG(func_800347E8, 0x80027620, 0x800BD6B8);
 
-extern int16_t func_80034810(Actor* actor, struct_80034A14_arg1* arg1, float arg2, int16_t arg3, int16_t arg4);
+extern int16_t func_80034810(Actor* actor, struct struct_80034A14_arg1* arg1, float arg2, int16_t arg3, int16_t arg4);
 SYMBOL_VERSION_CONFIG(func_80034810, 0x8002764C, 0x800BD6E4);
 
-extern void func_80034A14(Actor* actor, struct_80034A14_arg1* arg1, int16_t arg2, int16_t arg3);
+extern void func_80034A14(Actor* actor, struct struct_80034A14_arg1* arg1, int16_t arg2, int16_t arg3);
 SYMBOL_VERSION_CONFIG(func_80034A14, 0x80027854, 0x800BD888);
 
 extern Gfx* func_80034B28(GraphicsContext* gfxCtx);
@@ -725,16 +726,16 @@ SYMBOL_VERSION_CONFIG(func_80034B28, 0x8002796C, 0x80000180);
 extern Gfx* func_80034B54(GraphicsContext* gfxCtx);
 SYMBOL_VERSION_CONFIG(func_80034B54, 0x80027990, 0x800BD9A0);
 
-extern void func_80034BA0(struct GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, Actor* actor, int16_t alpha);
+extern void func_80034BA0(struct GlobalContext* globalCtx, SkelAnime* skelAnime, struct OverrideLimbDraw overrideLimbDraw, struct PostLimbDraw postLimbDraw, Actor* actor, int16_t alpha);
 SYMBOL_VERSION_CONFIG(func_80034BA0, 0x800279CC, 0x800BD9E0);
 
-extern void func_80034CC4(struct GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, Actor* actor, int16_t alpha);
+extern void func_80034CC4(struct GlobalContext* globalCtx, SkelAnime* skelAnime, struct OverrideLimbDraw overrideLimbDraw, struct PostLimbDraw postLimbDraw, Actor* actor, int16_t alpha);
 SYMBOL_VERSION_CONFIG(func_80034CC4, 0x80027AC4, 0x800BDAA0);
 
 extern int16_t func_80034DD4(Actor* actor, struct GlobalContext* globalCtx, int16_t arg2, float arg3);
 SYMBOL_VERSION_CONFIG(func_80034DD4, 0x80027BA8, 0x800BDB6C);
 
-extern void func_80034EC0(SkelAnime* skelAnime, struct_80034EC0_Entry* animations, int32_t index);
+extern void func_80034EC0(SkelAnime* skelAnime, struct struct_80034EC0_Entry* animations, int32_t index);
 SYMBOL_VERSION_CONFIG(func_80034EC0, 0x80027C98, 0x800BDC5C);
 
 extern void func_80034F54(struct GlobalContext* globalCtx, int16_t* arg1, int16_t* arg2, int32_t arg3);
