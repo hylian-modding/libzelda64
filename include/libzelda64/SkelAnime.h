@@ -26,7 +26,7 @@ SYMBOL_VERSION_CONFIG(SkelAnime_DrawLimbLod, 0x80088DF0, 0x801330E0);
 extern void SkelAnime_DrawLod(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* arg, int32_t lod);
 SYMBOL_VERSION_CONFIG(SkelAnime_DrawLod, 0x8008902C, 0x801332F0);
 
-extern void SkelAnime_DrawFlexLimbLod(GlobalContext* globalCtx, int32_t limbIndex, void** skeleton, Vec3s* jointTable, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* arg, int32_t lod, Mtx** mtx);
+extern void SkelAnime_DrawFlexLimbLod(GlobalContext* globalCtx, int32_t limbIndex, void** skeleton, Vec3s* jointTable, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* arg, int32_t lod, struct Mtx** mtx);
 SYMBOL_VERSION_CONFIG(SkelAnime_DrawFlexLimbLod, 0x8008921C, 0x801334A0);
 
 extern void SkelAnime_DrawFlexLod(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable, int32_t dListCount, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* arg, int32_t lod);
@@ -38,17 +38,17 @@ SYMBOL_VERSION_CONFIG(SkelAnime_DrawLimbOpa, 0x8008971C, 0x80133948);
 extern void SkelAnime_DrawOpa(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* arg);
 SYMBOL_VERSION_CONFIG(SkelAnime_DrawOpa, 0x8008993C, 0x80133B3C);
 
-extern void SkelAnime_DrawFlexLimbOpa(GlobalContext* globalCtx, int32_t limbIndex, void** skeleton, Vec3s* jointTable, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* arg, Mtx** limbMatricies);
+extern void SkelAnime_DrawFlexLimbOpa(GlobalContext* globalCtx, int32_t limbIndex, void** skeleton, Vec3s* jointTable, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* arg, struct Mtx** limbMatricies);
 SYMBOL_VERSION_CONFIG(SkelAnime_DrawFlexLimbOpa, 0x80089B1C, 0x80133CDC);
 
 extern void SkelAnime_DrawFlexOpa(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable, int32_t dListCount, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, void* arg);
 SYMBOL_VERSION_CONFIG(SkelAnime_DrawFlexOpa, 0x80089D8C, 0x80133F28);
 
-//extern ? func_80134148();
-//SYMBOL_VERSION_CONFIG(func_80134148, 0x80000180, 0x80134148);
+extern void func_80134148(GlobalContext* globalCtx, int32_t limbIndex, void** skeleton, Vec3s* jointTable, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, struct UnkActorDraw unkDraw, struct Actor* actor, struct Mtx** mtx);
+SYMBOL_VERSION_CONFIG(func_80134148, 0x80000180, 0x80134148);
 
-//extern ? func_801343C0();
-//SYMBOL_VERSION_CONFIG(func_801343C0, 0x80000180, 0x801343C0);
+extern void func_801343C0(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable, int32_t dListCount, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw, struct UnkActorDraw unkDraw, struct Actor* actor);
+SYMBOL_VERSION_CONFIG(func_801343C0, 0x80000180, 0x801343C0);
 
 extern void SkelAnime_GetFrameData(AnimationHeader* animation, int32_t frame, int32_t limbCount, Vec3s* frameTable);
 SYMBOL_VERSION_CONFIG(SkelAnime_GetFrameData, 0x80089FF0, 0x80134600);
@@ -65,7 +65,7 @@ SYMBOL_VERSION_CONFIG(SkelAnime_DrawLimb, 0x8008A1DC, 0x80134774);
 extern Gfx* SkelAnime_Draw(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable, OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, void* arg, Gfx* gfx);
 SYMBOL_VERSION_CONFIG(SkelAnime_Draw, 0x8008A414, 0x80134990);
 
-extern Gfx* SkelAnime_DrawFlexLimb(GlobalContext* globalCtx, int32_t limbIndex, void** skeleton, Vec3s* jointTable, OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, void* arg, Mtx** mtx, Gfx* gfx);
+extern Gfx* SkelAnime_DrawFlexLimb(GlobalContext* globalCtx, int32_t limbIndex, void** skeleton, Vec3s* jointTable, OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, void* arg, struct Mtx** mtx, Gfx* gfx);
 SYMBOL_VERSION_CONFIG(SkelAnime_DrawFlexLimb, 0x8008A608, 0x80134B54);
 
 extern Gfx* SkelAnime_DrawFlex(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable, int32_t dListCount, OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, void* arg, Gfx* gfx);
