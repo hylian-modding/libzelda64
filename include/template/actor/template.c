@@ -1,4 +1,4 @@
-#include "template.h"
+#include "src/template.h"
 
 static void init(en_template_t* this, GlobalContext* globalCtx)
 {
