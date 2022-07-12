@@ -30,6 +30,7 @@ void CommandBuffer_Update(GlobalContext* globalCtx, struct ActorContext* actorCt
     uint32_t index;
     uint32_t qndex;
     uint32_t temp;
+    volatile register uint32_t vtemp;
     volatile Command* command;
     volatile CommandReturn* commandReturn;
 #ifdef GAMESTATE_CAVE
@@ -104,27 +105,36 @@ void CommandBuffer_Update(GlobalContext* globalCtx, struct ActorContext* actorCt
                 globalCtx->nextEntranceIndex = command->params.warp.entranceIndex;
                 globalCtx->sceneLoadFlag = 0x14;
 
-                temp = Rand_S16Offset(0, 5);
-                if (temp == 0) {
-                    globalCtx->fadeTransition = 0;
+                if (command->params.warp.transition == -1) {
+                    vtemp = Rand_S16Offset(0, 5);
+                    if (vtemp == 0) {
+                        globalCtx->fadeTransition = 0;
+                    }
+                    else if (vtemp == 1) {
+                        globalCtx->fadeTransition = 1;
+                    }
+                    else if (vtemp == 2) {
+                        globalCtx->fadeTransition = 4;
+                    }
+                    else if (vtemp == 3) {
+                        globalCtx->fadeTransition = 5;
+                    }
+                    else if (vtemp == 4) {
+                        globalCtx->fadeTransition = 32;
+                    }
+                    else if (vtemp == 5) {
+                        globalCtx->fadeTransition = 44;
+                    }
+                    else {
+                        // Something wack happened?
+                        globalCtx->fadeTransition = 0;
+                    }
                 }
-                else if (temp == 1) {
-                    globalCtx->fadeTransition = 1;
-                }
-                else if (temp == 2) {
-                    globalCtx->fadeTransition = 4;
-                }
-                else if (temp == 3) {
-                    globalCtx->fadeTransition = 5;
-                }
-                else if (temp == 4) {
-                    globalCtx->fadeTransition = 32;
-                }
-                else if (temp == 5) {
-                    globalCtx->fadeTransition = 44;
+                else {
+                    globalCtx->fadeTransition = command->params.warp.transition;
                 }
 
-                if (command->params.warp.age >= 0) {
+                if (command->params.warp.age != -1) {
 #ifdef GAME_OOT
                     globalCtx->linkAgeOnLoad = command->params.warp.age;
 #elif defined GAME_MM

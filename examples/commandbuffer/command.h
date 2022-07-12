@@ -73,7 +73,8 @@ typedef struct {
     /* 0x00 */ int32_t entranceIndex;
     /* 0x04 */ int32_t cutsceneIndex;
     /* 0x08 */ int32_t age;
-} CommandParams_Warp; /* sizeof = 0x0C */
+    /* 0x0C */ int32_t transition;
+} CommandParams_Warp; /* sizeof = 0x10 */
 
 typedef struct {
     /* 0x00 */ struct Player* address;
