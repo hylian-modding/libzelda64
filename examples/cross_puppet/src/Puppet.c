@@ -4,6 +4,7 @@
 #include "LUTOffsets.h"
 #include "TPose.h"
 #include "LimbDraw.h"
+#include "Macros.h"
 #include <ultra64.h>
 #include <PR/gbi.h>
 
@@ -65,9 +66,15 @@ static const int16_t sColliderHeight[] = {
 #endif
 
 void Puppet_Ctor(Puppet* thisx, GlobalContext* globalCtx) {
-    DEBUG_FLAG_START(DEBUGFLG_CTOR);
+#ifdef _MLDEBUG
+    thisx->__debugFlg |= DEBUGFLG_CTOR;
+#endif
 
-    thisx->form = thisx->actor.params;
+#ifdef GAME_OOT
+    thisx->syncInfo.ageOrForm.age = thisx->actor.params;
+#elif defined GAME_MM
+    thisx->syncInfo.ageOrForm.form = (uint8_t) thisx->actor.params;
+#endif
     thisx->actor.room = 0xFF;
     thisx->actor.shape.rot.x = 0;
     thisx->actor.shape.rot.y = 0;
@@ -79,12 +86,16 @@ void Puppet_Ctor(Puppet* thisx, GlobalContext* globalCtx) {
         (FlexSkeletonHeader*)(thisx->basePointer + SKEL_SECTION), // This custom function assumes this is not segmented!
         NULL, 9, thisx->jointTable, thisx->morphTable, PLAYER_LIMB_MAX);
 
-    ActorShape_Init(&thisx->actor.shape, 0.0f, ActorShadow_DrawFeet, sShadowScales[thisx->form]);
+#ifdef GAME_OOT
+    ActorShape_Init(&thisx->actor.shape, 0.0f, ActorShadow_DrawFeet, sShadowScales[thisx->syncInfo.ageOrForm.age]);
+    thisx->collider.dim.radius = sColliderRadius[thisx->syncInfo.ageOrForm.age];
+#elif defined GAME_MM
+    ActorShape_Init(&thisx->actor.shape, 0.0f, ActorShadow_DrawFeet, sShadowScales[thisx->syncInfo.ageOrForm.form]);
+    thisx->collider.dim.radius = sColliderRadius[thisx->syncInfo.ageOrForm.form];
+#endif
 
     Collider_InitCylinder(globalCtx, &thisx->collider);
     Collider_SetCylinder(globalCtx, &thisx->collider, thisx, &gDefaultCollider);
-
-    thisx->collider.dim.radius = sColliderRadius[thisx->form];
 
     Actor_SetScale((Actor*)thisx, 0.01f);
 
@@ -94,12 +105,14 @@ void Puppet_Ctor(Puppet* thisx, GlobalContext* globalCtx) {
 
 #ifdef _MLDEBUG
     thisx->__debug = 0xDEADBEEF;
+    thisx->__debugFlg &= ~DEBUGFLG_CTOR;
 #endif
-    DEBUG_FLAG_END(DEBUGFLG_CTOR);
 }
 
 void Puppet_Dtor(Puppet* thisx, GlobalContext* globalCtx) {
-    DEBUG_FLAG_START(DEBUGFLG_DTOR);
+#ifdef _MLDEBUG
+    thisx->__debugFlg |= DEBUGFLG_DTOR;
+#endif
 
     if (thisx->actor.child) {
         thisx->actor.child->parent = 0;
@@ -107,16 +120,25 @@ void Puppet_Dtor(Puppet* thisx, GlobalContext* globalCtx) {
         thisx->actor.child = 0;
     }
 
-    DEBUG_FLAG_END(DEBUGFLG_DTOR);
+#ifdef _MLDEBUG
+    thisx->__debugFlg &= ~DEBUGFLG_DTOR;
+#endif
 }
 
 void Puppet_Step(Puppet* thisx, GlobalContext* globalCtx) {
-    DEBUG_FLAG_START(DEBUGFLG_STEP);
+#ifdef _MLDEBUG
+    thisx->__debugFlg |= DEBUGFLG_STEP;
+#endif
 
     Vec3f focusPos;
     Player* player = (Player*)globalCtx->actorCtx.actorLists[ACTORLIST_CATEGORY_PLAYER].head;
 
-    thisx->collider.dim.height = sColliderHeight[thisx->form];
+#ifdef GAME_OOT
+        thisx->collider.dim.height = sColliderHeight[thisx->syncInfo.ageOrForm.age];
+#elif defined GAME_MM
+        thisx->collider.dim.height = sColliderHeight[thisx->syncInfo.ageOrForm.form];
+#endif
+
     thisx->actor.shape.shadowAlpha = player->actor.shape.shadowAlpha;
 
     Collider_UpdateCylinder((Actor*)thisx, &thisx->collider);
@@ -128,20 +150,37 @@ void Puppet_Step(Puppet* thisx, GlobalContext* globalCtx) {
     thisx->actor.focus.rot.y = thisx->actor.world.rot.y;
     thisx->actor.focus.rot.z = thisx->actor.world.rot.z;
 
-    DEBUG_FLAG_END(DEBUGFLG_STEP);
+#ifdef _MLDEBUG
+    thisx->__debugFlg &= ~DEBUGFLG_STEP;
+#endif
 }
 
 void Puppet_Draw(Puppet* thisx, GlobalContext* globalCtx) {
-    DEBUG_FLAG_START(DEBUGFLG_DRAW);
-
-#ifdef GAME_OOT
-    // @TODO: Add gDPSetEnvColor for tunic!
+#ifdef _MLDEBUG
+    thisx->__debugFlg |= DEBUGFLG_DRAW;
 #endif
 
-    SkelAnime_DrawFlexOpa(globalCtx, thisx->skelAnime.skeleton, thisx->jointTable,
+#ifdef GAME_OOT
+    RESET_ENV_TO_TUNIC();
+#endif
+    uint8_t rollState = 0;
+    if (thisx->syncInfo.stateFlags[2] == 0x00001000){
+        DrawDlistOpa(obtainAlias(DL_CURLED));
+        rollState += 1;
+    }
+    if (thisx->syncInfo.stateFlags[2] == 0x00081000){
+        DrawDlistOpa(obtainAlias(DL_CURLED));
+        DrawDlistOpa(obtainAlias(DL_SPIKES));
+        rollState += 2;
+    }
+    if (!rollState){
+        SkelAnime_DrawFlexOpa(globalCtx, thisx->skelAnime.skeleton, thisx->jointTable,
         thisx->skelAnime.dListCount, LimbDrawOpa_Override, LimbDrawOpa_Post, thisx);
+    }
 
-    DEBUG_FLAG_END(DEBUGFLG_DRAW);
+#ifdef _MLDEBUG
+    thisx->__debugFlg &= ~DEBUGFLG_DRAW;
+#endif
 }
 
 ActorInit initVars = {

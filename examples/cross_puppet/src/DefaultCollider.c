@@ -20,4 +20,3 @@ const ColliderCylinderInit gDefaultCollider = {
     }, // Cylinder16 dim
     { 12, 60, 0, { 0, 0, 0 } },
 };
-

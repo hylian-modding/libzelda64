@@ -1,0 +1,4 @@
+#ifndef __OBJ_TEMPLATE_STR_TEXTURES__
+#define __OBJ_TEMPLATE_STR_TEXTURES__
+
+#endif /* __OBJ_TEMPLATE_STR_TEXTURES__ */
