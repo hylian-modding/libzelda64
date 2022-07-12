@@ -741,4 +741,10 @@ SYMBOL_VERSION_CONFIG(func_80034EC0, 0x80027C98, 0x800BDC5C);
 extern void func_80034F54(struct GlobalContext* globalCtx, int16_t* arg1, int16_t* arg2, int32_t arg3);
 SYMBOL_VERSION_CONFIG(func_80034F54, 0x80027D30, 0x800BDCF4);
 
+extern ActorInit* Actor_LoadOverlay(ActorContext* actorCtx, int16_t index);
+SYMBOL_VERSION_CONFIG(Actor_LoadOverlay, 0, 0x800BACD4);
+
+extern Actor* Actor_SpawnAsChildAndCutscene(ActorContext* actorCtx, struct GlobalContext* globalCtx, s16 index, f32 x, f32 y, f32 z, s16 rotX, s16 rotY, s16 rotZ, s32 params, u32 cutscene, s32 arg11, Actor* parent);
+SYMBOL_VERSION_CONFIG(Actor_SpawnAsChildAndCutscene, 0, 0x800BAE14);
+
 #endif
