@@ -1,0 +1,3 @@
+[submodule "ultralib"]
+	path = ultralib
+	url = https://github.com/decompals/ultralib.git

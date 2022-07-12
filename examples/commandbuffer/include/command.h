@@ -2,7 +2,7 @@
 #define COMMAND_H
 
 #include <libzelda64.h>
-#include "../puppet/pvp.h"
+#include "../../puppet/pvp.h"
 
 enum {
     COMMANDTYPE_NONE,
