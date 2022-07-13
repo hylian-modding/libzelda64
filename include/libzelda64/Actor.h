@@ -8,6 +8,7 @@
 #include "types/SkelAnime.h"
 #include "zelda64_version.h"
 #include <inttypes.h>
+#include <PR/ultratypes.h>
 
 //extern ? func_800B3AD0();
 //SYMBOL_VERSION_CONFIG(func_800B3AD0, 0x80000180, 0x800B3AD0);

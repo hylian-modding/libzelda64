@@ -14,7 +14,7 @@ typedef struct TransitionActorEntry {
     /* 0x04 */ int16_t id;
     /* 0x06 */ Vec3s pos;
     /* 0x0C */ int16_t rotY;
-    /* 0x0E */ int16_t params;
+    /* 0x0E */ uint16_t params;
 } TransitionActorEntry; /* sizeof = 0x10 */
 
 
