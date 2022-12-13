@@ -2917,3 +2917,6 @@ Interface_Destroy = 0x800E1BF0;
 Interface_Init = 0x800E1C10;
 Message_Init = 0x800E2008;
 Regs_InitData = 0x800E2F90;
+
+gSegments = 0x80120C38;
+gSaveContext = 0x8011A5D0;
