@@ -1,0 +1,71 @@
+{
+    "configurations": [
+        {
+            "name": "ootdb",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/libzelda64_common/include",
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/include/oot_debug/include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "_LANGUAGE_C",
+                "F3DEX_GBI_2",
+                "_MLDEBUG",
+                "TARGET_GAME=0x0",
+                "GAME_VERSION=0x44"
+            ],
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "configurationProvider": "ms-vscode.makefile-tools"
+        },
+        {
+            "name": "oot10",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/libzelda64_common/include",
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/include/oot_10/include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "_LANGUAGE_C",
+                "F3DEX_GBI_2",
+                "_MLDEBUG",
+                "TARGET_GAME=0x0",
+                "GAME_VERSION=0x10"
+            ],
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "configurationProvider": "ms-vscode.makefile-tools"
+        },
+        {
+            "name": "mm",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/libzelda64_common/include",
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/include/oot_debug/include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "_LANGUAGE_C",
+                "F3DEX_GBI_2",
+                "_MLDEBUG",
+                "TARGET_GAME=0x1",
+                "GAME_VERSION=0x10"
+            ],
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "configurationProvider": "ms-vscode.makefile-tools"
+        }
+    ],
+    "version": 4
+}
