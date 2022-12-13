@@ -1,5 +1,5 @@
 # Config
-PROJECTNAME = test
+PROJECTNAME = common
 ENTRY_ADDRESS = 0x80800000
 
 # Everything else

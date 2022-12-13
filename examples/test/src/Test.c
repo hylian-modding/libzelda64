@@ -17,14 +17,14 @@ void EnTest_Draw(EnTest* thisx, PlayState* play) {
 }
 
 const ActorInit gENTEST_INIT = {
-    .id = 1,
-    .category = ACTORCAT_NPC,
-    .flags = ACTOR_FLAG_4,
-    .objectId = 1,
-    .instanceSize = sizeof(EnTest),
-    .init = EnTest_Construct,
-    .destroy = EnTest_Deconstruct,
-    .update = EnTest_Update,
-    .draw = EnTest_Draw
+    /* id       */ 1,
+    /* category */ ACTORCAT_NPC,
+    /* flags    */ ACTOR_FLAG_4,
+    /* obj id   */ 1,
+    /* size     */ sizeof(EnTest),
+    /* init     */ EnTest_Construct,
+    /* destroy  */ EnTest_Deconstruct,
+    /* update   */ EnTest_Update,
+    /* draw     */ EnTest_Draw
 };
 

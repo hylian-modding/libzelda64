@@ -1,0 +1,9 @@
+#ifndef LIBZELDA64_COMMON_TYPEGENERATOR_H
+#define LIBZELDA64_COMMON_TYPEGENERATOR_H
+
+#define EXPORT(RETURN, SYMBOL, ...) \
+typedef RETURN (*pfn_##SYMBOL)(__VA_ARGS__); \
+extern RETURN SYMBOL(__VA_ARGS__);
+
+#endif
+
