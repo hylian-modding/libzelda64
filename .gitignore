@@ -6,4 +6,5 @@
 *.n64
 node_modules
 archive/examples/bin
+**/.vscode/settings.json
 
