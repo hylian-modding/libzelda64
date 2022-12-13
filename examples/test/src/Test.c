@@ -5,7 +5,9 @@ __attribute__((section(".data"))) char tag[0xC] = "z64common";
 __attribute__((section(".data"))) LibZelda64_Common_Imports* common = NULL;
 
 void EnTest_Construct(EnTest* thisx, PlayState* play) {
-    common->memset_fast_8(thisx, 0, sizeof(EnTest));
+    if (common != NULL) {
+        common->memset_fast_8(thisx, 0, sizeof(EnTest));
+    }
     thisx->deadbeef = 0xDEADBEEF;
     thisx->timer = 0;
     thisx->foodbad = 0xF00D0BAD;
