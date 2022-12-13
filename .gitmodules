@@ -1,3 +1,12 @@
 [submodule "ultralib"]
-	path = ultralib
+	path = include/ultralib
 	url = https://github.com/decompals/ultralib.git
+[submodule "include/oot_debug"]
+	path = include/oot_debug
+	url = https://github.com/zeldaret/oot.git
+[submodule "include/oot_10"]
+	path = include/oot_10
+	url = https://github.com/Drahsid/oot_10.git
+[submodule "include/mm"]
+	path = include/mm
+	url = https://github.com/zeldaret/mm.git

@@ -1,9 +1,9 @@
 *.elf
 *.o
-*.o.oot
-*.o.mm
 *.ovl
-.vscode
+*.z64
+*.v64
+*.n64
 node_modules
-examples/bin
-include/libultra
+archive/examples/bin
+

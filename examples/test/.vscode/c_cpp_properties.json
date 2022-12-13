@@ -1,0 +1,74 @@
+{
+    "configurations": [
+        {
+            "name": "oot10",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/../../include",
+                "${workspaceFolder}/../../include/oot_10/include",
+                "${workspaceFolder}/../../include/ultralib/include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "_LANGUAGE_C",
+                "F3DEX_GBI_2",
+                "_MLDEBUG",
+                "TARGET_GAME=OOT",
+                "GAME_VERSION=10"
+            ],
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64"
+        },
+        {
+            "name": "ootdb",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/../../include",
+                "${workspaceFolder}/../../include/oot_debug/include",
+                "${workspaceFolder}/../../include/ultralib/include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "_LANGUAGE_C",
+                "F3DEX_GBI_2",
+                "_MLDEBUG",
+                "TARGET_GAME=OOT",
+                "GAME_VERSION=DB"
+            ],
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64"
+        },
+        {
+            "name": "mm",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/../../include",
+                "${workspaceFolder}/../../include/mm/include",
+                "${workspaceFolder}/../../include/ultralib/include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "_LANGUAGE_C",
+                "F3DEX_GBI_2",
+                "_MLDEBUG",
+                "TARGET_GAME=MM",
+                "GAME_VERSION=10"
+            ],
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}

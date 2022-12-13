@@ -1,104 +1,57 @@
 INCLUDE entry.ld
 
+OUTPUT_ARCH(mips)
+OUTPUT_FORMAT("elf32-bigmips")
 
-/* Libaries here -- add your own if you need to*/
-SEARCH_DIR( /usr/mips/mips/lib )
-SEARCH_DIR( /usr/mips/lib/gcc/mips/3.4.6/ )
+EXTERN(ENTRY_POINT)
+ENTRY(ENTRY_POINT)
 
-/* This script is for MIPS */
-OUTPUT_ARCH( mips )
-OUTPUT_FORMAT( "elf32-bigmips", "elf32-bigmips", "elf32-littlemips" )
-
-/* Entrypoint is function `n64start` */
-ENTRY( ENTRY_POINT )
-
-
-SECTIONS
-{
+SECTIONS {
 	/* Program run addressed defined in `entry.ld` */
 	. = ENTRY_POINT;
 
-	/* Machine code */
-	.text ALIGN( 4 ):
-	{
-		/* Pad with NULL */
-		FILL( 0 );
-
-		/* Address to start of text section */
-		__text_start = . ;
-
-		/* Data goes here */
-		*(.init);
+	.text : ALIGN(16) SUBALIGN(8) {
+		__text_start = .;
 		*(.text);
-		*(.ctors);
-        	*(.dtors);
-        	*(.fini);
-
-		/* Address to end of text section */
-		. = ALIGN( 16 );
-		__text_end = . ;
+		*(.text.*);
+		__text_end = .;
 	}
+	__text_size = SIZEOF(.text);
 
-	/* Initialized data */
-        .data ALIGN( 16 ):
-	{
-		/* Pad with NULL */
-		FILL( 0 );
-
-		/* Address to start of data section */
-		__data_start = . ;
-
-		/* Data goes here*/
-		*(.data);
-		*(.data.*);
-
-		/* Data pointer */
-		. = ALIGN( 8 );
-		_gp = . ;
-		*(.sdata);
-
-		/* Address to end of data section */
-		. = ALIGN( 16 );
-		__data_end = . ;
-	}
-
-	/* Read-only data */
-	.rodata ALIGN( 16 ):
-	{
-		/* Pad with NULL */
-		FILL( 0 );
-
-		/* Address to start of rodata section */
-		__rodata_start = . ;
-
-		/* Data goes here*/
+	.rodata : ALIGN(16) SUBALIGN(4) {
+		__rodata_start = .;
 		*(.rodata);
 		*(.rodata.*);
-		*(.eh_frame);
-
-		/* Address to end of rodata section */
-		. = ALIGN( 16 );
-		__rodata_end = . ;
+		__rodata_end = .;
 	}
+	__rodata_size = SIZEOF(.rodata);
 
-	/* Memory initialized to zero */
-        .bss ALIGN( 8 ):
-	{
-		/* Address to start of BSS section */
+    .data : ALIGN(16) SUBALIGN(4) {
+		__data_start = .;
+		*(.data);
+		*(.data.*);
+		__data_end = .;
+	}
+	__data_size = SIZEOF(.data);
+
+    .bss : ALIGN(16) SUBALIGN(4) {
 		__bss_start = . ;
-
-		/* BSS data */
-		*(.scommon);
-		*(.sbss);
-		*(.bss);
-
-		/* Address to end of BSS section */
-		. = ALIGN( 8 );
+		*(COMMON);
+        *(.scommon);
+		*(.scommon.*);
+        *(.sdata);
+        *(.sdata.*);
+        *(.bss);
+		*(.bss.*);
 		__bss_end = . ;
 	}
+	__bss_size = SIZEOF(.bss);
 
-	/* End of our memory use */
-	. = ALIGN( 8 );
+	/DISCARD/ : {
+      *(*);
+    }
+
+	. = ALIGN(16);
 	end = . ;
 }
 
