@@ -1,7 +1,7 @@
 #ifndef LIBZELDA64_COMMON_LIBRARY_H
 #define LIBZELDA64_COMMON_LIBRARY_H
 
-#include "string.h"
+#include "zelda64_common/string.h"
 
 typedef struct {
     u32 header;

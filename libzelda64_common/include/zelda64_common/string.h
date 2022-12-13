@@ -1,8 +1,8 @@
 #ifndef LIBZELDA64_COMMON_STRING_H
 #define LIBZELDA64_COMMON_STRING_H
 
-#include "inttypes.h"
-#include "typegenerator.h"
+#include "zelda64_common/inttypes.h"
+#include "zelda64_common/typegenerator.h"
 
 // handwritten
 EXPORT(void, memset_fast_8, void* dest, u8 value, SIZE_TYPE length);
