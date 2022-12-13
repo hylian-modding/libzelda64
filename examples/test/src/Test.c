@@ -1,8 +1,10 @@
 #include "Test.h"
 #include <zelda64_common/common_library.h>
 
-__attribute__((section(".data"))) char tag[0xC] = "z64common";
-__attribute__((section(".data"))) LibZelda64_Common_Imports* common = NULL;
+#define DATA_SECTION __attribute__((section(".data")))
+
+DATA_SECTION char tag[0xC] = "z64common";
+DATA_SECTION LibZelda64_Common_Imports* common = NULL;
 
 void EnTest_Construct(EnTest* thisx, PlayState* play) {
     if (common != NULL) {
