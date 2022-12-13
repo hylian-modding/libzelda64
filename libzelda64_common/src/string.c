@@ -1,4 +1,4 @@
-#include "string.h"
+#include "zelda64_common/string.h"
 
 s32 memcmp(const u8* lhs, const u8* rhs, SIZE_TYPE length) {
     register u8* lh = lhs;

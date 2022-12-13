@@ -9,7 +9,7 @@ ifeq ($(LIBZ64_PATH),)
 endif
 
 # -I$(LIBZ64_PATH)/ultralib/include
-I_FLAGS = -I$(LIBZ64_PATH) -Iinclude
+I_FLAGS = -I$(LIBZ64_PATH) -Iinclude -Isrc
 D_FLAGS = -D_LANGUAGE_C -DF3DEX_GBI_2 -D_MLDEBUG
 OPT_FLAGS = -Os
 OPT_FLAGS2 = -mfix4300 -mdivide-breaks -mframe-header-opt -mno-split-addresses -mno-explicit-relocs -mno-check-zero-division
@@ -82,7 +82,7 @@ $(OOT_DEBUG_BIN_PATH)/%.c.o: %.c
 	$(CC) -c $(C_FLAGS) -I$(LIBZ64_PATH)/oot_debug/include -DTARGET_GAME=0 -DGAME_VERSION=0x44 -o $@ $<
 
 $(MM_BIN_PATH)/%.c.o: %.c
-	$(CC) -c $(C_FLAGS) -I$(LIBZ64_PATH)/mm/include -DTARGET_GAME=1 -DGAME_VERSION=0x10 -o $@ $<
+	$(CC) -c $(C_FLAGS) -I$(LIBZ64_PATH)/mm/include -I$(LIBZ64_PATH)/mm/assets -DTARGET_GAME=1 -DGAME_VERSION=0x10 -o $@ $<
 
 # Linking and novl
 $(OOT_10_BIN_PATH)/$(PROJECTNAME): $(OOT_10_O_FILES)

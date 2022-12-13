@@ -1,4 +1,4 @@
-#include "library.h"
+#include "zelda64_common/common_library.h"
 
 const LibZelda64_Common_Imports gImports = (LibZelda64_Common_Imports){
     0xDEADBEEF,
