@@ -6,7 +6,8 @@
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/include",
                 "${workspaceFolder}/../../include",
-                "${workspaceFolder}/../../include/oot_10/include"
+                "${workspaceFolder}/../../include/oot_10/include",
+                "${workspaceFolder}/../../libzelda64_common/include"
             ],
             "defines": [
                 "_DEBUG",
@@ -17,11 +18,20 @@
                 "_MLDEBUG",
                 "TARGET_GAME=0x0",
                 "GAME_VERSION=0x10",
-                "__attribute__();"
+                "__attribute__(x);"
             ],
             "cStandard": "c17",
             "cppStandard": "c++17",
-            "intelliSenseMode": "gcc-x64"
+            "intelliSenseMode": "gcc-x64",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/**",
+                    "${workspaceFolder}/include",
+                    "${workspaceFolder}/../../include",
+                    "${workspaceFolder}/../../include/oot_10/include"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            }
         },
         {
             "name": "ootdb",
@@ -29,7 +39,8 @@
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/include",
                 "${workspaceFolder}/../../include",
-                "${workspaceFolder}/../../include/oot_debug/include"
+                "${workspaceFolder}/../../include/oot_debug/include",
+                "${workspaceFolder}/../../libzelda64_common/include"
             ],
             "defines": [
                 "_DEBUG",
@@ -40,11 +51,12 @@
                 "_MLDEBUG",
                 "TARGET_GAME=0x0",
                 "GAME_VERSION=0x44",
-                "__attribute__();"
+                "__attribute__(x);"
             ],
             "cStandard": "c17",
             "cppStandard": "c++17",
-            "intelliSenseMode": "gcc-x64"
+            "intelliSenseMode": "gcc-x64",
+            "configurationProvider": "ms-vscode.makefile-tools"
         },
         {
             "name": "mm",
@@ -65,7 +77,7 @@
                 "_MLDEBUG",
                 "TARGET_GAME=0x1",
                 "GAME_VERSION=0x10",
-                "__attribute__();"
+                "__attribute__(x);"
             ],
             "cStandard": "c17",
             "cppStandard": "c++17",
