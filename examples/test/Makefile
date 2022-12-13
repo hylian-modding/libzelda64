@@ -76,7 +76,7 @@ $(OOT_DEBUG_BIN_PATH)/%.c.o: %.c
 	$(CC) -c $(C_FLAGS) -I$(LIBZ64_PATH)/oot_debug/include -DTARGET_GAME=OOT -DGAME_VERSION=DB -o $@ $<
 
 $(MM_BIN_PATH)/%.c.o: %.c
-	$(CC) -c $(C_FLAGS) -I$(LIBZ64_PATH)/mm/include -DTARGET_GAME=MM -DGAME_VERSION=10 -o $@ $<
+	$(CC) -c $(C_FLAGS) -I$(LIBZ64_PATH)/mm/include -I$(LIBZ64_PATH)/mm/assets -DTARGET_GAME=MM -DGAME_VERSION=10 -o $@ $<
 
 # Linking and novl
 $(OOT_10_BIN_PATH)/$(PROJECTNAME): $(OOT_10_O_FILES)
