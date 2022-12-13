@@ -16,7 +16,8 @@
                 "F3DEX_GBI_2",
                 "_MLDEBUG",
                 "TARGET_GAME=0x0",
-                "GAME_VERSION=0x10"
+                "GAME_VERSION=0x10",
+                "__attribute__();"
             ],
             "cStandard": "c17",
             "cppStandard": "c++17",
@@ -38,7 +39,8 @@
                 "F3DEX_GBI_2",
                 "_MLDEBUG",
                 "TARGET_GAME=0x0",
-                "GAME_VERSION=0x44"
+                "GAME_VERSION=0x44",
+                "__attribute__();"
             ],
             "cStandard": "c17",
             "cppStandard": "c++17",
@@ -62,7 +64,8 @@
                 "F3DEX_GBI_2",
                 "_MLDEBUG",
                 "TARGET_GAME=0x1",
-                "GAME_VERSION=0x10"
+                "GAME_VERSION=0x10",
+                "__attribute__();"
             ],
             "cStandard": "c17",
             "cppStandard": "c++17",
