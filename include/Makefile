@@ -85,23 +85,23 @@ $(MM_BIN_PATH)/%.c.o: %.c
 	$(CC) -c $(C_FLAGS) -I$(LIBZ64_PATH)/mm/include -I$(LIBZ64_PATH)/mm/assets -DTARGET_GAME=1 -DGAME_VERSION=0x10 -o $@ $<
 
 # Linking and novl
-$(OOT_10_BIN_PATH)/$(PROJECTNAME): $(OOT_10_O_FILES)
+$(OOT_10_BIN_PATH)/$(PROJECTNAME): entry dirs $(OOT_10_O_FILES)
 	@echo Building $(PROJECTNAME) for OOT 1.0...
 	$(LD) $(LD_FLAGS) -T oot_10.ld -o $@.elf $(OOT_10_O_FILES)
 	$(NOVL) -s -c -A $(ENTRY_ADDRESS) -o $@.ovl $@.elf
 
-$(OOT_DEBUG_BIN_PATH)/$(PROJECTNAME): $(OOT_DEBUG_O_FILES)
+$(OOT_DEBUG_BIN_PATH)/$(PROJECTNAME): entry dirs $(OOT_DEBUG_O_FILES)
 	@echo Building $(PROJECTNAME) for OOT debug...
 	$(LD) $(LD_FLAGS) -T oot_db.ld -o $@.elf $(OOT_DEBUG_O_FILES)
 	$(NOVL) -s -c -A $(ENTRY_ADDRESS) -o $@.ovl $@.elf
 
-$(MM_BIN_PATH)/$(PROJECTNAME): $(MM_O_FILES)
+$(MM_BIN_PATH)/$(PROJECTNAME): entry dirs $(MM_O_FILES)
 	@echo Building $(PROJECTNAME) for MM...
 	$(LD) $(LD_FLAGS) -T mm.ld -o $@.elf $(MM_O_FILES)
 	$(NOVL) -s -c -A $(ENTRY_ADDRESS) -o $@.ovl $@.elf
 
 # "packaging"
-$(PROJECTNAME): $(OOT_10_BIN_PATH)/$(PROJECTNAME) $(OOT_DEBUG_BIN_PATH)/$(PROJECTNAME) $(MM_BIN_PATH)/$(PROJECTNAME)
+$(PROJECTNAME): entry dirs $(OOT_10_BIN_PATH)/$(PROJECTNAME) $(OOT_DEBUG_BIN_PATH)/$(PROJECTNAME) $(MM_BIN_PATH)/$(PROJECTNAME)
 	@cp $(OOT_10_BIN_PATH)/$(PROJECTNAME).ovl $(BIN_PATH)/$(PROJECTNAME)_oot10.ovl
 	@cp $(OOT_DEBUG_BIN_PATH)/$(PROJECTNAME).ovl $(BIN_PATH)/$(PROJECTNAME)_ootdb.ovl
 	@cp $(MM_BIN_PATH)/$(PROJECTNAME).ovl $(BIN_PATH)/$(PROJECTNAME)_mm.ovl
