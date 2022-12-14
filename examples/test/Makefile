@@ -17,7 +17,7 @@ OPT_FLAGS3 = -fno-toplevel-reorder -fno-unsafe-math-optimizations -fno-zero-init
 ARCH_FLAGS = -mips3 -mtune=vr4300 -march=vr4300 -mabi=32
 PIC_FLAGS = -nostdlib -nostdinc -mno-shared -mno-abicalls -fno-common -fno-PIC -ffreestanding
 AS_FLAGS = -EB $(ARCH_FLAGS)
-C_FLAGS = -G 0 $(PIC_FLAGS) $(D_FLAGS) $(OPT_FLAGS) $(ARCH_FLAGS) $(OPT_FLAGS2) $(OPT_FLAGS3) $(I_FLAGS)
+C_FLAGS = -G 0 $(PIC_FLAGS) $(D_FLAGS) $(OPT_FLAGS) $(ARCH_FLAGS) $(OPT_FLAGS2) $(OPT_FLAGS3) $(I_FLAGS) -Werror=implicit-function-declaration
 LD_FLAGS = -L$(LIBZ64_PATH) -T libzelda64.ld --emit-relocs
 
 BIN_PATH = bin
