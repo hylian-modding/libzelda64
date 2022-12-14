@@ -1,12 +1,36 @@
 {
     "configurations": [
         {
+            "name": "oot10",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/include/oot_10/include",
+                "${workspaceFolder}/libzelda64_common/include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "_LANGUAGE_C",
+                "F3DEX_GBI_2",
+                "_MLDEBUG",
+                "TARGET_GAME=0x0",
+                "GAME_VERSION=0x10",
+                "__attribute__(x);"
+            ],
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-clang-x64",
+            "compilerPath": "C:/Program Files/LLVM/bin/clang.exe"
+        },
+        {
             "name": "ootdb",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/libzelda64_common/include",
                 "${workspaceFolder}/include",
-                "${workspaceFolder}/include/oot_debug/include"
+                "${workspaceFolder}/include/oot_debug/include",
+                "${workspaceFolder}/libzelda64_common/include"
             ],
             "defines": [
                 "_DEBUG",
@@ -17,42 +41,21 @@
                 "_MLDEBUG",
                 "TARGET_GAME=0x0",
                 "GAME_VERSION=0x44",
-                "__attribute__();"
+                "__attribute__(x);"
             ],
             "cStandard": "c17",
             "cppStandard": "c++17",
-            "configurationProvider": "ms-vscode.makefile-tools"
-        },
-        {
-            "name": "oot10",
-            "includePath": [
-                "${workspaceFolder}/**",
-                "${workspaceFolder}/libzelda64_common/include",
-                "${workspaceFolder}/include",
-                "${workspaceFolder}/include/oot_10/include"
-            ],
-            "defines": [
-                "_DEBUG",
-                "UNICODE",
-                "_UNICODE",
-                "_LANGUAGE_C",
-                "F3DEX_GBI_2",
-                "_MLDEBUG",
-                "TARGET_GAME=0x0",
-                "GAME_VERSION=0x10",
-                "__attribute__();"
-            ],
-            "cStandard": "c17",
-            "cppStandard": "c++17",
-            "configurationProvider": "ms-vscode.makefile-tools"
+            "intelliSenseMode": "windows-clang-x64",
+            "compilerPath": "C:/Program Files/LLVM/bin/clang.exe"
         },
         {
             "name": "mm",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/libzelda64_common/include",
                 "${workspaceFolder}/include",
-                "${workspaceFolder}/include/oot_debug/include"
+                "${workspaceFolder}/include/mm/include",
+                "${workspaceFolder}/include/mm/assets",
+                "${workspaceFolder}/libzelda64_common/include"
             ],
             "defines": [
                 "_DEBUG",
@@ -63,12 +66,14 @@
                 "_MLDEBUG",
                 "TARGET_GAME=0x1",
                 "GAME_VERSION=0x10",
-                "__attribute__();"
+                "__attribute__(x);"
             ],
             "cStandard": "c17",
             "cppStandard": "c++17",
-            "configurationProvider": "ms-vscode.makefile-tools"
+            "intelliSenseMode": "windows-clang-x64",
+            "compilerPath": "C:/Program Files/LLVM/bin/clang.exe"
         }
     ],
     "version": 4
 }
+
