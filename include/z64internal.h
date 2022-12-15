@@ -3,7 +3,7 @@
 
 #include <z64.h>
 
-// this function contains signatures for data which is not declared as extern normally
+// this file contains signatures for data which is not declared as extern normally
 #if TARGET_GAME == Z64GAME_OOT
 extern void Skin_InitAnimatedLimb(PlayState* play, Skin* skin, s32 limbIndex);
 #endif
