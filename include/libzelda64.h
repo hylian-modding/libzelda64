@@ -6,7 +6,10 @@
 #include <variables.h>
 #include <functions.h>
 #include <macros.h>
+#include <z64internal.h>
 #include <z64interop.h>
+
+
 
 #endif
 
